@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="tu">
+<head>
+	<base href="/" />
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<title>ttt</title>
+	<!--
+	<script type="text/javascript" src="/static/angular.min.js"></script>
+	<script type="text/javascript" src="/static/angular-route.min.js"></script>
+	<script type="text/javascript" src="/static/main.js"></script>
+	-->
+	<script type="text/javascript" src="/static/screen.js"></script>
+
+	<style type="text/css">
+		body {
+			font-family: verdana;
+			/*, Tahoma, Arial,"华文黑体", "STHeiti", "1微软雅黑";*/
+		}
+		#canvas-box {
+			width: 500px;
+			height: 800px;
+			overflow: hidden;
+		}
+		canvas {
+			border: 2px dashed #ddd;
+			transform:scale(0.5, 0.5);
+			transform-origin: 0 0;
+			/*opacity: 0.5;*/
+		}
+		.bg {
+			width: 386px;
+			position: absolute;
+			/*top: -57px;*/
+		}
+	</style>
+</head>
+<body>
+	<div>下载 ￥20.00 LOADING...</div>
+	<div ng-view></div>
+	<div width="193px" height="20px" style="width:191px; border: solid 1px red"></div>
+	<div class="bg"></div>
+	<img class="bg" src="/bg2.jpg"></img>
+	<div id="canvas-box">
+		<canvas id="phone">phone</canvas>
+	</div>
+</body>
+</html>

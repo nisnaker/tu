@@ -60,14 +60,54 @@ function l (a) {
 			this.handlers[name] = img;
 		},
 		set_text: function (bg_name, txt, fontsize, color, left, top, args) {
-			var align = (args && args['align']) ? args['align'] : 'center';
+			var align = (args && args['align']) ? args['align'] : 'center'; // 对齐
+			var max_width = (args && args['max_width']) ? args['max_width'] : 0; // 限定最大宽度
+			var calc_only = (args && args['calc_only']) ? args['calc_only'] : false; // 仅计算，不渲染
+			var textarea_width = 0, textarea_height = 0; // 计算文本区域高度
+			var line_height = 10; // 行间距
+			var self = this;
+
+			// 按给定宽度拆文本
+			if(max_width) {
+				var lines = [], x = left, y = top;
+
+				self.canvas.font = fontsize + 'px verdana, "黑体","微软雅黑"';
+				for(i = 0, j = 0; i < txt.length; i++) {
+					lines[j] = lines[j] || '';
+					var _test_line = lines[j] + txt[i];
+					var _width = self.canvas.measureText(_test_line).width;
+					if(_width > max_width) {
+						y += fontsize;
+						j++;
+						lines[j] = txt[i];
+						textarea_width = max_width;
+					} else {
+						lines[j] = _test_line;
+						textarea_width = Math.max(textarea_width, _width);
+					}
+				}
+
+				// 文本域高度
+				textarea_height = lines.length * (fontsize + line_height) - line_height;
+			}
+
+			if(calc_only) return {width: textarea_width, height: textarea_height};
 
 			var self = this;
 			this._draw(bg_name, function () {
 				self.canvas.textAlign = align;
-				self.canvas.font = fontsize + 'px verdana,"微软雅黑"';
+				self.canvas.font = fontsize + 'px verdana, "1黑体","微软雅黑"';
 				self.canvas.fillStyle = color;
-				self.canvas.fillText(txt, left, top);
+				if(max_width)
+				{
+					var y = top;
+					for(i in lines) {
+						self.canvas.fillText(lines[i], left, top);
+						top += (fontsize + line_height);
+					}
+				}
+				else
+					self.canvas.fillText(txt, left, top);
 			});
 		},
 		draw_rect: function (bg_name, color, left, top, width, height, radius) {
@@ -94,7 +134,6 @@ function l (a) {
 				self.canvas.fillStyle = bg_color;
 				self.canvas.stroke();
 				self.canvas.fill();
-				// self.canvas.fillRect(x, y, w, h);
 			});
 		},
 		draw_line: function (bg_name, color, left, top, width, height) {
@@ -103,7 +142,7 @@ function l (a) {
 	}
 
 	var Screen = function (args) {
-		return Object.create(_Screen).init(args)
+		return Object.create(_Screen).init(args);
 	}
 
 	var _Phone = {
@@ -113,7 +152,7 @@ function l (a) {
 			bg_height: 1200,
 			// bg_color: '#ebebeb',
 			// bg_color: '#fff',
-			bg_color: '#EFEFF4',
+			bg_color: '#ececec',
 			header_signal: 3, // 0~5 信号强度
 			header_carrier: '中国联通', // 中国移动 中国联通 中国电信,
 			header_network: 'WIFI', // 无 WIFI G E 3G 4G
@@ -148,9 +187,34 @@ function l (a) {
 
 			this.screen.draw_rect('bg', this.config.bg_color, 0, 0, this.config.bg_width, this.config.bg_height, 100);
 			this.set_navbar();
-			// this.set_talk_header();
+			this.set_talk_header();
+			this.set_talk_content([{
+				type: 'time',
+				content: '14:25'
+			},{
+				type: 'time',
+				content: '15:25'
+			},{
+				type: 'time',
+				content: '16:25'
+			}, {
+				avatar: IMG,
+				type: 'text',
+				align: 'left',
+				content: '小子，我很看好你啊。来我单位做CEO吧~',
+			}, {
+				avatar: IMG,
+				type: 'text',
+				align: 'right',
+				content: '谢谢，我打算靠自己~',
+			}, {
+				avatar: IMG,
+				type: 'voice',
+				align: 'right',
+				duration: 8,
+			}]);
 			// this.set_pay_page();
-			this.set_wallet_page();
+			// this.set_wallet_page();
 
 			return this;
 		},
@@ -214,6 +278,60 @@ function l (a) {
 			// 聊天标题
 			this.screen.set_text('header_bg', this.config.wx_talk_title, 35, 'white', bg_width / 2, 96);
 		},
+		set_talk_content: function (talks) {
+			var top = 160, bg_width = this.config.bg_width;
+			var self = this;
+			var padding = 20; // 聊天界面内边距
+			var avatar_side = 70; // 头像边长
+			var holder = 120; // 留白
+
+			// 头像
+			var set_avatar = function (avatar, align, top) {
+				var left = ('left' == align) ? padding : (bg_width - padding - avatar_side);
+				self.screen.set_image('avatar', 'bg', avatar, left, top, avatar_side, avatar_side);
+			}
+
+			for(i in talks) {
+				var t = talks[i];
+				switch(t.type) {
+					case 'time': // 聊天时间
+						this.screen.draw_round_rect('bg', '#cecece', '#cecece', bg_width / 2 - 50, top, 100, 40, 10);
+						this.screen.set_text('bg', t.content, 25, '#fff', bg_width / 2, top + 30);
+						top += 70;
+						break;
+					case 'text': // 文本
+						var fontsize = 28;
+						set_avatar(t.avatar, t.align, top);
+
+						var txt_max_width = bg_width - padding * 5 - avatar_side - holder; // 文本最大宽度
+						var txt_size = this.screen.set_text('bg', t.content, fontsize, 'red', 0, 0, {align: 'left', max_width: txt_max_width, calc_only: true}); // 文本实际尺寸
+						var txt_top = top + padding * 2 + 5;
+						
+						var txt_bg_width = txt_size.width + padding * 2; // 文本背景宽度
+						var txt_bg_height = txt_size.height + padding * 2; // 文本背景高度
+
+						if('left' == t.align) {
+							var txt_bg_left = padding * 2 + avatar_side; // 文本背景的x参数
+							var txt_border_color = '#CCC';
+							var txt_bg_color = '#FFF';
+						} else {
+							var txt_bg_left = bg_width - padding * 2 - avatar_side - txt_bg_width; // 文本背景的x参数
+							var txt_border_color = '#9FCA71';
+							var txt_bg_color = '#A2E758';
+						}
+
+						this.screen.draw_round_rect('bg', txt_border_color, txt_bg_color, txt_bg_left, top, txt_bg_width, txt_bg_height, 5);
+						this.screen.set_text('bg', t.content, fontsize, '#000', txt_bg_left + padding, txt_top, {align: 'left', max_width: txt_max_width});
+
+						top += (txt_bg_height + 30);
+
+						break;
+					case 'voice': // 语音
+					case 'video': // 视频
+					default: l('nothing')
+				};
+			}
+		},
 		set_pay_page: function (args) { // 转账页面
 			this._set_config(args);
 			var bg_width = this.config.bg_width;
@@ -231,14 +349,14 @@ function l (a) {
 			this.screen.set_image('wx_pay', 'bg', '/static/imgs/phone/wx-pay.png', bg_width / 2 - 93, 220);
 			this.screen.set_text('bg', '已收钱', 35, '#000', bg_width / 2, 445);
 			this.screen.set_text('bg', '￥' + this.config.wx_pay_amount, 65, '#000', bg_width / 2, 545);
-			this.screen.set_text('bg', '查看零钱', 25, '#919191', bg_width / 2, 600);
+			this.screen.set_text('bg', '查看零钱', 25, '#5B6980', bg_width / 2, 600);
 
 
 			// foot
-			this.screen.set_text('bg', '转账时间: ' + this.config.wx_pay_time1, 27, '#919191', bg_width / 2, bg_height - 80);
-			this.screen.set_text('bg', '收钱时间: ' + this.config.wx_pay_time2, 27, '#919191', bg_width / 2, bg_height - 40);
+			this.screen.set_text('bg', '转账时间: ' + this.config.wx_pay_time1, 27, '#939393', bg_width / 2, bg_height - 80);
+			this.screen.set_text('bg', '收钱时间: ' + this.config.wx_pay_time2, 27, '#939393', bg_width / 2, bg_height - 40);
 		},
-		set_wallet_page: function  (args) {
+		set_wallet_page: function  (args) { // 零钱页面
 			this._set_config(args);
 			var bg_width = this.config.bg_width;
 			var bg_height = this.config.bg_height;
@@ -257,8 +375,8 @@ function l (a) {
 			this.screen.set_text('bg', '我的零钱', 35, '#000', bg_width / 2, 510);
 			this.screen.set_text('bg', '￥' + this.config.wx_wallet, 65, '#000', bg_width / 2, 580);
 
-			this.screen.draw_round_rect('bg', '#199D18', '#06BF04', 50, 670, bg_width - 100, 100, 5);
-			this.screen.draw_round_rect('bg', '#CECED1', '#f7f7f7', 50, 790, bg_width - 100, 100, 5);
+			this.screen.draw_round_rect('bg', '#2B9529', '#07BE04', 50, 670, bg_width - 100, 100, 5);
+			this.screen.draw_round_rect('bg', '#CECECE', '#F8F8F8', 50, 790, bg_width - 100, 100, 5);
 			this.screen.set_text('bg', '充值', 35, '#fff', bg_width / 2, 730);
 			this.screen.set_text('bg', '提现', 35, '#454545', bg_width / 2, 850);
 

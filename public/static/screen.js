@@ -192,23 +192,32 @@ function l (a) {
 				type: 'time',
 				content: '14:25'
 			},{
-				type: 'time',
-				content: '15:25'
-			},{
-				type: 'time',
-				content: '16:25'
-			}, {
-				avatar: IMG,
+				avatar: IMG2,
 				type: 'text',
 				align: 'left',
-				content: '小子，我很看好你啊。来我单位做CEO吧~',
+				content: '小明，你知道为什么男同学犯了错，就罚他俯卧撑，女同学犯了错，就罚她蹲起么？',
 			}, {
-				avatar: IMG,
+				avatar: IMG1,
 				type: 'text',
 				align: 'right',
-				content: '谢谢，我打算靠自己~',
+				content: '还不是为了以后床上能熟练点！',
 			}, {
-				avatar: IMG,
+				avatar: IMG2,
+				type: 'text',
+				align: 'left',
+				content: '你一次能做多少俯卧撑？',
+			}, {
+				avatar: IMG1,
+				type: 'text',
+				align: 'right',
+				content: '500！500！500！500！',
+			}, {
+				avatar: IMG2,
+				type: 'text',
+				align: 'left',
+				content: '滚到我办公室去！',
+			}, {
+				avatar: IMG1,
 				type: 'voice',
 				align: 'right',
 				duration: 8,
@@ -281,9 +290,9 @@ function l (a) {
 		set_talk_content: function (talks) {
 			var top = 160, bg_width = this.config.bg_width;
 			var self = this;
-			var padding = 20; // 聊天界面内边距
-			var avatar_side = 70; // 头像边长
-			var holder = 120; // 留白
+			var padding = 25; // 聊天界面内边距
+			var avatar_side = 80; // 头像边长
+			var holder = 110; // 留白
 
 			// 头像
 			var set_avatar = function (avatar, align, top) {
@@ -300,12 +309,12 @@ function l (a) {
 						top += 70;
 						break;
 					case 'text': // 文本
-						var fontsize = 28;
+						var fontsize = 30;
 						set_avatar(t.avatar, t.align, top);
 
 						var txt_max_width = bg_width - padding * 5 - avatar_side - holder; // 文本最大宽度
 						var txt_size = this.screen.set_text('bg', t.content, fontsize, 'red', 0, 0, {align: 'left', max_width: txt_max_width, calc_only: true}); // 文本实际尺寸
-						var txt_top = top + padding * 2 + 5;
+						var txt_top = top + padding * 2;
 						
 						var txt_bg_width = txt_size.width + padding * 2; // 文本背景宽度
 						var txt_bg_height = txt_size.height + padding * 2; // 文本背景高度
@@ -324,6 +333,9 @@ function l (a) {
 						this.screen.set_text('bg', t.content, fontsize, '#000', txt_bg_left + padding, txt_top, {align: 'left', max_width: txt_max_width});
 
 						top += (txt_bg_height + 30);
+
+						self.screen.set_image('wx_txt_bg', 'bg', '/static/imgs/phone/wx-txt-bg.png', 600, 515);
+
 
 						break;
 					case 'voice': // 语音

@@ -162,7 +162,7 @@ function l (a) {
 			header_btr_state: 'normal', // normal charge
 			header_btr_show_percent: false, // 显示电量百分比
 			wx_talk_unread: 59, // 未读记录
-			wx_talk_title: '马云', // 聊天标题
+			wx_talk_title: '朽木露琪亚', // 聊天标题
 			wx_pay_amount: '20.00', // 转账金额
 			wx_pay_time1: '2015-10-12 18:45:43', // 转账时间
 			wx_pay_time2: '2015-01-01 10:15:10', // 收钱时间
@@ -187,7 +187,7 @@ function l (a) {
 
 			this.screen.draw_rect('bg', this.config.bg_color, 0, 0, this.config.bg_width, this.config.bg_height, 100);
 			this.set_navbar();
-			// this.set_talk_header();
+			this.set_talk_header();
 			this.set_talk_content([{
 				type: 'time',
 				content: '14:25'

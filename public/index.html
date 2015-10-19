@@ -12,8 +12,26 @@
 	<script type="text/javascript" src="/static/screen.js"></script>
 
 	<style type="text/css">
+		@font-face{
+			font-family:"PingFang SC";font-weight:700;src:local("PingFang-SC-Semibold")
+		}
+		@font-face{
+			font-family:"PingFang SC";font-weight:500;src:local("PingFang-SC-Medium")
+		}
+		@font-face{
+			font-family:"PingFang SC";font-weight:400;src:local("PingFang-Regular")
+		}
+		@font-face{
+			font-family:"PingFang SC";font-weight:300;src:local("PingFang-Light")
+		}
+		@font-face{
+			font-family:"PingFang SC";font-weight:100;src:local("PingFang-SC-Thin")
+		}
+
 		body {
-			font-family: verdana;
+			font-family: "PingFang-SC-Regular";
+			font-weight: 300;
+			/*font-family: -apple-system,verdan, "PingFang SC","苹方 SC","PingHei", "1黑体", "1微软雅黑";*/
 			/*, Tahoma, Arial,"华文黑体", "STHeiti", "1微软雅黑";*/
 		}
 		#canvas-box {
@@ -36,10 +54,11 @@
 </head>
 <body>
 	<div>下载 ￥20.00 LOADING...</div>
+	<div style="font-family:'PingFang-SC-Regular'">test 测试</div>
 	<div ng-view></div>
 	<div width="193px" height="20px" style="width:191px; border: solid 1px red"></div>
 	<div class="bg"></div>
-	<img class="bg" src="/bg2.jpg"></img>
+	<!-- <img class="bg" src="/bg2.jpg"></img> -->
 	<div id="canvas-box">
 		<canvas id="phone">phone</canvas>
 	</div>

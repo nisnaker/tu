@@ -216,6 +216,16 @@ function l (a) {
 				type: 'voice',
 				align: 'left',
 				duration: 70
+			}, {
+				avatar: IMG1,
+				type: 'video',
+				align: 'right',
+				duration: '13:00'
+			}, {
+				avatar: IMG2,
+				type: 'video',
+				align: 'left',
+				duration: '21:00'
 			}]);
 			// this.set_pay_page();
 			// this.set_wallet_page();
@@ -381,6 +391,36 @@ function l (a) {
 						top += avatar_side + 30;
 						break;
 					case 'video': // 视频
+						var fontsize = 30;
+						var pic_width = 108;
+						set_avatar(t.avatar, t.align, top);
+
+						var len = this.screen.set_text('bg', '通话时长 ' + t.duration, fontsize, '#000', 0, 0, {max_width: bg_width, calc_only:true}).width;
+						if('left' == t.align) {
+							// 背景
+							var left = padding * 2 + avatar_side;
+							this.screen.draw_round_rect('bg', white_border_color, white_bg_color, left, top, len + pic_width + padding * 2, avatar_side, 5);
+							// 图标
+							var w = left;
+							self.screen.set_image('wx_txt_bg', 'bg', '/static/imgs/phone/wx-video2.png', w, top + 10);
+							// 时长
+							var w = left + pic_width;
+							this.screen.set_text('bg', '通话时长 ' + t.duration, fontsize, '#000', w, top + 50, {align:'left', max_width: bg_width});
+						} else {
+							// 背景
+							var left = bg_width - padding * 2 - avatar_side - len - pic_width - padding;
+							this.screen.draw_round_rect('bg', green_border_color, green_bg_color, left, top, len + pic_width + padding, avatar_side, 5);
+							// 图标
+							var w = left + len + padding;
+							self.screen.set_image('wx_txt_bg', 'bg', '/static/imgs/phone/wx-video1.png', w, top + 10);
+							// 时长
+							var w = left + pic_width + padding;
+							this.screen.set_text('bg', '通话时长 ' + t.duration, fontsize, '#000', w, top + 50, {max_width: bg_width});
+
+						}
+
+						set_pop(t.align, top);
+						top += avatar_side + 30;
 
 						break;
 					default: l('nothing')

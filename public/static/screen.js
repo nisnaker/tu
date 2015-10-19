@@ -96,7 +96,7 @@ function l (a) {
 			var self = this;
 			this._draw(bg_name, function () {
 				self.canvas.textAlign = align;
-				self.canvas.font = fontsize + 'px verdana, "1黑体","微软雅黑"';
+				self.canvas.font = fontsize + 'px verdana, "myPingFang","黑体","1微软雅黑"';
 				self.canvas.fillStyle = color;
 				if(max_width)
 				{
@@ -187,7 +187,7 @@ function l (a) {
 
 			this.screen.draw_rect('bg', this.config.bg_color, 0, 0, this.config.bg_width, this.config.bg_height, 100);
 			this.set_navbar();
-			this.set_talk_header();
+			// this.set_talk_header();
 			this.set_talk_content([{
 				type: 'time',
 				content: '14:25'
@@ -195,32 +195,27 @@ function l (a) {
 				avatar: IMG2,
 				type: 'text',
 				align: 'left',
-				content: '小明，你知道为什么男同学犯了错，就罚他俯卧撑，女同学犯了错，就罚她蹲起么？',
+				content: '下雨了，伞给你吧，走路小心点别淋雨感冒',
 			}, {
 				avatar: IMG1,
 				type: 'text',
 				align: 'right',
-				content: '还不是为了以后床上能熟练点！',
+				content: '那你怎么办',
 			}, {
 				avatar: IMG2,
 				type: 'text',
 				align: 'left',
-				content: '你一次能做多少俯卧撑？',
-			}, {
-				avatar: IMG1,
-				type: 'text',
-				align: 'right',
-				content: '500！500！500！500！',
-			}, {
-				avatar: IMG2,
-				type: 'text',
-				align: 'left',
-				content: '滚到我办公室去！',
+				content: '我打车。',
 			}, {
 				avatar: IMG1,
 				type: 'voice',
 				align: 'right',
-				duration: 8,
+				duration: 3
+			}, {
+				avatar: IMG2,
+				type: 'voice',
+				align: 'left',
+				duration: 70
 			}]);
 			// this.set_pay_page();
 			// this.set_wallet_page();
@@ -293,11 +288,25 @@ function l (a) {
 			var padding = 25; // 聊天界面内边距
 			var avatar_side = 80; // 头像边长
 			var holder = 110; // 留白
+			var green_bg_color = '#A2E758', green_border_color = '#46AD0B',
+				white_bg_color = '#FFF', white_border_color = '#AAA';
 
 			// 头像
 			var set_avatar = function (avatar, align, top) {
 				var left = ('left' == align) ? padding : (bg_width - padding - avatar_side);
 				self.screen.set_image('avatar', 'bg', avatar, left, top, avatar_side, avatar_side);
+			}
+
+			// 气泡尖角
+			var set_pop = function (align, top) {
+				if('left' == align)
+				{
+					var w = padding + avatar_side + 7;
+					self.screen.set_image('wx_txt_bg', 'bg', '/static/imgs/phone/wx-txt-bg2.png', w, top + 23);
+				} else {
+					var w = bg_width - padding * 2 - avatar_side - 7;
+					self.screen.set_image('wx_txt_bg', 'bg', '/static/imgs/phone/wx-txt-bg1.png', w, top + 23);
+				}
 			}
 
 			for(i in talks) {
@@ -321,25 +330,59 @@ function l (a) {
 
 						if('left' == t.align) {
 							var txt_bg_left = padding * 2 + avatar_side; // 文本背景的x参数
-							var txt_border_color = '#CCC';
-							var txt_bg_color = '#FFF';
+							this.screen.draw_round_rect('bg', white_border_color, white_bg_color, txt_bg_left, top, txt_bg_width, txt_bg_height, 5);
+							
 						} else {
 							var txt_bg_left = bg_width - padding * 2 - avatar_side - txt_bg_width; // 文本背景的x参数
-							var txt_border_color = '#9FCA71';
-							var txt_bg_color = '#A2E758';
+							this.screen.draw_round_rect('bg', green_border_color, green_bg_color, txt_bg_left, top, txt_bg_width, txt_bg_height, 5);
 						}
 
-						this.screen.draw_round_rect('bg', txt_border_color, txt_bg_color, txt_bg_left, top, txt_bg_width, txt_bg_height, 5);
 						this.screen.set_text('bg', t.content, fontsize, '#000', txt_bg_left + padding, txt_top, {align: 'left', max_width: txt_max_width});
 
+						set_pop(t.align, top);
+
 						top += (txt_bg_height + 30);
-
-						self.screen.set_image('wx_txt_bg', 'bg', '/static/imgs/phone/wx-txt-bg.png', 600, 515);
-
-
 						break;
 					case 'voice': // 语音
+						set_avatar(t.avatar, t.align, top);
+						var fontsize = 25;
+
+						// [100, bg_width - 300]
+						if(t.duration > 60) {
+							var len = bg_width - 300;
+						} else {
+							var len = t.duration / 60.0 * (bg_width - 400) + 100;
+						}
+
+						if('left' == t.align) {
+							// 底色
+							var left = padding * 2 + avatar_side;
+							this.screen.draw_round_rect('bg', white_border_color, white_bg_color, left, top, len, avatar_side, 5);
+							// 图标
+							var w = left + 20;
+							self.screen.set_image('wx_txt_bg', 'bg', '/static/imgs/phone/wx-voice2.png', w, top + 20);
+							// 时长
+
+							var w = left + len + 20;
+							this.screen.set_text('bg', t.duration + "''", fontsize, '#9B9B9B', w, top + 55, {align:'left'});
+						} else {
+							// 底色
+							var left = bg_width - padding * 2 - avatar_side - len;
+							this.screen.draw_round_rect('bg', green_border_color, green_bg_color, left, top, len, avatar_side, 5);
+							// 图标
+							var w = left + len - 40 - 20;
+							self.screen.set_image('wx_txt_bg', 'bg', '/static/imgs/phone/wx-voice1.png', w, top + 20);
+							// 时长
+							var w = left - 20;
+							this.screen.set_text('bg', t.duration + "''", fontsize, '#9B9B9B', w, top + 55, {align:'right'});
+						}
+
+						set_pop(t.align, top);
+						top += avatar_side + 30;
+						break;
 					case 'video': // 视频
+
+						break;
 					default: l('nothing')
 				};
 			}

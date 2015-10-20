@@ -110,7 +110,7 @@ function l (a) {
 					self.canvas.fillText(txt, left, top);
 			});
 		},
-		draw_rect: function (bg_name, color, left, top, width, height, radius) {
+		draw_rect: function (bg_name, color, left, top, width, height) {
 			var self = this;
 			this._draw(bg_name, function () {
 				self.canvas.fillStyle = color;
@@ -137,7 +137,16 @@ function l (a) {
 			});
 		},
 		draw_line: function (bg_name, color, left, top, width, height) {
+			var self = this;
 
+			this._draw(bg_name, function () {
+				self.canvas.beginPath();
+				self.canvas.moveTo(left, top);
+				self.canvas.lineTo(left + width, top + height);
+				self.canvas.strokeStyle = color;
+				self.canvas.lineWidth = 1;
+				self.canvas.stroke();
+			});
 		}
 	}
 
@@ -185,7 +194,8 @@ function l (a) {
 				height: this.config.bg_height
 			});
 
-			this.screen.draw_rect('bg', this.config.bg_color, 0, 0, this.config.bg_width, this.config.bg_height, 100);
+			this.screen.draw_rect('bg', this.config.bg_color, 0, 0, this.config.bg_width, this.config.bg_height);
+			this.screen.set_image('bg', '', 'http://cdn.duitang.com/uploads/item/201312/22/20131222011502_EMAuX.thumb.600_0.jpeg', 0, 120, this.config.bg_width, this.config.bg_height);
 			this.set_navbar();
 			this.set_talk_header();
 			this.set_talk_content([{
@@ -226,7 +236,32 @@ function l (a) {
 				type: 'video',
 				align: 'left',
 				duration: '21:00'
+			}, {
+				avatar: IMG1,
+				type: 'pay',
+				align: 'right',
+				forward: 'send',
+				money: '88.88'
+			}, {
+				avatar: IMG2,
+				type: 'pay',
+				align: 'left',
+				forward: 'rec',
+				money: '88.88'
+			}, {
+				avatar: IMG2,
+				type: 'pay',
+				align: 'left',
+				forward: 'send',
+				money: '88.88'
+			}, {
+				avatar: IMG1,
+				type: 'pay',
+				align: 'right',
+				forward: 'rec',
+				money: '88.88'
 			}]);
+			this.set_talk_footer();
 			// this.set_pay_page();
 			// this.set_wallet_page();
 
@@ -281,16 +316,33 @@ function l (a) {
 			var bg_width = this.config.bg_width;
 
 			// 返回箭头
-			this.screen.set_image('wx_back', 'header_bg', '/static/imgs/phone/wx-back.png', 25, 60);
+			this.screen.set_image('wx_back', 'header_bg', '/static/imgs/phone/wx-back.png', 15, 63);
 			// 右侧小人
-			this.screen.set_image('wx_back', 'header_bg', '/static/imgs/phone/wx-talk-user.png', bg_width - 104, 38);
+			this.screen.set_image('wx_back', 'header_bg', '/static/imgs/phone/wx-talk-user.png', bg_width - 73, 64);
 
 
 			// 未读记录
-			this.screen.set_text('header_bg', '微信('+this.config.wx_talk_unread+')', 30, 'white', 66, 94, {align: 'left'});
+			this.screen.set_text('header_bg', '微信('+this.config.wx_talk_unread+')', 30, 'white', 50, 98, {align: 'left'});
 
 			// 聊天标题
-			this.screen.set_text('header_bg', this.config.wx_talk_title, 35, 'white', bg_width / 2, 96);
+			this.screen.set_text('header_bg', this.config.wx_talk_title, 35, 'white', bg_width / 2, 100);
+		},
+		set_talk_footer: function (args) { // 聊天界面底部
+			var bg_width = this.config.bg_width, bg_height = this.config.bg_height;
+			var height = 100, top = bg_height - height;
+
+			// 背景色
+			this.screen.draw_rect('bg', '#F4F4F4', 0, top, bg_width, height);
+			// 分割线
+			this.screen.draw_line('bg', '#AAA', 0, top + 1, bg_width, 0);
+			// 语音图标
+			this.screen.set_image('wx_voice', 'bg', '/static/imgs/phone/wx-footer-voice.png', 9, top + 22);
+			// 输入框
+			this.screen.draw_round_rect('bg', '#AEB0B3', '#FFF', 85, top + 13, bg_width - 250, 74, 10);
+			// 表情图标
+			this.screen.set_image('wx_smile', 'bg', '/static/imgs/phone/wx-footer-smile.png', bg_width - 142, top + 21);
+			// 加号图标
+			this.screen.set_image('wx_smile', 'bg', '/static/imgs/phone/wx-footer-plus.png', bg_width - 67, top + 21);
 		},
 		set_talk_content: function (talks) {
 			var top = 160, bg_width = this.config.bg_width;
@@ -298,7 +350,7 @@ function l (a) {
 			var padding = 25; // 聊天界面内边距
 			var avatar_side = 80; // 头像边长
 			var holder = 110; // 留白
-			var green_bg_color = '#A2E758', green_border_color = '#46AD0B',
+			var green_bg_color = '#91ED61', green_border_color = '#51A524',
 				white_bg_color = '#FFF', white_border_color = '#AAA';
 
 			// 头像
@@ -311,15 +363,18 @@ function l (a) {
 			var set_pop = function (align, top) {
 				if('left' == align)
 				{
-					var w = padding + avatar_side + 7;
+					var w = padding + avatar_side + 14;
 					self.screen.set_image('wx_txt_bg', 'bg', '/static/imgs/phone/wx-txt-bg2.png', w, top + 23);
 				} else {
-					var w = bg_width - padding * 2 - avatar_side - 7;
+					var w = bg_width - padding * 2 - avatar_side - 6;
 					self.screen.set_image('wx_txt_bg', 'bg', '/static/imgs/phone/wx-txt-bg1.png', w, top + 23);
 				}
 			}
 
 			for(i in talks) {
+				if(i < 8) continue;
+				
+				if(top > this.config.bg_height - 100) break;
 				var t = talks[i];
 				switch(t.type) {
 					case 'time': // 聊天时间
@@ -423,6 +478,28 @@ function l (a) {
 						top += avatar_side + 30;
 
 						break;
+					case 'pay':
+						set_avatar(t.avatar, t.align, top);
+						var pic_width = 430;
+						var words = ('send' == t.forward) ? '转账给你' : '已收钱';
+						var icon = '/static/imgs/phone/wx-pay-'+t.forward+'.png';
+						
+						if('left' == t.align) {
+							// 背景
+							var left = padding * 2 + avatar_side - 5;
+							this.screen.set_image('pay', 'bg', '/static/imgs/phone/wx-pay-left.png', left, top);
+							// icon
+							this.screen.set_image('pay-icon', 'bg', icon, left + 35, top + 30);
+						} else {
+							// 背景
+							var left = bg_width - padding * 2 - avatar_side - pic_width + 5;
+							this.screen.set_image('pay', 'bg', '/static/imgs/phone/wx-pay-right.png',left, top);
+							// icon
+							this.screen.set_image('pay-icon', 'bg', icon, left + 21, top + 30);
+						}
+
+						top += (186 + 30);
+						break;
 					default: l('nothing')
 				};
 			}
@@ -470,14 +547,14 @@ function l (a) {
 			this.screen.set_text('bg', '我的零钱', 35, '#000', bg_width / 2, 510);
 			this.screen.set_text('bg', '￥' + this.config.wx_wallet, 65, '#000', bg_width / 2, 580);
 
-			this.screen.draw_round_rect('bg', '#2B9529', '#07BE04', 50, 670, bg_width - 100, 100, 5);
-			this.screen.draw_round_rect('bg', '#CECECE', '#F8F8F8', 50, 790, bg_width - 100, 100, 5);
-			this.screen.set_text('bg', '充值', 35, '#fff', bg_width / 2, 730);
-			this.screen.set_text('bg', '提现', 35, '#454545', bg_width / 2, 850);
+			this.screen.draw_round_rect('bg', '#189B17', '#06BE04', 50, 670, bg_width - 100, 100, 5);
+			this.screen.draw_round_rect('bg', '#CECECE', '#F7F7F7', 50, 790, bg_width - 100, 100, 5);
+			this.screen.set_text('bg', '充值', 37, '#fff', bg_width / 2, 730);
+			this.screen.set_text('bg', '提现', 37, '#454545', bg_width / 2, 850);
 
 
 			// foot
-			this.screen.set_text('bg', '常见问题', 27, '#576B95', bg_width / 2, bg_height - 80);
+			this.screen.set_text('bg', '常见问题', 27, '#027BFF', bg_width / 2, bg_height - 80);
 			this.screen.set_text('bg', '本服务由财付通提供底层技术支持', 27, '#868686', bg_width / 2, bg_height - 40);
 		}
 	};

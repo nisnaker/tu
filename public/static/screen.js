@@ -481,7 +481,10 @@ function l (a) {
 					case 'pay':
 						set_avatar(t.avatar, t.align, top);
 						var pic_width = 430;
+						var fontsize = 28;
 						var words = ('send' == t.forward) ? '转账给你' : '已收钱';
+						if('right' == t.align && 'send' == t.forward)
+							words = '转账给' + this.config.wx_talk_title;
 						var icon = '/static/imgs/phone/wx-pay-'+t.forward+'.png';
 						
 						if('left' == t.align) {
@@ -490,12 +493,22 @@ function l (a) {
 							this.screen.set_image('pay', 'bg', '/static/imgs/phone/wx-pay-left.png', left, top);
 							// icon
 							this.screen.set_image('pay-icon', 'bg', icon, left + 35, top + 30);
+							// 文案
+							this.screen.set_text('bg', words, fontsize, '#FFF', left + 112, top + 55, {align:'left'});
+							// 金额
+							this.screen.set_text('bg', '￥' + t.money, fontsize, '#FFF', left + 112, top + 100, {align:'left'});
+
 						} else {
 							// 背景
 							var left = bg_width - padding * 2 - avatar_side - pic_width + 5;
 							this.screen.set_image('pay', 'bg', '/static/imgs/phone/wx-pay-right.png',left, top);
 							// icon
 							this.screen.set_image('pay-icon', 'bg', icon, left + 21, top + 30);
+							// 文案
+							this.screen.set_text('bg', words, fontsize, '#FFF', left + 105, top + 55, {align:'left'});
+							// 金额
+							this.screen.set_text('bg', '￥' + t.money, fontsize, '#FFF', left + 105, top + 100, {align:'left'});
+
 						}
 
 						top += (186 + 30);

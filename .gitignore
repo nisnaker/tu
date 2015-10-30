@@ -2,6 +2,10 @@
 # Mac crap
 .DS_Store
 
+public/*.html
 public/static/*
+!public/favicon.ico
+!public/index.php
+!public/static/imgs/
 client/asset_manifest.json
 client/node_modules/*

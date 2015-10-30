@@ -34,6 +34,7 @@ module.exports = function(){
 	}
 
 	config['jades'] = 'assets/**/*.jade'
+	config['pagejades'] = 'assets/core/pages/*.pagejade'
 
 	return config;
 }

@@ -1,6 +1,6 @@
 <?php
 
-define('APP_PATH', realpath('../') . '/app/');
+define('APP_PATH', realpath('../') . '/server/');
 
 use Phalcon\Config\Adapter\Ini as ConfigIni;
 use Phalcon\Loader;

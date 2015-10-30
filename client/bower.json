@@ -1,0 +1,24 @@
+{
+  "name": "client",
+  "description": "some desc",
+  "main": "",
+  "authors": [
+    "nisnaker"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "kw"
+  ],
+  "homepage": "https://github.com/nisnaker/tu",
+  "moduleType": [
+    "node"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

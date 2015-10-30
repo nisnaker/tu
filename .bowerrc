@@ -1,8 +1,0 @@
-{
-	"analytics": false,
-	"cwd": "./",
-	"directory": "bower_components",
-	"timeout": 120000,
-	"color": true,
-	"interactive": true
-}

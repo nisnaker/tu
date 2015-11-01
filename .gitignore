@@ -4,8 +4,8 @@
 
 public/*.html
 public/static/*
-!public/favicon.ico
-!public/index.php
+public/tpls/*
 !public/static/imgs/
 client/asset_manifest.json
 client/node_modules/*
+client/bower_components/*

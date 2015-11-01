@@ -1,1 +1,62 @@
-a {text-decoration: none;}
+/* general */
+
+html, body, ul, li, h1, dl, dd {
+	padding: 0;
+	margin: 0;
+}
+
+li { list-style: none;}
+
+a {text-decoration: none;color: #000;}
+
+fieldset {border: 1px solid #aaa;}
+
+input[type="checkbox"] {
+	vertical-align:middle;
+}
+
+::selection{background:#b3d4fc;text-shadow:none}
+
+.clear {clear: both;}
+
+body {
+	color: #000;
+	font-size: 12px;
+	font: 12px/1.6em "Microsoft YaHei",Arial, Helvetica, sans-serif;
+}
+
+#foot {text-align: center;line-height: 40px;color: #999;}
+
+#topbar {
+	box-shadow: 0 0 5px #ddd;
+}
+
+#innerbar {
+	width: 1200px;
+	margin: 0 auto;
+}
+
+#logo {
+	float: left;
+	margin-top: 5px;
+}
+
+#topbar li {
+	float: left;
+}
+
+#topbar li a {
+	color: #999;
+	font-size: 14px;
+	line-height: 50px;
+	display: inline-block;
+	padding: 0 22px;
+}
+
+#topbar li a:hover {
+	color: #666;
+}
+
+#topbar li.main a {
+	color: #000;
+}

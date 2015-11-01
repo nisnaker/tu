@@ -9,14 +9,11 @@ var gulp = require('gulp'),
 
 var tasks = require('fs').readdirSync('./gulp/tasks/');
 tasks.forEach(function (file) {
-	console.log('./tasks/' + file)
 	require('./tasks/' + file)(gulp, config, plugins);
 });
 
 gulp.task('build', ['css', 'js', 'rep']);
 
-gulp.task('watch', ['build'], function () {
-	
-});
+gulp.task('watch', ['build'], function () {});
 
 gulp.task('default', ['watch']);

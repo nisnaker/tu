@@ -1,11 +1,41 @@
 doctype html
 html
 	head
-		meta(charset=utf-8)
+		meta(charset='utf-8')
 		title jietu8
+
+		| <% bundleName:core_js %>
+		| <% bundleName:phone_js %>
+		| <% bundleName:phone_css %>
 
 	body
 		div#topbar
 			div#innerbar
 				a(href='/')#logo
 					img(src='/static/imgs/logo.png', alt='jietu8')
+				ul
+					li
+						a(href='/') 电影截图
+					li
+						a.main(href='/index.html') 应用截图
+					li
+						a(href='/about.html') 关于
+			div.clear
+		div#main(ng-app='wx')
+			div#left
+				dl
+					dt 微信截图
+					dd
+						a(ng-class="{act: path == '/wx/talk'}",href="#wx/talk") 聊天
+					dd
+						a(ng-class="{act: path == '/wx/wallet'}",href="#wx/wallet") 零钱
+					dd
+						a(ng-class="{act: path == '/wx/pay'}",href="#wx/pay") 转账
+			div#right
+				div#top
+					b 当前位置：
+					span 流量分析 / 访客列表
+				div#wrapper
+					div.view(ng-view)
+			div.clear
+		div#foot &copy;截图吧 FOREVER

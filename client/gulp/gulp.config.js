@@ -26,15 +26,18 @@ module.exports = function(){
 			bower_dir + 'angular-route/angular-route.min.js',
 		],
 		'phone_js': [
-			bower_dir + 'angular/angular.min.js',
-			bower_dir + 'angular-route/angular-route.min.js',
+			// bower_dir + 'angular/angular.min.js',
+			// bower_dir + 'angular-route/angular-route.min.js',
 			asset_dir + 'phone/js/phone.js',
-			asset_dir + 'phone/js/main.js',
+			asset_dir + 'phone/js/wx.angular.js'
 		]
 	}
 
-	config['jades'] = 'assets/**/*.jade'
+	config['jades'] = ['assets/**/*.jade', '!assets/**/*.inc.jade']
 	config['pagejades'] = 'assets/core/pages/*.pagejade'
+
+	all_resources = []
+
 
 	return config;
 }

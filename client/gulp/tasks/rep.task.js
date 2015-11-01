@@ -2,7 +2,7 @@ module.exports = function (gulp, config, $) {
 	
 	var manifestPath = 'asset_manifest.json';
 
-	gulp.task('page_rep', function () {
+	gulp.task('page_rep', ['js', 'css'], function () {
 		return gulp.src(config['pagejades'])
 			.pipe($.rep({
 				manifestPath: manifestPath,

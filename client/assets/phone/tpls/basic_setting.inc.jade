@@ -1,0 +1,40 @@
+fieldset
+	legend 基本设置
+	| 信号： 
+	select#wx-signal
+		option(value="1") 1格
+		option(value="2") 2格
+		option(value="3", selected) 3格
+		option(value="4") 4格
+		option(value="5") 5格
+	| &nbsp; &nbsp; 
+	| 运营商：
+	select#carrier
+		option(value="中国移动") 中国移动
+		option(value="中国联通") 中国联通
+		option(value="中国电信") 中国电信
+	| &nbsp; &nbsp; 
+	| 网络：
+	select#network
+		option(value="无") 无
+		option(value="WiFi", selected) WiFi
+		option(value="G") G
+		option(value="E") E
+		option(value="3G") 3G
+		option(value="4G") 4G
+	| &nbsp; &nbsp; 
+	| 时间：
+	input#time(type="text", value="12:30")
+
+	br
+
+	|电量： 
+	input#btr(type="number", value=80)
+	| &nbsp; &nbsp; 
+	label
+		input#btr_percent(type="checkbox")
+		| 电池百分比
+	| &nbsp; &nbsp; 
+	label
+		input#btr_charing(type="checkbox")
+		| 充电中

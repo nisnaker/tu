@@ -1,0 +1,34 @@
+extends layout.inc
+
+block setting
+	include basic_setting.inc.jade
+
+	fieldset
+		legend 聊天设置
+
+		| 聊天标题：
+		input#wx-title(type="text", style="width:100px", value="朽木露琪亚")
+		| &nbsp; &nbsp;
+		| 未读数：
+		input#wx-unread(type="number", value=56)
+		br
+
+		div.avatar
+			span 对方头像
+			br
+			img(src='https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2829529271,2317257416&fm=58')
+			button 随机头像
+			button 上传头像
+
+		div.avatar
+			span 我方头像
+			br
+			img(src='https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1687009699,2047836833&fm=58')
+			button 随机头像
+			button 上传头像
+
+	fieldset
+		legend 聊天记录
+
+		ul
+			li

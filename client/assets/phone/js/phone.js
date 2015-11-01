@@ -4,12 +4,15 @@ function l (a) {
 
 (function () {
 
+	var IMG1 = 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=2704591828,3077250998&fm=58';
+	var IMG2 = 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2829529271,2317257416&fm=58';
+
 	var _Screen = {
 		config: {
 			width: 1080,
 			height: 1920,
 			id: 'phone',
-			fontface: 'verdana, 黑体, 微软雅黑',
+			fontface: '"PingFang SC Medium",verdana, 黑体, 微软雅黑',
 		},
 		_imgs_loaded: 0,
 		_imgs: [],
@@ -21,6 +24,11 @@ function l (a) {
 					this.config[i] = args[i];
 				}
 			}
+
+			// init
+			this._imgs_loaded = 0;
+			this._imgs = [];
+			this._funcs = [];
 
 			var obj = document.getElementById(this.config.id);
 			obj.width = this.config.width;
@@ -599,6 +607,6 @@ function l (a) {
 })();
 
 window.onload = function(){
-	var p0 = Phone({'id': 'phone'});
+	// var p0 = Phone({'id': 'phone'});
 	// l(p0.config)
-}
+};

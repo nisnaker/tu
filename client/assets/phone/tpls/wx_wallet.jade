@@ -7,4 +7,4 @@ block setting
 		legend 零钱设置
 
 		| 金额：
-		input(type="number", min=0, step=0.01, value=88.88)
+		input(type="text", ng-model='wx_wallet', ng-change='draw()')

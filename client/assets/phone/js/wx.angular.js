@@ -1,8 +1,6 @@
 (function () {
 	'use strict';
 
-console.log('wx');
-
 	var wx = angular.module('wx', ['ngRoute', 'wxCtrls']);
 
 	wx.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
@@ -25,14 +23,58 @@ console.log('wx');
 
 	var wxCtrls = angular.module('wxCtrls', []);
 
-	wxCtrls.controller('wxTalkCtrl', function () {
-			var p0 = Phone({'id': 'phone'});
+	var default_settings = {
+		id: 'phone',
+		topbar: {
+			header_signal: '3',
+			header_carrier: '中国移动',
+			header_network: 'WiFi',
+			header_time: '12:34',
+			header_btr: '80',
+			header_btr_show_percent: true,
+			header_btr_charging: false
+		},
+		talk: {
+		},
+		wx_wallet: 88.99
+	};
+
+	wxCtrls.controller('wxTalkCtrl', ['$scope', function ($scope) {
+			var msgs = [];
+			$scope.topbar = default_settings.topbar;
+
+			function _ () {
+				Phone(default_settings.topbar)
+			}
+
+			_();
+			$scope.draw = function() {
+				_();
+			}
 			
-		}).controller('wxWalletCtrl', function () {
-			var p0 = Phone({'id': 'phone'});
-		}).controller('wxPayCtrl', function () {
-			var p0 = Phone({'id': 'phone'});
-		});
+		}]).controller('wxWalletCtrl', ['$scope', function ($scope) {
+			$scope.topbar = default_settings.topbar;
+			$scope.wx_wallet = default_settings.wx_wallet;
+
+			function _ () {
+				var money = $scope.wx_wallet;
+				default_settings.wx_wallet = money;
+				Phone(default_settings.topbar).set_wallet_page({wx_wallet: money});
+			}
+
+			_();
+			$scope.draw = function() {
+				_();
+			}
+		}]).controller('wxPayCtrl', ['$scope', function ($scope) {
+			$scope.topbar = default_settings.topbar;
+
+			Phone(default_settings.topbar)
+			$scope.draw = function() {
+				Phone(default_settings.topbar)
+				console.log(default_settings)
+			}
+		}]);
 
 	wx.run(['$rootScope', '$location', function ($rootScope, $location) {
 		$rootScope.path = $location.path();

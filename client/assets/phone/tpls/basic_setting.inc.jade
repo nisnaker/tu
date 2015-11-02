@@ -1,7 +1,7 @@
 fieldset
 	legend 基本设置
 	| 信号： 
-	select#wx-signal
+	select(ng-model='topbar.header_signal', ng-change='draw()')
 		option(value="1") 1格
 		option(value="2") 2格
 		option(value="3", selected) 3格
@@ -9,13 +9,13 @@ fieldset
 		option(value="5") 5格
 	| &nbsp; &nbsp; 
 	| 运营商：
-	select#carrier
+	select(ng-model='topbar.header_carrier', ng-change='draw()')
 		option(value="中国移动") 中国移动
 		option(value="中国联通") 中国联通
 		option(value="中国电信") 中国电信
 	| &nbsp; &nbsp; 
 	| 网络：
-	select#network
+	select(ng-model='topbar.header_network', ng-change='draw()')
 		option(value="无") 无
 		option(value="WiFi", selected) WiFi
 		option(value="G") G
@@ -24,17 +24,17 @@ fieldset
 		option(value="4G") 4G
 	| &nbsp; &nbsp; 
 	| 时间：
-	input#time(type="text", value="12:30")
+	input(type="text", value="12:30", ng-model='topbar.header_time', ng-change='draw()')
 
 	br
 
 	|电量： 
-	input#btr(type="number", value=80)
+	input(type="text", value=80, ng-model='topbar.header_btr', ng-change='draw()')
 	| &nbsp; &nbsp; 
 	label
-		input#btr_percent(type="checkbox")
+		input(type="checkbox", ng-model='topbar.header_btr_show_percent', ng-change='draw()')
 		| 电池百分比
 	| &nbsp; &nbsp; 
 	label
-		input#btr_charing(type="checkbox")
+		input(type="checkbox", ng-model='topbar.header_btr_charging', ng-change='draw()')
 		| 充电中

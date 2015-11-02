@@ -192,8 +192,8 @@ function l (a) {
 			header_network: 'WIFI', // 无 WIFI G E 3G 4G
 			header_time: '16:27',
 			header_rotate: true, // 锁定屏幕旋转
-			header_battery: 90, // 5~100%
-			header_btr_state: 'normal', // normal charge
+			header_btr: 90, // 5~100%
+			header_btr_charging: true, // normal charge
 			header_btr_show_percent: false, // 显示电量百分比
 			wx_talk_unread: 59, // 未读记录
 			wx_talk_title: '朽木露琪亚', // 聊天标题
@@ -219,9 +219,15 @@ function l (a) {
 				height: this.config.bg_height
 			});
 
+			this.set_navbar();
+			return this;
+
 			this.screen.draw_rect(this.config.bg_color, 0, 0, this.config.bg_width, this.config.bg_height);
 			this.screen.set_image('http://cdn.duitang.com/uploads/item/201312/22/20131222011502_EMAuX.thumb.600_0.jpeg', 0, 0, this.config.bg_width, this.config.bg_height);
 			this.set_navbar();
+
+			return this;
+
 			this.set_talk_header();
 			this.set_talk_content([{
 				type: 'time',
@@ -314,20 +320,20 @@ function l (a) {
 
 			var right_width = 0; // 右侧已占用宽度
 			// 电池
-			if('normal' == this.config.header_btr_state) {
-				this.screen.set_image('/static/imgs/phone/ios-top-btr-normal.png', bg_width - 70, 0);
-				this.screen.draw_rect('white', bg_width - 58, 13, this.config.header_battery / 2.5, 15);
-				right_width = 70;
-			} else {
+			if(this.config.header_btr_charging) {
 				this.screen.set_image('/static/imgs/phone/ios-top-btr-charge.png', bg_width - 85, 0);
-				this.screen.draw_rect('#4cd964', bg_width - 83, 11, this.config.header_battery / 2, 18);
+				this.screen.draw_rect('#4cd964', bg_width - 83, 11, this.config.header_btr / 2, 18);
 				right_width = 85;
+			} else {
+				this.screen.set_image('/static/imgs/phone/ios-top-btr-normal.png', bg_width - 70, 0);
+				this.screen.draw_rect('white', bg_width - 58, 13, this.config.header_btr / 2.5, 15);
+				right_width = 70;
 			}
 
 			// 电量
 			if(this.config.header_btr_show_percent) {
-				right_width += (this.config.header_battery > 10) ? 40 : 28;
-				this.screen.set_text(this.config.header_battery + '%', 23, 'white', bg_width - right_width, 28, {align: 'left'});
+				right_width += (this.config.header_btr > 10) ? 40 : 28;
+				this.screen.set_text(this.config.header_btr + '%', 23, 'white', bg_width - right_width, 28, {align: 'left'});
 			}
 
 			// 屏幕旋转

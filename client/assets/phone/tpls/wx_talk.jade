@@ -7,7 +7,7 @@ block setting
 		legend 聊天设置
 
 		| 消息未读数：
-		input#wx-unread(type="number", value=56)
+		input#wx-unread(type="text", value=56)
 		br
 
 		div.wx-avatar
@@ -53,25 +53,25 @@ block setting
 				label(for='t3') 语音
 				div.tab_cnt
 					| 时长(秒)
-					input(type="number")
+					input(type="text")
 			li
 				input(type="radio", name="tab", id='t4')
 				label(for='t4') 视频
 				div.tab_cnt
 					| 时长(秒)
-					input(type="number")
+					input(type="text")
 			li
 				input(type="radio", name="tab", id='t5')
 				label(for='t5') 转账
 				div.tab_cnt
 					| 金额(元)
-					input(type="number")
+					input(type="text")
 			li
 				input(type="radio", name="tab", id='t6')
 				label(for='t6') 收钱
 				div.tab_cnt
 					| 金额(元)
-					input(type="number")
+					input(type="text")
 			li.clear
 
 		div#add_msg

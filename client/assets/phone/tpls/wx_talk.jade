@@ -7,7 +7,7 @@ block setting
 		legend 聊天设置
 
 		| 消息未读数：
-		input#wx-unread(type="text", value=56)
+		input(type="text", value=56, ng-model='talk.wx_talk_unread', ng-change='draw()')
 		br
 
 		div.wx-avatar

@@ -35,16 +35,20 @@
 			header_btr_charging: false
 		},
 		talk: {
+			wx_talk_unread: 65,
+			wx_talk_title: '赵本山'
 		},
-		wx_wallet: 88.99
+		wx_wallet: 88.99,
+		wx_pay_amount: 99.88
 	};
 
 	wxCtrls.controller('wxTalkCtrl', ['$scope', function ($scope) {
 			var msgs = [];
 			$scope.topbar = default_settings.topbar;
+			$scope.talk = default_settings.talk;
 
 			function _ () {
-				Phone(default_settings.topbar)
+				Phone(default_settings.topbar).set_talk_content(default_settings.talk, []);
 			}
 
 			_();
@@ -68,11 +72,17 @@
 			}
 		}]).controller('wxPayCtrl', ['$scope', function ($scope) {
 			$scope.topbar = default_settings.topbar;
+			$scope.wx_pay_amount = default_settings.wx_pay_amount;
 
-			Phone(default_settings.topbar)
+			function _(){
+				var money = $scope.wx_pay_amount;
+				default_settings.wx_pay_amount = money;
+				Phone(default_settings.topbar).set_pay_page({wx_pay_amount: money});
+			}
+
+			_();
 			$scope.draw = function() {
-				Phone(default_settings.topbar)
-				console.log(default_settings)
+				_();
 			}
 		}]);
 

@@ -193,7 +193,7 @@ function l (a) {
 			header_time: '16:27',
 			header_rotate: true, // 锁定屏幕旋转
 			header_btr: 90, // 5~100%
-			header_btr_charging: true, // normal charge
+			header_btr_charging: true, // 充电状态：true / false
 			header_btr_show_percent: false, // 显示电量百分比
 			wx_talk_unread: 59, // 未读记录
 			wx_talk_title: '朽木露琪亚', // 聊天标题
@@ -228,8 +228,7 @@ function l (a) {
 
 			return this;
 
-			this.set_talk_header();
-			this.set_talk_content([{
+			this.set_talk_content(args, [{
 				type: 'time',
 				content: '14:25'
 			},{
@@ -292,7 +291,6 @@ function l (a) {
 				forward: 'rec',
 				money: '88.88'
 			}]);
-			this.set_talk_footer();
 			// this.set_pay_page();
 			// this.set_wallet_page();
 
@@ -342,8 +340,7 @@ function l (a) {
 				this.screen.set_image('/static/imgs/phone/ios-top-rotate.png', bg_width - right_width, 0);
 			}
 		},
-		set_talk_header: function (args) { // 聊天界面头部
-			this._set_config(args);
+		_set_talk_header: function () { // 聊天界面头部
 			var bg_width = this.config.bg_width;
 
 			// 返回箭头
@@ -358,7 +355,7 @@ function l (a) {
 			// 聊天标题
 			this.screen.set_text(this.config.wx_talk_title, 35, 'white', bg_width / 2, 100);
 		},
-		set_talk_footer: function (args) { // 聊天界面底部
+		_set_talk_footer: function () { // 聊天界面底部
 			var bg_width = this.config.bg_width, bg_height = this.config.bg_height;
 			var height = 100, top = bg_height - height;
 
@@ -375,7 +372,10 @@ function l (a) {
 			// 加号图标
 			this.screen.set_image('/static/imgs/phone/wx-footer-plus.png', bg_width - 67, top + 21);
 		},
-		set_talk_content: function (talks) {
+		set_talk_content: function (args, talks) {
+			this._set_config(args);
+			this._set_talk_header();
+
 			var top = 160, bg_width = this.config.bg_width;
 			var self = this;
 			var padding = 25; // 聊天界面内边距
@@ -547,6 +547,7 @@ function l (a) {
 					default: l('nothing')
 				};
 			}
+			this._set_talk_footer();
 		},
 		set_pay_page: function (args) { // 转账页面
 			this._set_config(args);

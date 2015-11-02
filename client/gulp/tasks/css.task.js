@@ -8,7 +8,8 @@ module.exports = function (gulp, config, $) {
 
 		var fn = function () {
 			return gulp.src(config['csses'][bundle_name])
-				.pipe($.concat(bundle_name + '.css'))
+				.pipe($.concat(bundle_name + '.scss'))
+				.pipe($.sass().on('error', $.sass.logError))
 				// .pipe($.minifycss())
 				// .pipe($.rev())
 				.pipe($.manifest({bundleName: bundle_name, log: true}))

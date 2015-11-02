@@ -1,0 +1,154 @@
+/* phone */
+
+$border_color: #aaa;
+
+#main {
+	width: 1000px;
+	margin: 20px auto;
+	box-shadow: 0 0 20px #ddd;
+}
+
+#left {
+	float: left;
+	padding: 20px;
+}
+
+#left dl {
+	margin-bottom: 20px;
+}
+
+#left dt {
+	font-weight: bolder;
+	font-size: 14px;
+	border-bottom: 1px solid #2FBEE6;
+	text-indent: 1em;
+}
+
+#left dd a {
+	display: inline-block;
+	padding: 3px 30px;
+}
+
+#left dd a:hover, #left dd a.act {
+	background-color: #17C7D1;
+	color: #fff;
+}
+
+#right {
+	margin-left: 150px;
+	background-color: #fff;
+	border-left: 1px solid #eee;
+}
+
+#top {
+	border-bottom: 1px solid #eee;
+	padding: 10px;
+}
+
+#wrapper {
+	padding: 10px;
+}
+
+/* wx */
+
+#wx-setting {
+	float: left;
+
+	input[type='text'], input[type="number"] {
+		width: 50px;
+	}
+
+	.wx-avatar {
+		float: left;
+		margin-right: 20px;
+
+		img {
+			float: left;
+			margin-right: 10px;
+		}
+
+		input, button {
+			display: inline;
+			width: 70px;
+		}
+	}
+
+	.tabs {
+		float: left;
+		position: relative;
+		height: 70px;
+
+		li {
+			float: left;
+
+			input[type="radio"] {
+				position: absolute;
+				left: -999px;
+				height: -999px;
+			}
+
+			label {
+				cursor: pointer;
+				background-color: red;
+				border: 1px solid $border_color;
+				padding: 2px 5px;
+				background-color: #eee;
+				margin-right: 5px;
+			}
+
+			.tab_cnt {
+				display: none;
+				position: absolute;
+				left: 0;
+				top: 18px;
+				background-color: #fff;
+				padding:10px;
+				width: 300px;
+				border: 1px solid $border_color;
+				z-index: 0;
+
+				input {
+					width: 150px;
+				}
+			}
+		}
+
+		[name='tab']:checked + label {
+			padding-top: 5px;
+			background-color: #fff;
+			border-bottom: none;
+			z-index: 999;
+		}
+
+		[name='tab']:checked ~ .tab_cnt {
+			display: block;
+		}
+	}
+
+	#add_msg {
+		text-align: right;
+	}
+
+	table {
+		border-collapse:collapse;
+		border:none;
+		width: 100%;
+
+		th, td {
+			border:solid 1px $border_color;
+		}
+	}
+}
+
+#wx-preview {
+	width: 350px;
+	height:500px;
+	background-color: #f0f0f0;
+	overflow: hidden;
+	float: right;
+
+	canvas {
+		transform:scale(0.4, 0.4);
+		transform-origin: 0 0;
+	}
+}

@@ -12,11 +12,11 @@ module.exports = function(){
 
 	config['csses'] = {
 		'core_css': [
-			asset_dir + 'core/css/core.css'
+			asset_dir + 'core/css/core.scss'
 		],
 		'phone_css': [
-			asset_dir + 'core/css/core.css',
-			asset_dir + 'phone/css/**/*.css'
+			asset_dir + 'core/css/core.scss',
+			asset_dir + 'phone/css/**/*.scss'
 		]
 	}
 

@@ -27,4 +27,18 @@ module.exports = function (gulp, config, $) {
 			}))
 			.pipe(gulp.dest('../public/tpls/'));
 	});
+
+	// for watch
+	gulp.task('rep_watch', function () {
+		return gulp.src(config['jades'])
+			.pipe($.rep({
+				manifestPath: manifestPath,
+				jsPath: '/static/js/',
+				cssPath: '/static/css/'
+			}))
+			.pipe($.jade({
+				pretty: true
+			}))
+			.pipe(gulp.dest('../public/tpls/'));
+	});
 }

@@ -14,6 +14,10 @@ tasks.forEach(function (file) {
 
 gulp.task('build', ['css', 'js', 'rep']);
 
-gulp.task('watch', ['build'], function () {});
+gulp.task('watch', ['build'], function () {
+	gulp.watch('assets/**/*.scss', ['css']);
+	gulp.watch('assets/**/*.js', ['js']);
+	gulp.watch('assets/**/*.jade', ['rep_watch']);
+});
 
 gulp.task('default', ['watch']);

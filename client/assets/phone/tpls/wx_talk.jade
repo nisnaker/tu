@@ -8,13 +8,19 @@ block setting
 
 		| 消息未读数：
 		input(type="text", value=56, ng-model='talk.wx_talk_unread', ng-change='draw()')
-		br
+		| &nbsp; &nbsp;
+		span
+			button(onclick="document.getElementById('wx_bg').click()") 上传背景图片
+			input(type="file", id='wx_bg', accept='image/png,image/gif,image/jpg', onchange="angular.element(this).scope().set_bg(this)")
+		| &nbsp; &nbsp;
+		button(ng-click="rm_bg()") 清除背景图片
+		hr(style="border-top:1px solid #ddd")
 
 		div.wx-avatar
 			span 对方信息：
 			br
-			img(src='https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2829529271,2317257416&fm=58')
-			input(type="text", value="赵本山")
+			img(src="{{IMG1}}")
+			input(type="text", ng-model="talk.wx_talk_title", ng-change='draw()')
 			br
 			button 随机姓名
 			br
@@ -25,7 +31,7 @@ block setting
 		div.wx-avatar
 			span 我方信息：
 			br
-			img(src='https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1687009699,2047836833&fm=58')
+			img(src="{{IMG2}}")
 			input(type="text", value="小沈阳")
 			br
 			button 随机头像
@@ -37,50 +43,64 @@ block setting
 
 		ul.tabs
 			li
-				input(type="radio", name="tab", id='t1', checked)
+				input(type="radio", name="tab", ng-model='msg_type', value='time', id='t1')
 				label(for='t1') 时间/提示框
 				div.tab_cnt
 					| 内容：
-					input(type="text", value="12:30")
+					input(type="text", ng-model="msg_cnt")
+					span(ng-show="msg_cnt == ''").error 请输入内容
 			li
-				input(type="radio", name="tab", id='t2')
+				input(type="radio", name="tab", ng-model='msg_type', value='text', id='t2')
 				label(for='t2') 文字
 				div.tab_cnt
 					| 内容：
-					input(type="text", value="师傅，过节来个红包呗")
+					input(type="text", ng-model="msg_cnt")
+					span(ng-show="msg_cnt == ''").error 请输入内容
 			li
-				input(type="radio", name="tab", id='t3')
+				input(type="radio", name="tab", ng-model='msg_type', value='voice', id='t3')
 				label(for='t3') 语音
 				div.tab_cnt
 					| 时长(秒)
-					input(type="text")
+					input(type="text", ng-model="msg_cnt")
+					span(ng-show="msg_cnt == ''").error 请输入内容
 			li
-				input(type="radio", name="tab", id='t4')
+				input(type="radio", name="tab", ng-model='msg_type', value='video', id='t4')
 				label(for='t4') 视频
 				div.tab_cnt
 					| 时长(秒)
-					input(type="text")
+					input(type="text", ng-model="msg_cnt")
+					span(ng-show="msg_cnt == ''").error 请输入内容
 			li
-				input(type="radio", name="tab", id='t5')
+				input(type="radio", name="tab", ng-model='msg_type', value='pay_send', id='t5')
 				label(for='t5') 转账
 				div.tab_cnt
 					| 金额(元)
-					input(type="text")
+					input(type="text", ng-model="msg_cnt")
+					span(ng-show="msg_cnt == ''").error 请输入内容
 			li
-				input(type="radio", name="tab", id='t6')
+				input(type="radio", name="tab", ng-model='msg_type', value='pay_rec', id='t6')
 				label(for='t6') 收钱
 				div.tab_cnt
 					| 金额(元)
-					input(type="text")
+					input(type="text", ng-model="msg_cnt")
+					span(ng-show="msg_cnt == ''").error 请输入内容
 			li.clear
 
 		div#add_msg
-			button 他发
-			button 我发
+			button(ng-click="add_msg('left')") 他发
+			button(ng-click="add_msg('right')") 我发
 
 		table
 			tr
-				th 类型
+				th(width="70px") 类型
 				th 对方
 				th 我方
-				th 操作
+				th(width="40px") 操作
+			tr(ng-repeat='msg in msgs')
+				td {{ t(msg.type) }}
+				td
+					span(ng-if="msg.align == 'left'") {{msg.content}}
+				td
+					span(ng-if="msg.align == 'right'") {{msg.content}}
+				td
+					button(ng-click='rm($index)') 删除

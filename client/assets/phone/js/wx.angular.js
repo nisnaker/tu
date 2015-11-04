@@ -118,13 +118,22 @@
 				_();
 			}
 
-			// 头像
+			// 随机头像
 			$scope.set_avatar = function (align) {
 				var l = info.avatars.length,
 					index = parseInt(Math.random() * l),
 					avatar = 'http://tp2.sinaimg.cn/574'+info.avatars[index]+'/180/0';
 
 				$scope.talk['avatar_' + align] = avatar;
+				_();
+			}
+
+			// 随机昵称
+			$scope.set_name = function () {
+				var l = info.names.length,
+					index = parseInt(Math.random() * l),
+					name = info.names[index];
+				$scope.talk.wx_talk_title = name;
 				_();
 			}
 		}]).controller('wxWalletCtrl', ['$scope', function ($scope) {

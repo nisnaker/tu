@@ -22,7 +22,7 @@ block setting
 			img(src="{{talk.avatar_left}}")
 			input(type="text", ng-model="talk.wx_talk_title", ng-change='draw()')
 			br
-			button 随机姓名
+			button(ng-click='set_name()') 随机姓名
 			br
 			button(ng-click='set_avatar("left")') 随机头像
 			br

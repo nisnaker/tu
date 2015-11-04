@@ -445,7 +445,6 @@ function l (a) {
 							// 时长
 							var w = left + padding;
 							this.screen.set_text('通话时长 ' + t.content, fontsize, '#000', w, top + 50, {max_width: bg_width, align: 'left'});
-
 						}
 
 						set_pop(t.align, top);
@@ -518,7 +517,6 @@ function l (a) {
 			this.screen.set_text('￥' + this.config.wx_pay_amount, 65, '#000', bg_width / 2, 545);
 			this.screen.set_text('查看零钱', 25, '#5B6980', bg_width / 2, 600);
 
-
 			// foot
 			this.screen.set_text('转账时间: ' + this.config.wx_pay_time1, 27, '#939393', bg_width / 2, bg_height - 80);
 			this.screen.set_text('收钱时间: ' + this.config.wx_pay_time2, 27, '#939393', bg_width / 2, bg_height - 40);
@@ -549,7 +547,6 @@ function l (a) {
 			this.screen.set_text('充值', 37, '#fff', bg_width / 2, 730);
 			this.screen.set_text('提现', 37, '#454545', bg_width / 2, 850);
 
-
 			// foot
 			this.screen.set_text('常见问题', 27, '#027BFF', bg_width / 2, bg_height - 80);
 			this.screen.set_text('本服务由财付通提供底层技术支持', 27, '#868686', bg_width / 2, bg_height - 40);
@@ -564,78 +561,3 @@ function l (a) {
 	window.Phone = Phone;
 
 })();
-
-// window.onload = function(){
-	// var p0 = Phone({'id': 'phone'});
-	// l(p0.config)
-// };
-
-
-
-/* 
- 
-[{
-				type: 'time',
-				content: '14:25'
-			},{
-				avatar: IMG2,
-				type: 'text',
-				align: 'left',
-				content: '下雨了，伞给你吧，走路小心点别淋雨感冒',
-			}, {
-				avatar: IMG1,
-				type: 'text',
-				align: 'right',
-				content: '那你怎么办',
-			}, {
-				avatar: IMG2,
-				type: 'text',
-				align: 'left',
-				content: '我打车。',
-			}, {
-				avatar: IMG1,
-				type: 'voice',
-				align: 'right',
-				duration: 3
-			}, {
-				avatar: IMG2,
-				type: 'voice',
-				align: 'left',
-				duration: 70
-			}, {
-				avatar: IMG1,
-				type: 'video',
-				align: 'right',
-				duration: '13:00'
-			}, {
-				avatar: IMG2,
-				type: 'video',
-				align: 'left',
-				duration: '21:00'
-			}, {
-				avatar: IMG1,
-				type: 'pay',
-				align: 'right',
-				forward: 'send',
-				money: '88.88'
-			}, {
-				avatar: IMG2,
-				type: 'pay',
-				align: 'left',
-				forward: 'rec',
-				money: '88.88'
-			}, {
-				avatar: IMG2,
-				type: 'pay',
-				align: 'left',
-				forward: 'send',
-				money: '88.88'
-			}, {
-				avatar: IMG1,
-				type: 'pay',
-				align: 'right',
-				forward: 'rec',
-				money: '88.88'
-			}]
-
- */

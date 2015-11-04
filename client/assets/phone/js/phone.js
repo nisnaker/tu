@@ -190,6 +190,8 @@ function l (a) {
 			header_btr: 90, // 5~100%
 			header_btr_charging: true, // 充电状态：true / false
 			header_btr_show_percent: false, // 显示电量百分比
+			avatar_left: '', // 左侧头像
+			avatar_right: '', // 右侧头像
 			wx_bg_img: '', // 聊天背景图片
 			wx_talk_unread: 59, // 未读记录
 			wx_talk_title: '朽木露琪亚', // 聊天标题
@@ -320,8 +322,9 @@ function l (a) {
 				white_bg_color = '#FFF', white_border_color = '#AAA';
 
 			// 头像
-			var set_avatar = function (avatar, align, top) {
+			var set_avatar = function (align) {
 				var left = ('left' == align) ? padding : (bg_width - padding - avatar_side);
+				var avatar = ('left' == align) ? self.config.avatar_left : self.config.avatar_right;
 				self.screen.set_image(avatar, left, top, avatar_side, avatar_side);
 			}
 
@@ -355,7 +358,7 @@ function l (a) {
 						break;
 					case 'text': // 文本
 						var fontsize = 30;
-						set_avatar(t.avatar, t.align, top);
+						set_avatar(t.align);
 
 						var txt_max_width = bg_width - padding * 5 - avatar_side - holder; // 文本最大宽度
 						var txt_size = this.screen.set_text(t.content, fontsize, 'red', 0, 0, {align: 'left', max_width: txt_max_width, calc_only: true}); // 文本实际尺寸
@@ -380,7 +383,7 @@ function l (a) {
 						top += (txt_bg_height + 30);
 						break;
 					case 'voice': // 语音
-						set_avatar(t.avatar, t.align, top);
+						set_avatar(t.align);
 						var fontsize = 25;
 
 						// [100, bg_width - 300]
@@ -419,7 +422,7 @@ function l (a) {
 					case 'video': // 视频
 						var fontsize = 30;
 						var pic_width = 108;
-						set_avatar(t.avatar, t.align, top);
+						set_avatar(t.align);
 
 						var len = this.screen.set_text('通话时长 ' + t.content, fontsize, '#000', 0, 0, {max_width: bg_width, calc_only:true}).width;
 						if('left' == t.align) {
@@ -454,7 +457,7 @@ function l (a) {
 					case 'pay_rec':
 						if(!t.forward) t.forward = 'rec';
 					case 'pay':
-						set_avatar(t.avatar, t.align, top);
+						set_avatar(t.align);
 						var pic_width = 430;
 						var fontsize = 28;
 						var words = ('send' == t.forward) ? '转账给你' : '已收钱';

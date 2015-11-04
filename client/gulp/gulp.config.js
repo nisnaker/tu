@@ -28,6 +28,7 @@ module.exports = function(){
 		'phone_js': [
 			// bower_dir + 'angular/angular.min.js',
 			// bower_dir + 'angular-route/angular-route.min.js',
+			asset_dir + 'phone/js/info.js',
 			asset_dir + 'phone/js/phone.js',
 			asset_dir + 'phone/js/wx.angular.js'
 		]

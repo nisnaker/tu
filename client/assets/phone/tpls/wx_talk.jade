@@ -19,22 +19,22 @@ block setting
 		div.wx-avatar
 			span 对方信息：
 			br
-			img(src="{{IMG1}}")
+			img(src="{{talk.avatar_left}}")
 			input(type="text", ng-model="talk.wx_talk_title", ng-change='draw()')
 			br
 			button 随机姓名
 			br
-			button 随机头像
+			button(ng-click='set_avatar("left")') 随机头像
 			br
 			button 上传头像
 
 		div.wx-avatar
 			span 我方信息：
 			br
-			img(src="{{IMG2}}")
+			img(src="{{talk.avatar_right}}")
 			input(type="text", value="小沈阳")
 			br
-			button 随机头像
+			button(ng-click='set_avatar("right")') 随机头像
 			br
 			button 上传头像
 

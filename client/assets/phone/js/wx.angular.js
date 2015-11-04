@@ -38,7 +38,9 @@
 		talk: {
 			wx_bg_img: '',
 			wx_talk_unread: 65,
-			wx_talk_title: '赵本山'
+			wx_talk_title: '赵本山',
+			avatar_left: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2829529271,2317257416&fm=58',
+			avatar_right: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1687009699,2047836833&fm=58'
 		},
 		wx_wallet: 88.99,
 		wx_pay_amount: 99.88
@@ -50,8 +52,6 @@
 			$scope.talk = default_settings.talk;
 			$scope.msg_type = 'time';
 			$scope.msg_cnt = '123';
-			$scope.IMG1 = 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2829529271,2317257416&fm=58';
-			$scope.IMG2 = 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1687009699,2047836833&fm=58';
 
 			// 绘制图像
 			function _ () {
@@ -72,7 +72,6 @@
 					content: $scope.msg_cnt
 				}
 
-				msg['avatar'] = ('left' == align) ? $scope.IMG1 : $scope.IMG2;
 				if('time' != $scope.msg_type)
 					msg['align'] = align;
 
@@ -110,14 +109,24 @@
 					$scope.talk.wx_bg_img = this.result;
 					_();
 				}
-				obj.outerHTML = obj.outerHTML;
+				obj.outerHTML = obj.outerHTML; // 清除input内容
 			}
 
 			// 移除聊天背景
 			$scope.rm_bg = function () {
 				$scope.talk.wx_bg_img = '';
 				_();
-			}			
+			}
+
+			// 头像
+			$scope.set_avatar = function (align) {
+				var l = info.avatars.length,
+					index = parseInt(Math.random() * l),
+					avatar = 'http://tp2.sinaimg.cn/574'+info.avatars[index]+'/180/0';
+
+				$scope.talk['avatar_' + align] = avatar;
+				_();
+			}
 		}]).controller('wxWalletCtrl', ['$scope', function ($scope) {
 			$scope.topbar = default_settings.topbar;
 			$scope.wx_wallet = default_settings.wx_wallet;

@@ -9,7 +9,7 @@ function l (a) {
 			width: 1080,
 			height: 1920,
 			id: 'phone',
-			fontface: '"PingFang SC Regular",verdana, 黑体, 微软雅黑',
+			fontface: '"PingFangSC-Light","PingFang SC Light",verdana, 黑体, 微软雅黑',
 		},
 		_imgs_loaded: 0,
 		_imgs: [],

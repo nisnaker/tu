@@ -46,6 +46,21 @@
 		wx_pay_amount: 99.88
 	};
 
+	// 选择文件
+	wx.directive('myFileSelect', ['$parse', function ($parse) {
+		return {
+			restrict: 'A',
+			link: function (scope, element, attrs) {
+				var attrHandler = $parse(attrs.myFileSelect);
+				var handler = function (e) {
+					attrHandler(scope, {$event:e, files: e.target.files});
+					this.value = ''; // 清除input内容
+				}
+				element.on('change', handler);
+			}
+		};
+	}]);
+
 	wxCtrls.controller('wxTalkCtrl', ['$scope', function ($scope) {
 			$scope.msgs = [];
 			$scope.topbar = default_settings.topbar;
@@ -99,8 +114,7 @@
 			}
 
 			// 设置聊天背景
-			$scope.set_bg = function (obj) {
-				var files = obj.files;
+			$scope.set_bg = function (files) {
 				if(0 == files.length) return;
 
 				var reader = new FileReader();
@@ -109,22 +123,11 @@
 					$scope.talk.wx_bg_img = this.result;
 					_();
 				}
-				obj.outerHTML = obj.outerHTML; // 清除input内容
 			}
 
 			// 移除聊天背景
 			$scope.rm_bg = function () {
 				$scope.talk.wx_bg_img = '';
-				_();
-			}
-
-			// 随机头像
-			$scope.set_avatar = function (align) {
-				var l = info.avatars.length,
-					index = parseInt(Math.random() * l),
-					avatar = 'http://tp2.sinaimg.cn/574'+info.avatars[index]+'/180/0';
-
-				$scope.talk['avatar_' + align] = avatar;
 				_();
 			}
 
@@ -135,6 +138,30 @@
 					name = info.names[index];
 				$scope.talk.wx_talk_title = name;
 				_();
+			}
+
+			// 随机头像
+			$scope.random_avatar = function (align) {
+				var l = info.avatars.length,
+					index = parseInt(Math.random() * l),
+					avatar = 'http://tp2.sinaimg.cn/574'+info.avatars[index]+'/180/0';
+
+				$scope.talk['avatar_' + align] = avatar;
+				_();
+			}
+
+			// 设置头像
+			$scope.set_avatar = function (align, files) {
+				if(0 == files.length) return;
+
+				var reader = new FileReader();
+				reader.readAsDataURL(files[0]);
+			
+				reader.onload = function (e) {
+					default_settings.talk['avatar_' + align] = this.result;
+					$scope.$digest(); // 在angular上下文之外更改scope的值，需要强制进入scope检查循环
+					_();
+				}
 			}
 		}]).controller('wxWalletCtrl', ['$scope', function ($scope) {
 			$scope.topbar = default_settings.topbar;

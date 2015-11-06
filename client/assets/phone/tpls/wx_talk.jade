@@ -11,7 +11,7 @@ block setting
 		| &nbsp; &nbsp;
 		span
 			button(onclick="document.getElementById('wx_bg').click()") 上传背景图片
-			input(type="file", id='wx_bg', accept='image/png,image/gif,image/jpg', onchange="angular.element(this).scope().set_bg(this)")
+			input#wx_bg(type="file", accept='image/png,image/gif,image/jpg', my-file-select="set_bg(files)")
 		| &nbsp; &nbsp;
 		button(ng-click="rm_bg()") 清除背景图片
 		hr(style="border-top:1px solid #ddd")
@@ -22,11 +22,12 @@ block setting
 			img(src="{{talk.avatar_left}}")
 			input(type="text", ng-model="talk.wx_talk_title", ng-change='draw()')
 			br
+			button(ng-click='random_avatar("left")') 随机头像
+			br
+			button(onclick="document.getElementById('ava1').click()") 上传头像
+			input#ava1(type="file", accept='image/png,image/gif,image/jpg', my-file-select="set_avatar('left', files)")
+			br
 			button(ng-click='set_name()') 随机姓名
-			br
-			button(ng-click='set_avatar("left")') 随机头像
-			br
-			button 上传头像
 
 		div.wx-avatar
 			span 我方信息：
@@ -34,9 +35,10 @@ block setting
 			img(src="{{talk.avatar_right}}")
 			input(type="text", value="小沈阳")
 			br
-			button(ng-click='set_avatar("right")') 随机头像
+			button(ng-click='random_avatar("right")') 随机头像
 			br
-			button 上传头像
+			button(onclick="document.getElementById('ava2').click()") 上传头像
+			input#ava2(type="file", accept='image/png,image/gif,image/jpg', my-file-select="set_avatar('right', files)")
 
 	fieldset
 		legend 聊天记录

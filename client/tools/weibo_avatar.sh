@@ -37,7 +37,7 @@ while [[ true ]]; do
 	if [ $length != 9225 ]; then
 		echo 'length: '$length;
 		echo 'id: '$id;
-		echo "$id: $length" >> avatars.txt;
+		echo "$id: $length" >> weibo_avatars.txt;
 		n=$(($n+1));
 	fi
 

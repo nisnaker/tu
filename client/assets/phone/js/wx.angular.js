@@ -39,8 +39,10 @@
 			wx_bg_img: '',
 			wx_talk_unread: 65,
 			wx_talk_title: '赵本山',
-			avatar_left: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2829529271,2317257416&fm=58',
-			avatar_right: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1687009699,2047836833&fm=58'
+			// avatar_left: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2829529271,2317257416&fm=58',
+			// avatar_right: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1687009699,2047836833&fm=58'
+			avatar_left: 'http://img5.imgtn.bdimg.com/it/u=3205921481,3084094672&fm=23&gp=0.jpg',
+			avatar_right: 'http://img2.imgtn.bdimg.com/it/u=1341923083,1900907467&fm=23&gp=0.jpg'
 		},
 		wx_wallet: 88.99,
 		wx_pay_amount: 99.88
@@ -66,7 +68,7 @@
 			$scope.topbar = default_settings.topbar;
 			$scope.talk = default_settings.talk;
 			$scope.msg_type = 'time';
-			$scope.msg_cnt = '123';
+			$scope.msg_cnt = '';
 
 			// 绘制图像
 			function _ () {
@@ -91,7 +93,13 @@
 					msg['align'] = align;
 
 				$scope.msgs.push(msg);
-				$scope.msg_cnt = '123';
+				$scope.msg_cnt = '';
+				_();
+			}
+
+			// 清空聊天记录
+			$scope.clear_msg = function () {
+				$scope.msgs = [];
 				_();
 			}
 
@@ -145,6 +153,7 @@
 				var l = info.avatars.length,
 					index = parseInt(Math.random() * l),
 					avatar = 'http://tp2.sinaimg.cn/574'+info.avatars[index]+'/180/0';
+				avatar = 'http://img0.imgtn.bdimg.com/it/u='+info.avatars[index]+'&fm=11&gp=0.jpg';
 
 				$scope.talk['avatar_' + align] = avatar;
 				_();

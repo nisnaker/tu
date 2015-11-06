@@ -9,6 +9,7 @@ function l (a) {
 			width: 1080,
 			height: 1920,
 			id: 'phone',
+			display_id: 'display',
 			fontface: '"PingFangSC-Light","PingFang SC Light",verdana, 黑体, 微软雅黑',
 		},
 		_imgs_loaded: 0,
@@ -53,11 +54,23 @@ function l (a) {
 			for(i in this._funcs) {
 				this._funcs[i]();
 			}
+			this._display();
+		},
+		_draw: function (fn) {
+			this._funcs.push(fn);
+			if(this._imgs.length == this._imgs_loaded) fn();
+			this._display();
+		},
+		_display: function(){
+			document.getElementById(this.config.display_id).href =
+				 document.getElementById(this.config.id).toDataURL("image/png");
 		},
 		set_image: function (src, left, top, width, height) {
 			this._imgs.push(src);
 
 			var img = new Image();
+			img.crossOrigin = "anonymous";
+			// img.crossOrigin = '*';
 			img.src = src;
 
 			var self = this;
@@ -76,10 +89,6 @@ function l (a) {
 				self._imgs_loaded += 1;
 				self._loading_resource();
 			}
-		},
-		_draw: function (fn) {
-			this._funcs.push(fn);
-			if(this._imgs.length == this._imgs_loaded) fn();
 		},
 		set_text: function (txt, fontsize, color, left, top, args) {
 			var align = (args && args['align']) ? args['align'] : 'center'; // 对齐

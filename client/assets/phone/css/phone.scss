@@ -98,63 +98,37 @@ $border_color: #aaa;
 
 	.tabs {
 		float: left;
-		position: relative;
-		height: 70px;
 
 		li {
 			float: left;
+			cursor: pointer;
+			border: 1px solid $border_color;
+			padding: 2px 5px;
+			background-color: #ddd;
 
-			input[type="radio"] {
-				position: absolute;
-				left: -999px;
-				height: -999px;
-			}
-
-			label {
-				cursor: pointer;
-				background-color: red;
-				border: 1px solid $border_color;
-				padding: 2px 5px;
-				background-color: #ddd;
-				margin-right: 5px;
-			}
-
-			.tab_cnt {
-				display: none;
-				position: absolute;
-				left: 0;
-				top: 18px;
+			&.active {
 				background-color: #fff;
-				padding:10px;
-				width: 300px;
-				border: 1px solid $border_color;
-				z-index: 0;
-
-				input {
-					width: 150px;
-				}
+				border-bottom: none;
 			}
+		}
 
-			span.error {
-				color: red;
+		.tabcnts {
+			position: relative;
+			top: -1px;
+			border: 1px solid $border_color;
+			padding: 10px;
+			margin-bottom: 10px;
+
+
+			.error {
 				margin-left: 10px;
+				color: red;
+			}
+
+			.add_msg {
+				float: right;
 			}
 		}
-
-		[name='tab']:checked + label {
-			padding-top: 5px;
-			background-color: #fff;
-			border-bottom: none;
-			z-index: 999;
-		}
-
-		[name='tab']:checked ~ .tab_cnt {
-			display: block;
-		}
-	}
-
-	#add_msg {
-		text-align: right;
 	}
 
 	table {

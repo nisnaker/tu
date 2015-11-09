@@ -40,58 +40,35 @@ block setting
 			button(onclick="document.getElementById('ava2').click()") 上传头像
 			input#ava2(type="file", accept='image/png,image/gif,image/jpg', my-file-select="set_avatar('right', files)")
 
-	fieldset
+	fieldset.tabs
 		legend 聊天记录
 
-		ul.tabs
-			li
-				input(type="radio", name="tab", ng-model='msg_type', value='time', id='t1')
-				label(for='t1') 时间/提示框
-				div.tab_cnt
-					| 内容：
-					input(type="text", ng-model="msg_cnt")
-					span(ng-show="msg_cnt == ''").error 请输入内容
-			li
-				input(type="radio", name="tab", ng-model='msg_type', value='text', id='t2')
-				label(for='t2') 文字
-				div.tab_cnt
-					| 内容：
-					input(type="text", ng-model="msg_cnt")
-					span(ng-show="msg_cnt == ''").error 请输入内容
-			li
-				input(type="radio", name="tab", ng-model='msg_type', value='voice', id='t3')
-				label(for='t3') 语音
-				div.tab_cnt
-					| 时长(秒)：
-					input(type="text", ng-model="msg_cnt")
-					span(ng-show="msg_cnt == ''").error 请输入内容
-			li
-				input(type="radio", name="tab", ng-model='msg_type', value='video', id='t4')
-				label(for='t4') 视频
-				div.tab_cnt
-					| 时长(秒)：
-					input(type="text", ng-model="msg_cnt")
-					span(ng-show="msg_cnt == ''").error 请输入内容
-			li
-				input(type="radio", name="tab", ng-model='msg_type', value='pay_send', id='t5')
-				label(for='t5') 转账
-				div.tab_cnt
-					| 金额(元)：
-					input(type="text", ng-model="msg_cnt")
-					span(ng-show="msg_cnt == ''").error 请输入内容
-			li
-				input(type="radio", name="tab", ng-model='msg_type', value='pay_rec', id='t6')
-				label(for='t6') 收钱
-				div.tab_cnt
-					| 金额(元)：
-					input(type="text", ng-model="msg_cnt")
-					span(ng-show="msg_cnt == ''").error 请输入内容
-			li.clear
+		ul
+			li(ng-click='tab=1;msg_type="time"', ng-class="{'active':tab==1}") 时间/提示框
+			li(ng-click='tab=2;msg_type="text"', ng-class="{'active':tab==2}") 文字
+			li(ng-click='tab=3;msg_type="voice"', ng-class="{'active':tab==3}") 语音
+			li(ng-click='tab=4;msg_type="video"', ng-class="{'active':tab==4}") 视频
+			li(ng-click='tab=5;msg_type="pay_send"', ng-class="{'active':tab==5}") 转账
+			li(ng-click='tab=6;msg_type="pay_rec"', ng-class="{'active':tab==6}") 收钱
 
-		div#add_msg
-			button(ng-click="add_msg('left')") 他发
-			button(ng-click="add_msg('right')") 我发
-			button(ng-click="clear_msg()") 清空
+		div.clear
+
+		div.tabcnts
+			span
+				span(ng-show='tab==1') 内容：
+				span(ng-show='tab==2') 内容：
+				span(ng-show='tab==3') 时长(秒)：
+				span(ng-show='tab==4') 时长(秒)：
+				span(ng-show='tab==5') 金额(元)：
+				span(ng-show='tab==6') 金额(元)：
+
+			input(ng-model='msg_cnt')
+			span.error(ng-show="msg_cnt == ''") 请输入内容
+
+			span.add_msg
+				button(ng-click="add_msg('left')") 他发
+				button(ng-click="add_msg('right')") 我发
+				button(ng-click="clear_msg()") 清空
 
 		table
 			tr

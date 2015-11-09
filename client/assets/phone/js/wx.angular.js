@@ -65,6 +65,18 @@
 		};
 	}]);
 
+	function now () {
+		var spool = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09'];
+		var D = new Date(),
+			m = D.getMonth() + 1,
+			d = D.getDate(),
+			h = D.getHours(),
+			i = D.getMinutes(),
+			s = D.getSeconds();
+
+		return [spool[m]||m, spool[d]||d, spool[h]||h, spool[i]||i, spool[s]||s].join('-');
+	}
+
 	wx.run(['$rootScope', '$location', function ($rootScope, $location) {
 		$rootScope.path = $location.path();
 
@@ -73,8 +85,8 @@
 		});
 
 		$rootScope.download = function () {
-			var dataurl = this.dataurl,
-				filename = '截图吧_' + (new Date()).getTime() + '.png',
+			var dataurl = this.dataurl.replace('image/png', 'image/octet-stream'),
+				filename = '截图吧_' + now() + '.png',
 				savelink = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
 				savelink.href = dataurl;
 				savelink.download = filename;
@@ -94,8 +106,9 @@
 			$scope.msgs = [];
 			$scope.topbar = default_settings.topbar;
 			$scope.talk = default_settings.talk;
-			$scope.msg_type = 'time';
+			$scope.msg_type = 'text';
 			$scope.msg_cnt = '';
+			$scope.tab = 2;
 			var phone = '';
 
 			// 绘制图像

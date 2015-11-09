@@ -3,9 +3,11 @@
 
 	var wx = angular.module('wx', ['ngRoute', 'wxCtrls']);
 
-	wx.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+	wx.config(['$routeProvider', '$locationProvider', '$compileProvider', function ($routeProvider, $locationProvider, $compileProvider) {
 		
 		$locationProvider.html5Mode({requireBase: false, enable: true}).hashPrefix('');
+		// $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|local|data):/);
+		$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|data):/);
 
 		$routeProvider.when('/wx/talk', {
 				templateUrl: '/tpls/phone/tpls/wx_talk.html',
@@ -63,16 +65,42 @@
 		};
 	}]);
 
+	wx.run(['$rootScope', '$location', function ($rootScope, $location) {
+		$rootScope.path = $location.path();
+
+		$rootScope.$on('$routeChangeSuccess', function () {
+			$rootScope.path = $location.path();
+		});
+
+		$rootScope.download = function () {
+			var dataurl = this.dataurl,
+				filename = '截图吧_' + (new Date()).getTime() + '.png',
+				savelink = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+				savelink.href = dataurl;
+				savelink.download = filename;
+
+			savelink.click();
+		}
+
+		$rootScope.render = function () {
+			return Phone(default_settings.topbar).onload(function (url) {
+				$rootScope.dataurl = url;
+				$rootScope.$digest();
+			});
+		}
+	}]);
+
 	wxCtrls.controller('wxTalkCtrl', ['$scope', function ($scope) {
 			$scope.msgs = [];
 			$scope.topbar = default_settings.topbar;
 			$scope.talk = default_settings.talk;
 			$scope.msg_type = 'time';
 			$scope.msg_cnt = '';
+			var phone = '';
 
 			// 绘制图像
 			function _ () {
-				Phone(default_settings.topbar).set_talk_content(default_settings.talk, $scope.msgs);
+				$scope.render().set_talk_content(default_settings.talk, $scope.msgs);
 			}
 
 			_();
@@ -179,7 +207,7 @@
 			function _ () {
 				var money = $scope.wx_wallet;
 				default_settings.wx_wallet = money;
-				Phone(default_settings.topbar).set_wallet_page({wx_wallet: money});
+				$scope.render().set_wallet_page({wx_wallet: money});
 			}
 
 			_();
@@ -193,7 +221,7 @@
 			function _(){
 				var money = $scope.wx_pay_amount;
 				default_settings.wx_pay_amount = money;
-				Phone(default_settings.topbar).set_pay_page({wx_pay_amount: money});
+				$scope.render().set_pay_page({wx_pay_amount: money});
 			}
 
 			_();
@@ -202,11 +230,5 @@
 			}
 		}]);
 
-	wx.run(['$rootScope', '$location', function ($rootScope, $location) {
-		$rootScope.path = $location.path();
-
-		$rootScope.$on('$routeChangeSuccess', function () {
-			$rootScope.path = $location.path();
-		})
-	}]);
+	
 })();

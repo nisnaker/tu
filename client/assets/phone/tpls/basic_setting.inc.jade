@@ -44,4 +44,6 @@ fieldset
 		| 锁定屏幕
 
 	| &nbsp; &nbsp; 
-	a#display(target='_blank', href='') 预览
+	a#display(target='_blank', href='{{dataurl}}') 预览
+	| &nbsp; &nbsp; 
+	a#download(target='_blank', ng-click="download()") 下载

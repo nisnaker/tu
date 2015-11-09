@@ -15,6 +15,7 @@ function l (a) {
 		_imgs_loaded: 0,
 		_imgs: [],
 		_funcs: [],
+		_onload: function(){},
 		init: function (args) {
 			if(args)
 			{
@@ -29,6 +30,7 @@ function l (a) {
 			this._funcs = [];
 
 			var obj = document.getElementById(this.config.id);
+			this.obj = obj;
 			obj.width = this.config.width;
 			obj.height = this.config.height;
 			this.canvas = obj.getContext('2d');
@@ -54,16 +56,14 @@ function l (a) {
 			for(i in this._funcs) {
 				this._funcs[i]();
 			}
-			this._display();
+			this._onload(this.obj.toDataURL("image/png"));
 		},
 		_draw: function (fn) {
 			this._funcs.push(fn);
 			if(this._imgs.length == this._imgs_loaded) fn();
-			this._display();
 		},
-		_display: function(){
-			document.getElementById(this.config.display_id).href =
-				 document.getElementById(this.config.id).toDataURL("image/png");
+		onload: function(fn){
+			this._onload = fn;
 		},
 		set_image: function (src, left, top, width, height) {
 			this._imgs.push(src);
@@ -206,7 +206,7 @@ function l (a) {
 			wx_talk_title: '朽木露琪亚', // 聊天标题
 			wx_pay_amount: '20.00', // 转账金额
 			wx_pay_time1: '2015-10-12 18:45:43', // 转账时间
-			wx_pay_time2: '2015-01-01 10:15:10', // 收钱时间
+			wx_pay_time2: '2015-01-01 10:25:40', // 收钱时间
 			wx_wallet: '88.88', // 我的零钱
 		},
 		_set_config: function (args) {
@@ -229,6 +229,10 @@ function l (a) {
 			// this.screen.draw_rect(this.config.bg_color, 0, 0, this.config.bg_width, this.config.bg_height);
 			// this.set_navbar();
 			return this;			
+		},
+		onload: function (fn) {
+			this.screen.onload(fn);
+			return this;
 		},
 		set_navbar: function(args){ // 顶部状态栏
 			this._set_config(args)
@@ -503,6 +507,7 @@ function l (a) {
 				};
 			}
 			this._set_talk_footer();
+			return this;
 		},
 		set_pay_page: function (args) { // 转账页面
 			this._set_config(args);

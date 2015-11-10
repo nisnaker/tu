@@ -51,8 +51,6 @@ block setting
 			li(ng-click='tab=5;msg_type="pay_send"', ng-class="{'active':tab==5}") 转账
 			li(ng-click='tab=6;msg_type="pay_rec"', ng-class="{'active':tab==6}") 收钱
 
-		div.clear
-
 		div.tabcnts
 			span
 				span(ng-show='tab==1') 内容：
@@ -75,7 +73,7 @@ block setting
 				th(width="70px") 类型
 				th 对方
 				th 我方
-				th(width="40px") 操作
+				th(width="45px") 操作
 			tr(ng-repeat='msg in msgs')
 				td {{ t(msg.type) }}
 				td

@@ -100,7 +100,7 @@ $border_color: #aaa;
 		float: left;
 
 		li {
-			float: left;
+			display: inline;
 			cursor: pointer;
 			border: 1px solid $border_color;
 			padding: 2px 5px;

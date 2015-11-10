@@ -12,9 +12,6 @@
 		$routeProvider.when('/wx/talk', {
 				templateUrl: '/tpls/phone/tpls/wx_talk.html',
 				controller: 'wxTalkCtrl'
-			}).when('/wx/wallet', {
-				templateUrl: '/tpls/phone/tpls/wx_wallet.html',
-				controller: 'wxWalletCtrl'
 			}).when('/wx/pay', {
 				templateUrl: '/tpls/phone/tpls/wx_pay.html',
 				controller: 'wxPayCtrl'
@@ -65,16 +62,26 @@
 		};
 	}]);
 
-	function now () {
+	function now (format, ts) {
+		ts = ts || (new Date) * 1;
+		
 		var spool = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09'];
-		var D = new Date(),
-			m = D.getMonth() + 1,
-			d = D.getDate(),
-			h = D.getHours(),
-			i = D.getMinutes(),
-			s = D.getSeconds();
+		var D = new Date(ts), d = {};
 
-		return [spool[m]||m, spool[d]||d, spool[h]||h, spool[i]||i, spool[s]||s].join('-');
+		d['Y'] = D.getFullYear();
+		d['M'] = D.getMonth() + 1;
+		d['D'] = D.getDate();
+		d['H'] = D.getHours();
+		d['I'] = D.getMinutes();
+		d['S'] = D.getSeconds();
+
+		var ret = format;
+		for(var i in d) {
+			var v = d[i];
+			v = spool[v] || v;
+			ret = ret.replace(i, v);
+		}
+		return ret;
 	}
 
 	wx.run(['$rootScope', '$location', function ($rootScope, $location) {
@@ -86,7 +93,7 @@
 
 		$rootScope.download = function () {
 			var dataurl = this.dataurl.replace('image/png', 'image/octet-stream'),
-				filename = '截图吧_' + now() + '.png',
+				filename = '截图吧_' + now('M-D-H-I-S') + '.png',
 				savelink = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
 				savelink.href = dataurl;
 				savelink.download = filename;
@@ -213,35 +220,40 @@
 					_();
 				}
 			}
-		}]).controller('wxWalletCtrl', ['$scope', function ($scope) {
-			$scope.topbar = default_settings.topbar;
-			$scope.wx_wallet = default_settings.wx_wallet;
-
-			function _ () {
-				var money = $scope.wx_wallet;
-				default_settings.wx_wallet = money;
-				$scope.render().set_wallet_page({wx_wallet: money});
-			}
-
-			_();
-			$scope.draw = function() {
-				_();
-			}
 		}]).controller('wxPayCtrl', ['$scope', function ($scope) {
 			$scope.topbar = default_settings.topbar;
-			$scope.wx_pay_amount = default_settings.wx_pay_amount;
+			$scope.type = 'wallet';
+			$scope.money = 66.88;
+			$scope.time1 = now('Y-M-D H:I:S');
+			$scope.time2 = now('Y-M-D H:I:S', (new Date)*1 + 60000);
 
-			function _(){
-				var money = $scope.wx_pay_amount;
-				default_settings.wx_pay_amount = money;
-				$scope.render().set_pay_page({wx_pay_amount: money});
+			$scope.draw = function (type) {
+				type = type || $scope.type;
+				$scope.type = type;
+				var phone = $scope.render(),
+					money = $scope.money,
+					time1 = $scope.time1,
+					time2 = $scope.time2;
+
+				switch(type) {
+					case 'wallet':
+						phone.set_wallet_page({wx_wallet: money});
+						break;
+					case 'pay':
+						phone.set_pay_page({
+							wx_pay_amount: money,
+							wx_pay_time1: time1,
+							wx_pay_time2: time2
+						})
+						break;
+					default: break;
+				}
+			}
+
+			function _ () {
+				$scope.draw();
 			}
 
 			_();
-			$scope.draw = function() {
-				_();
-			}
 		}]);
-
-	
 })();

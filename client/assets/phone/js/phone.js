@@ -246,13 +246,13 @@ function l (a) {
 			this.screen.set_image('/static/imgs/phone/ios-signal'+this.config.header_signal+'.png', 0, 0);
 
 			// 运营商
-			this.screen.set_text(this.config.header_carrier, 25, 'white', 138, 28);
+			this.screen.set_text(this.config.header_carrier, 25, 'white', 138, 32);
 
 			// 网络
-			this.screen.set_image('/static/imgs/phone/ios-top-'+this.config.header_network+'.png', 194, 0);
+			this.screen.set_image('/static/imgs/phone/ios-top-'+this.config.header_network+'.png', 194, 3);
 
 			// 时间
-			this.screen.set_text(this.config.header_time, 25, 'white', bg_width / 2, 28);
+			this.screen.set_text(this.config.header_time, 25, 'white', bg_width / 2, 29);
 
 			var right_width = 0; // 右侧已占用宽度
 			// 电池
@@ -272,7 +272,7 @@ function l (a) {
 				var size = this.screen.set_text(b + '%', 23, 'white', 0, 0, {max_width: 1000, calc_only: true}); // 文本实际尺寸
 				
 				right_width += size.width;
-				this.screen.set_text(b + '%', 23, 'white', bg_width - right_width, 28, {align: 'left'});
+				this.screen.set_text(b + '%', 23, 'white', bg_width - right_width, 29, {align: 'left'});
 			}
 
 			// 屏幕旋转
@@ -280,6 +280,9 @@ function l (a) {
 				right_width += 35;
 				this.screen.set_image('/static/imgs/phone/ios-top-rotate.png', bg_width - right_width, 0);
 			}
+
+			// this.screen.draw_line('white', 0, 21, bg_width, 0);
+
 		},
 		_set_talk_header: function () { // 聊天界面头部
 			var bg_width = this.config.bg_width;

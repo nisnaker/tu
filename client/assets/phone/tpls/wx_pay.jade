@@ -3,8 +3,24 @@ extends layout.inc
 block setting
 	include basic_setting.inc.jade
 
-	fieldset
+	fieldset.tabs
 		legend 转账设置
 
-		| 金额：
-		input(type="text", ng-model='wx_pay_amount', ng-change='draw()')
+		ul
+			li(ng-click="draw('wallet')", ng-class="{'active':type=='wallet'}") 零钱
+			li(ng-click="draw('pay')", ng-class="{'active':type=='pay'}") 转账详情
+
+		div.clear
+
+		div.tabcnts
+			span 金　　额：
+			input(ng-model='money', ng-change="draw()")
+			span.error(ng-show="money == ''") 请输入内容
+			
+			br
+		
+			| 转账时间：
+			input(ng-model="time1", ng-change="draw()")
+			br
+			| 收钱时间：
+			input(ng-model="time2", ng-change="draw()")

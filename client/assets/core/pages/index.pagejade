@@ -28,9 +28,7 @@ html
 					dd
 						a(ng-class="{act: path == '/wx/talk'}",href="#wx/talk") 聊天
 					dd
-						a(ng-class="{act: path == '/wx/wallet'}",href="#wx/wallet") 零钱
-					dd
-						a(ng-class="{act: path == '/wx/pay'}",href="#wx/pay") 转账
+						a(ng-class="{act: path == '/wx/pay'}",href="#wx/pay") 支付
 			div#right
 				div#top
 					b 当前位置：

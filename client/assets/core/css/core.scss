@@ -44,19 +44,20 @@ body {
 
 	li {
 		float: left;
-	}
 
-	a {
-		color: #999;
-		font-size: 14px;
-		line-height: 50px;
-		display: inline-block;
-		padding: 0 22px;
+		a {
+			line-height: 50px;
+			color: #999;
+			font-size: 14px;
+			display: inline-block;
+			padding: 0 22px;
 
-		&.active, &:hover {
-			color: #00a6f2;
+			&.active, &:hover {
+				color: #00a6f2;
+			}
 		}
 	}
+
 }
 
 #main {

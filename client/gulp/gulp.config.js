@@ -15,11 +15,9 @@ module.exports = function(){
 			asset_dir + 'core/css/core.scss'
 		],
 		'phone_css': [
-			asset_dir + 'core/css/core.scss',
 			asset_dir + 'phone/css/**/*.scss'
 		],
 		'movie_css': [
-			asset_dir + 'core/css/core.scss',
 			asset_dir + 'movie/css/**/*.scss'
 		]
 	}

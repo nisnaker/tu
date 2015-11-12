@@ -6,6 +6,6 @@ class IndexController extends Controller
 {
 	public function indexAction()
 	{
-		
+		header('Location: /movie.html');
 	}
 }

@@ -18,6 +18,7 @@ gulp.task('watch', ['build'], function () {
 	gulp.watch('assets/**/*.scss', ['css']);
 	gulp.watch('assets/**/*.js', ['js']);
 	gulp.watch('assets/**/*.jade', ['rep_watch']);
+	gulp.watch('assets/**/*.pagejade', ['rep_watch']);
 });
 
 gulp.task('default', ['watch']);

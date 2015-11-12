@@ -1,6 +1,6 @@
 /* general */
 
-html, body, ul, li, h1, dl, dd {
+html, body, ul, li, h1, dl, dd, p {
 	padding: 0;
 	margin: 0;
 }
@@ -36,29 +36,31 @@ body {
 #innerbar {
 	width: 1000px;
 	margin: 0 auto;
+
+	.logo {
+		float: left;
+		margin-top: 5px;
+	}
+
+	li {
+		float: left;
+	}
+
+	a {
+		color: #999;
+		font-size: 14px;
+		line-height: 50px;
+		display: inline-block;
+		padding: 0 22px;
+
+		&.active, &:hover {
+			color: #00a6f2;
+		}
+	}
 }
 
-#logo {
-	float: left;
-	margin-top: 5px;
-}
-
-#topbar li {
-	float: left;
-}
-
-#topbar li a {
-	color: #999;
-	font-size: 14px;
-	line-height: 50px;
-	display: inline-block;
-	padding: 0 22px;
-}
-
-#topbar li a:hover {
-	color: #666;
-}
-
-#topbar li.main a {
-	color: #000;
+#main {
+	width: 1000px;
+	margin: 20px auto;
+	box-shadow: 0 0 20px #ddd;
 }

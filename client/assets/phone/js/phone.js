@@ -1,7 +1,3 @@
-function l (a) {
-	console.log(a)
-}
-
 (function () {
 
 	var _Screen = {

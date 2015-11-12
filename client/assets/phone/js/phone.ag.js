@@ -1,14 +1,9 @@
 (function () {
 	'use strict';
 
-	var wx = angular.module('wx', ['ngRoute', 'wxCtrls']);
+	var phone = angular.module('jietu8', ['app.core', 'wxCtrls']);
 
-	wx.config(['$routeProvider', '$locationProvider', '$compileProvider', function ($routeProvider, $locationProvider, $compileProvider) {
-		
-		$locationProvider.html5Mode({requireBase: false, enable: true}).hashPrefix('');
-		// $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|local|data):/);
-		$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|data):/);
-
+	phone.config(['$routeProvider', function ($routeProvider) {
 		$routeProvider.when('/wx/talk', {
 				templateUrl: '/tpls/phone/tpls/wx_talk.html',
 				controller: 'wxTalkCtrl'
@@ -20,7 +15,6 @@
 			});
 	}]);
 
-	var wxCtrls = angular.module('wxCtrls', []);
 
 	var default_settings = {
 		id: 'phone',
@@ -47,53 +41,15 @@
 		wx_pay_amount: 99.88
 	};
 
-	// 选择文件
-	wx.directive('myFileSelect', ['$parse', function ($parse) {
-		return {
-			restrict: 'A',
-			link: function (scope, element, attrs) {
-				var attrHandler = $parse(attrs.myFileSelect);
-				var handler = function (e) {
-					attrHandler(scope, {$event:e, files: e.target.files});
-					this.value = ''; // 清除input内容
-				}
-				element.on('change', handler);
-			}
+	phone.run(['$rootScope', function ($rootScope) {
+		$rootScope.page = {
+			title: '聊天截图',
+			name: 'talk'
 		};
-	}]);
-
-	function now (format, ts) {
-		ts = ts || (new Date) * 1;
-		
-		var spool = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09'];
-		var D = new Date(ts), d = {};
-
-		d['Y'] = D.getFullYear();
-		d['M'] = D.getMonth() + 1;
-		d['D'] = D.getDate();
-		d['H'] = D.getHours();
-		d['I'] = D.getMinutes();
-		d['S'] = D.getSeconds();
-
-		var ret = format;
-		for(var i in d) {
-			var v = d[i];
-			v = spool[v] || v;
-			ret = ret.replace(i, v);
-		}
-		return ret;
-	}
-
-	wx.run(['$rootScope', '$location', function ($rootScope, $location) {
-		$rootScope.path = $location.path();
-
-		$rootScope.$on('$routeChangeSuccess', function () {
-			$rootScope.path = $location.path();
-		});
 
 		$rootScope.download = function () {
 			var dataurl = this.dataurl.replace('image/png', 'image/octet-stream'),
-				filename = '截图吧_' + now('M-D-H-I-S') + '.png',
+				filename = '截图吧_' + now('m-d-H-i-s') + '.png',
 				savelink = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
 				savelink.href = dataurl;
 				savelink.download = filename;
@@ -108,6 +64,8 @@
 			});
 		}
 	}]);
+
+	var wxCtrls = angular.module('wxCtrls', []);
 
 	wxCtrls.controller('wxTalkCtrl', ['$scope', function ($scope) {
 			$scope.msgs = [];
@@ -224,8 +182,8 @@
 			$scope.topbar = default_settings.topbar;
 			$scope.type = 'wallet';
 			$scope.money = 66.88;
-			$scope.time1 = now('Y-M-D H:I:S');
-			$scope.time2 = now('Y-M-D H:I:S', (new Date)*1 + 60000);
+			$scope.time1 = now('Y-m-d H:i:s');
+			$scope.time2 = now('Y-m-d H:i:s', (new Date)*1 + 73000);
 
 			$scope.draw = function (type) {
 				type = type || $scope.type;

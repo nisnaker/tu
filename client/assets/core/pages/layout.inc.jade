@@ -1,0 +1,26 @@
+doctype html
+html(ng-app='jietu8')
+	head
+		meta(charset='utf-8')
+		title {{page.title}} | 截图吧
+
+		| <% bundleName:core_css %>
+		block static
+
+	body
+		div#topbar
+			div#innerbar(ng-controller="barCtrl")
+				a(href='/').logo
+					img(src='/static/imgs/logo.png', alt='jietu8')
+				ul
+					li
+						a(href='/movie.html', ng-class="{'active':'movie'==page.name}") 电影截图
+					li
+						a(href='/talk.html', ng-class="{'active':'talk'==page.name}") 应用截图
+					li
+						a(href='/about.html', ng-class="{'active':'about'==page.name}") 关于
+			div.clear
+		div#main
+			block main
+
+		div#foot.clear &copy;截图吧 FOREVER

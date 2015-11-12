@@ -1,0 +1,7 @@
+extends layout.inc
+
+block static
+	| <% bundleName:about_css %>
+
+block main
+	div#left about

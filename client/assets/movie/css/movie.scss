@@ -1,20 +1,5 @@
 /* movie */
 
-/* hacing fancybox img-urls */
-
-#fancybox-loading, .fancybox-close, .fancybox-prev span, .fancybox-next span {
-	background-image: url("/static/imgs/fancybox/fancybox_sprite.png");
-}
-.fancybox-overlay {
-	background: url("/static/imgs/fancybox/fancybox_overlay.png");
-}
-#fancybox-loading div {
-	background-image: url("/static/imgs/fancybox/fancybox_loading.gif");
-}
-.fancybox-nav {
-	background: transparent url("/static/imgs/fancybox/blank.gif");
-}
-
 $border_color: #e5e5e5;
 
 

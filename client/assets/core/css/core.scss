@@ -20,6 +20,8 @@ input[type="checkbox"] {
 ::selection{background:#b3d4fc;text-shadow:none}
 
 .clear {clear: both;}
+.hide {display: none;}
+.error {color: red;}
 
 body {
 	color: #000;
@@ -58,10 +60,91 @@ body {
 		}
 	}
 
+	.login-box {
+		float: right;
+
+		a {
+			display: inline-block;
+			padding: 16px 16px;
+			cursor: pointer;
+			color: #aaa;
+
+			&:hover {
+				color: #000;
+			}
+		}
+	}
+
 }
 
 #main {
 	width: 1000px;
 	margin: 20px auto;
 	box-shadow: 0 0 20px #ddd;
+}
+
+/* login box */
+.alert-box {
+	width: 300px;
+
+	h2 {
+		text-align: center;
+	}
+
+	p {
+		margin-top: 10px;
+
+		.right {
+			float: right;
+			line-height: 25px;
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+
+	input {
+		line-height: 20px;
+		width: 278px;
+		padding: 0 10px;
+		border: 1px solid #999;
+		outline: none;
+
+		&:focus {
+			border-color: #17C7D1;
+		}
+	}
+
+	.btn {
+		display: inline-block;
+		color: #fff;
+		background-color: #999;
+		padding: 3px 30px;
+
+		&.enable {
+			cursor: pointer;
+			background-color: #17C7D1;
+
+			&:hover {
+				background-color: #19DBE6;
+			}
+		}
+	}
+}
+
+
+/* hacing fancybox img-urls */
+
+#fancybox-loading, .fancybox-close, .fancybox-prev span, .fancybox-next span {
+	background-image: url("/static/imgs/fancybox/fancybox_sprite.png");
+}
+.fancybox-overlay {
+	background: url("/static/imgs/fancybox/fancybox_overlay.png");
+}
+#fancybox-loading div {
+	background-image: url("/static/imgs/fancybox/fancybox_loading.gif");
+}
+.fancybox-nav {
+	background: transparent url("/static/imgs/fancybox/blank.gif");
 }

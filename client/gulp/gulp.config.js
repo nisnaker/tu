@@ -12,19 +12,21 @@ module.exports = function(){
 
 	config['csses'] = {
 		'core_css': [
+			bower_dir + 'fancybox/source/jquery.fancybox.css',
 			asset_dir + 'core/css/core.scss'
 		],
 		'phone_css': [
 			asset_dir + 'phone/css/**/*.scss'
 		],
 		'movie_css': [
-			bower_dir + 'fancybox/source/jquery.fancybox.css',
 			asset_dir + 'movie/css/**/*.scss'
 		]
 	}
 
 	config['jses'] = {
 		'core_js': [
+			bower_dir + 'jquery/dist/jquery.min.js',
+			bower_dir + 'fancybox/source/jquery.fancybox.pack.js',
 			bower_dir + 'angular/angular.js',
 			bower_dir + 'angular-route/angular-route.min.js',
 			asset_dir + 'core/js/tools.js',
@@ -41,8 +43,6 @@ module.exports = function(){
 			asset_dir + 'phone/js/phone.ag.js'
 		],
 		'movie_js': [
-			bower_dir + 'jquery/dist/jquery.min.js',
-			bower_dir + 'fancybox/source/jquery.fancybox.pack.js',
 			asset_dir + 'movie/js/movie.ag.js'
 		]
 	}

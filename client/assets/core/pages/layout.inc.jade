@@ -7,9 +7,9 @@ html(ng-app='jietu8')
 		| <% bundleName:core_css %>
 		block static
 
-	body
+	body(ng-controller="loginCtrl")
 		div#topbar
-			div#innerbar(ng-controller="barCtrl")
+			div#innerbar
 				a(href='/').logo
 					img(src='/static/imgs/logo.png', alt='jietu8')
 				ul
@@ -19,8 +19,50 @@ html(ng-app='jietu8')
 						a(href='/talk.html', ng-class="{'active':'talk'==page.name}") 应用截图
 					li
 						a(href='/about.html', ng-class="{'active':'about'==page.name}") 关于
+
+				span.login-box
+					a(href="#reg", onclick="return false") 注册
+					a(href="#login", onclick="return false") 登入
 			div.clear
 		div#main
 			block main
 
 		div#foot.clear &copy;截图吧 FOREVER
+
+		div#login.hide.alert-box
+			h2 登入
+			p 邮箱： 
+				br
+				input(type="text", ng-model="user.email")
+				br
+				span.error(ng-show="user.email==''") 请输入邮箱
+			p 密码：
+				br
+				input(type="password", ng-model="user.passwd")
+				br
+				span.error(ng-show="user.passwd==''") 请输入密码
+			p
+				a.btn(ng-click="login()", ng-class="{'enable':user.email && user.passwd}") 登入
+				a.right(href='#') 忘记密码？
+
+		div#reg.hide.alert-box
+			h2 注册
+			p 邮箱： 
+				br
+				input(type="text", ng-model="user.email")
+				br
+				span.error(ng-show="user.email==''") 请输入邮箱
+			p 密码：
+				br
+				input(type="password", ng-model="user.passwd")
+				br
+				span.error(ng-show="user.passwd==''") 请输入密码
+			p 重复密码：
+				br
+				input(type="password", ng-model="user.passwd2")
+				br
+				span.error(ng-show="user.passwd2==''") 请再次输入密码
+				span.error(ng-show="user.passwd2!='' && user.passwd2!=user.passwd") 两次输入密码不一样
+			p
+				a.btn(ng-click="reg()", ng-class="{'enable':0 && user.email && user.passwd && user.passwd == user.passwd2}") 登入
+				| &nbsp; &nbsp; 暂不开放注册

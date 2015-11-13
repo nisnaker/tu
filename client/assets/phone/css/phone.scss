@@ -113,14 +113,12 @@ $border_color: #aaa;
 			padding: 10px;
 			margin-bottom: 10px;
 
+			.add_msg {
+				float: right;
+			}
 
 			.error {
 				margin-left: 10px;
-				color: red;
-			}
-
-			.add_msg {
-				float: right;
 			}
 		}
 	}

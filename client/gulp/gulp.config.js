@@ -18,6 +18,7 @@ module.exports = function(){
 			asset_dir + 'phone/css/**/*.scss'
 		],
 		'movie_css': [
+			bower_dir + 'fancybox/source/jquery.fancybox.css',
 			asset_dir + 'movie/css/**/*.scss'
 		]
 	}
@@ -40,6 +41,8 @@ module.exports = function(){
 			asset_dir + 'phone/js/phone.ag.js'
 		],
 		'movie_js': [
+			bower_dir + 'jquery/dist/jquery.min.js',
+			bower_dir + 'fancybox/source/jquery.fancybox.pack.js',
 			asset_dir + 'movie/js/movie.ag.js'
 		]
 	}

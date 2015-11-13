@@ -9,8 +9,7 @@ public/tpls/*
 client/asset_manifest.json
 client/node_modules/*
 client/bower_components/*
+
 client/tools/nick.txt
-
 client/tools/baidu_avatar.txt
-
 client/tools/weibo_avatars.txt

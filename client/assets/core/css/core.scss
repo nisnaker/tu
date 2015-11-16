@@ -89,6 +89,10 @@ body {
 
 	h2 {
 		text-align: center;
+		margin: 0;
+		padding: 10px;
+		color: #9c9c9c;
+		border-bottom: 1px solid #ddd;
 	}
 
 	p {
@@ -108,7 +112,7 @@ body {
 		line-height: 20px;
 		width: 278px;
 		padding: 0 10px;
-		border: 1px solid #999;
+		border: 1px solid #c3c3c3;
 		outline: none;
 
 		&:focus {

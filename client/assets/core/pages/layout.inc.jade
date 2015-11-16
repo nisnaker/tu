@@ -35,14 +35,14 @@ html(ng-app='jietu8')
 				br
 				input(type="text", ng-model="user.email")
 				br
-				span.error(ng-show="user.email==''") 请输入邮箱
+				span.error(ng-show="user.email=='' || !check_email()") 请输入邮箱
 			p 密码：
 				br
 				input(type="password", ng-model="user.passwd")
 				br
 				span.error(ng-show="user.passwd==''") 请输入密码
 			p
-				a.btn(ng-click="login()", ng-class="{'enable':user.email && user.passwd}") 登入
+				a.btn(ng-click="login()", ng-class="{'enable':check_btn('login')}") 登入
 				a.right(href='#') 忘记密码？
 
 		div#reg.hide.alert-box
@@ -51,7 +51,7 @@ html(ng-app='jietu8')
 				br
 				input(type="text", ng-model="user.email")
 				br
-				span.error(ng-show="user.email==''") 请输入邮箱
+				span.error(ng-show="user.email=='' || !check_email()") 请输入邮箱
 			p 密码：
 				br
 				input(type="password", ng-model="user.passwd")
@@ -64,5 +64,5 @@ html(ng-app='jietu8')
 				span.error(ng-show="user.passwd2==''") 请再次输入密码
 				span.error(ng-show="user.passwd2!='' && user.passwd2!=user.passwd") 两次输入密码不一样
 			p
-				a.btn(ng-click="reg()", ng-class="{'enable':0 && user.email && user.passwd && user.passwd == user.passwd2}") 登入
-				| &nbsp; &nbsp; 暂不开放注册
+				a.btn(ng-click="reg()", ng-class="{'enable':check_btn('reg')}") 注册
+				

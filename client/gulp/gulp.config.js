@@ -27,8 +27,12 @@ module.exports = function(){
 		'core_js': [
 			bower_dir + 'jquery/dist/jquery.min.js',
 			bower_dir + 'fancybox/source/jquery.fancybox.pack.js',
+
 			bower_dir + 'angular/angular.js',
 			bower_dir + 'angular-route/angular-route.min.js',
+			bower_dir + 'lodash/lodash.min.js',
+			bower_dir + 'restangular/dist/restangular.min.js',
+			
 			asset_dir + 'core/js/tools.js',
 			asset_dir + 'core/js/core.ag.js',
 			asset_dir + 'core/js/config.ag.js',

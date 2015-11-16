@@ -2,10 +2,10 @@
 	
 	angular
 		.module('app.core')
-		.controller('loginCtrl', ['$scope', '$rootScope', 'User',
-			function ($scope, $rootScope, User) {
+		.controller('loginCtrl', ['$scope', '$rootScope', 'User', 'Restangular',
+			function ($scope, $rootScope, User, Restangular) {
 			l(User)
-			$scope.user = {email: '', passwd: '', passwd2: ''};
+			$scope.user = {email: 'test@a.com', passwd: '1', passwd2: '1'};
 
 			$('.login-box a').fancybox();
 
@@ -25,7 +25,13 @@
 			$scope.reg = function () {
 				if(!$scope.check_btn('reg'))
 					return;
-				l('reg')
+				
+				var user = Restangular.all('users');
+				var new_user = {
+					email: $scope.user.email,
+					passwd: $scope.user.passwd
+				};
+				user.post(new_user);
 			}
 
 			$scope.login = function () {

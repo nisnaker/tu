@@ -31,7 +31,9 @@
 					email: $scope.user.email,
 					passwd: $scope.user.passwd
 				};
-				user.post(new_user);
+				user.post(new_user).then(function (posted_user) {
+					l(posted_user)
+				});
 			}
 
 			$scope.login = function () {

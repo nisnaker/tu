@@ -2,7 +2,7 @@
 ul
 	li(ng-repeat='item in list', ng-init="$last && fb()")
 		div
-			img.avatar(src='{{item.avatar}}')
+			img.avatar(ng-src='{{item.avatar}}')
 			p.user 
 				a(href="{{item.user.link}}") {{item.user.name}}
 				| ：
@@ -10,7 +10,7 @@ ul
 				.saying {{item.msg.saying}}
 				.pics
 					a(ng-repeat='pic in item.msg.pics', href="{{pic.big}}", class="fancybox", rel='group-{{$parent.$index}}', title="test title")
-						img(src='{{pic.small}}')
+						img(ng-src='{{pic.small}}')
 				p
 					span.created_at {{item.msg.created_at}}
 

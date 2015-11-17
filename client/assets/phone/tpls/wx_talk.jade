@@ -19,7 +19,7 @@ block setting
 		div.wx-avatar
 			span 对方信息：
 			br
-			img(src="{{talk.avatar_left}}")
+			img(ng-src="{{talk.avatar_left}}")
 			input(type="text", ng-model="talk.wx_talk_title", ng-change='draw()')
 			br
 			button(ng-click='random_avatar("left")') 随机头像
@@ -32,7 +32,7 @@ block setting
 		div.wx-avatar
 			span 我方信息：
 			br
-			img(src="{{talk.avatar_right}}")
+			img(ng-src="{{talk.avatar_right}}")
 			input(type="text", value="小沈阳")
 			br
 			button(ng-click='random_avatar("right")') 随机头像

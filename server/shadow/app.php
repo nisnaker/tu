@@ -67,16 +67,21 @@ class App extends Phalcon\Mvc\Micro {
 
 		$this->NotFound(function ()
 		{
-			$this->response->setStatusCode(404, "Not Found")->sendHeaders();
-			echo "Phalcon page not found.";
+			$this->response
+				->setStatusCode(404, "Not Found")
+				->setContentType('application/json;charset=UTF-8')
+				->sendHeaders();
+
+			echo json(['error' => 'param error.']);
 		});
 
 		// user
 		$user = new Collection();
 		$user->setHandler('api\controller\UserController', true);
 
-		$user->get('/api/users.json', 'index');
+		$user->get('/user/active', 'active');
 		$user->post('/api/users.json', 'create');
+		$user->post('/api/token.json', 'login');
 
 		$this->mount($user);
 
@@ -96,10 +101,15 @@ class App extends Phalcon\Mvc\Micro {
 		$this->finish(function ()
 		{
 			$output = $this->getReturnedValue();
+			if('error' == $output)
+				$output = ['error' => 'param error.'];
+
 			if(is_array($output))
 			{
-				header('content-type: application/json;charset=UTF-8');
-				echo json_encode($output, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES);
+				$this->response
+					->setContentType('application/json;charset=UTF-8')
+					->sendHeaders();
+				echo json($output);
 			}
 		});
 	}

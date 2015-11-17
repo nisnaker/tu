@@ -41,6 +41,10 @@ html(ng-app='jietu8')
 				input(type="password", ng-model="user.passwd")
 				br
 				span.error(ng-show="user.passwd==''") 请输入密码
+			p 
+				label
+					input(type="checkbox", ng-model="rem_me")
+					| 记住我(公共电脑请勿勾选)
 			p
 				a.btn(ng-click="login()", ng-class="{'enable':check_btn('login')}") 登入
 				a.right(href='#') 忘记密码？

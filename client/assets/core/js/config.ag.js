@@ -13,6 +13,7 @@
 
 				RestangularProvider.setBaseUrl('/api/');
 				RestangularProvider.setRequestSuffix('.json');
+				RestangularProvider.setDefaultHeaders({"X-Requested-With":"XMLHttpRequest"});
 				RestangularProvider.setRestangularFields({
 					id: '_id',
 					route: 'restangularRoute',

@@ -108,7 +108,7 @@ body {
 		}
 	}
 
-	input {
+	input[type="text"], input[type="password"] {
 		line-height: 20px;
 		width: 278px;
 		padding: 3px 10px;

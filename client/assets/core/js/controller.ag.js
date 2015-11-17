@@ -6,6 +6,7 @@
 			function ($scope, $rootScope, User, Restangular) {
 			l(User)
 			$scope.user = {email: 'test@a.com', passwd: '1', passwd2: '1'};
+			$scope.rem_me = false;
 
 			$('.login-box a').fancybox();
 
@@ -39,7 +40,16 @@
 			$scope.login = function () {
 				if(!$scope.check_btn('login'))
 					return;
-				l('login')
+
+				var token = Restangular.all('token');
+				var new_token = {
+					email: $scope.user.email,
+					passwd: $scope.user.passwd,
+					rem_me: $scope.rem_me
+				};
+				token.post(new_token).then(function (token) {
+					l(token)
+				});
 			}
 		}]);
 })();

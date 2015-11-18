@@ -26,6 +26,7 @@
 						_set_user(user);
 						$rootScope.$broadcast('login_success', user);
 					} else {
+						$rootScope.$broadcast('check_login_fail', '');
 						_clear_user();
 					}
 				});

@@ -60,7 +60,7 @@ body {
 		}
 	}
 
-	.login-box {
+	.login-box, .user-box {
 		float: right;
 
 		a {
@@ -105,6 +105,10 @@ body {
 			&:hover {
 				text-decoration: underline;
 			}
+		}
+
+		.notice {
+			margin-left: 10px;
 		}
 	}
 

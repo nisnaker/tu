@@ -34,25 +34,10 @@ class App extends Phalcon\Mvc\Micro {
 			return $mongo->selectDB(MONGO_DB);
 		});
 
-		$di->set('router', function ()
-		{
-			return new Phalcon\Mvc\Router();
-		});
-
-		$di->set('request', function ()
-		{
-			return new Phalcon\Http\Request();
-		});
-
-		$di->set('response', function ()
-		{
-			return new Phalcon\Http\Response();
-		});
-
-		$di->set('collectionManager', function ()
-		{
-			return new Phalcon\Mvc\Collection\Manager();
-		});
+		$di->set('router', 'Phalcon\Mvc\Router', true);
+		$di->set('request', 'Phalcon\Http\Request', true);
+		$di->set('response', 'Phalcon\Http\Response', true);
+		$di->set('collectionManager', 'Phalcon\Mvc\Collection\Manager', true);
 
 		$this->setDI($di);
 	}
@@ -82,6 +67,8 @@ class App extends Phalcon\Mvc\Micro {
 		$user->get('/user/active', 'active');
 		$user->post('/api/users.json', 'create');
 		$user->post('/api/token.json', 'login');
+		$user->get('/user/logout', 'logout');
+		$user->get('/api/user/status.json', 'status');
 
 		$this->mount($user);
 
@@ -92,17 +79,39 @@ class App extends Phalcon\Mvc\Micro {
 	{
 		$this->before(function ()
 		{
+			// restangular post data
 			$post_data = arr_get($GLOBALS, 'HTTP_RAW_POST_DATA', '[]');
 			$_POST = json_decode($post_data, true);
 
-			return true;
+			// page visit access
+			$uri = $_GET['_url'];
+
+			if(!$this->request->isAjax() &&
+				!in_array($uri, ['/', '/user/active', '/user/logout']))
+			{
+				return false;
+			}
+
+			// checklogin
+			if(!in_array($uri, ['/', '/api/users.json', '/api/token.json', '/user/logout', '/user/active']))
+			{
+				$userid = \User::check_token();
+				if(!$userid)
+				{
+					echo '[]';
+					return false;
+				}
+			}
+
 		});
+
+
 
 		$this->finish(function ()
 		{
 			$output = $this->getReturnedValue();
-			if('error' == $output)
-				$output = ['error' => 'param error.'];
+			if(is_string($output))
+				$output = ['error' => $output];
 
 			if(is_array($output))
 			{

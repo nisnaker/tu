@@ -4,7 +4,7 @@ use Phalcon\Mvc\Model\Validator\Email as EmailValidator;
 
 class User extends Base {
 	
-	protected $_attrs = ['email', 'status'];
+	protected $_attrs = ['userid', 'email', 'status'];
 
 	public function getSource() { return 'user'; }
 	
@@ -58,8 +58,18 @@ class User extends Base {
 		return $token;
 	}
 
-	public function check_token($token)
+	public function check_token()
 	{
-		return true;
+		$token = arr_get($_COOKIE, 'token', '');
+		$info = explode('.', $token);
+		if(3 != count($info))
+			return false;
+
+		list($userid, $time, $hash) = $info;
+
+		if($hash != hash_hmac('sha256', $userid . $time, CRYPT_KEY))
+			return false;
+
+		return $userid;
 	}
 }

@@ -4,11 +4,32 @@
 		.module('app.core')
 		.controller('loginCtrl', ['$scope', '$rootScope', 'User', 'Restangular',
 			function ($scope, $rootScope, User, Restangular) {
-			l(User)
-			$scope.user = {email: 'test@a.com', passwd: '1', passwd2: '1'};
-			$scope.rem_me = false;
+			$scope.user = {email: 'test@a.com', passwd: '1', passwd2: '1', rem_me: false};
+			$scope.loading = false;
 
 			$('.login-box a').fancybox();
+
+			$rootScope.$on('login_success', function (e, user) {
+				$scope.is_logged_in = true;
+				$scope.user = user;
+				$.fancybox.close();
+			});
+
+			$rootScope.$on('login_fail', function (e, msg) {
+				$scope.login_error = msg;
+				$scope.loading = false;
+			});
+
+			$rootScope.$on('reg_succ', function (e) {
+				$scope.reg_succ = true;		
+			});
+
+			$rootScope.$on('reg_fail', function (e, msg) {
+				$scope.reg_error = msg;
+				$scope.loading = false;
+			});
+
+			User.check_login();
 
 			// 检测email格式
 			$scope.check_email = function () {
@@ -18,38 +39,23 @@
 			// 按钮状态
 			$scope.check_btn = function (btn) {
 				if('reg' == btn)
-					return $scope.user.email && $scope.user.passwd && $scope.user.passwd == $scope.user.passwd2 && $scope.check_email();
+					return !$scope.loading && $scope.user.email && $scope.user.passwd && $scope.user.passwd == $scope.user.passwd2 && $scope.check_email();
 				else if ('login' == btn)
-					return $scope.user.email && $scope.user.passwd && $scope.check_email();
+					return !$scope.loading && $scope.user.email && $scope.user.passwd && $scope.check_email();
 			}
 
 			$scope.reg = function () {
-				if(!$scope.check_btn('reg'))
-					return;
+				if(!$scope.check_btn('reg')) return;
 				
-				var user = Restangular.all('users');
-				var new_user = {
-					email: $scope.user.email,
-					passwd: $scope.user.passwd
-				};
-				user.post(new_user).then(function (posted_user) {
-					l(posted_user)
-				});
+				$scope.loading = true;
+				User.reg($scope.user);
 			}
 
 			$scope.login = function () {
-				if(!$scope.check_btn('login'))
-					return;
+				if(!$scope.check_btn('login')) return;
 
-				var token = Restangular.all('token');
-				var new_token = {
-					email: $scope.user.email,
-					passwd: $scope.user.passwd,
-					rem_me: $scope.rem_me
-				};
-				token.post(new_token).then(function (token) {
-					l(token)
-				});
+				$scope.loading = true;
+				User.login($scope.user);
 			}
 		}]);
 })();

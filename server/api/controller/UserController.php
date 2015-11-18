@@ -5,7 +5,7 @@ namespace api\controller;
 use \User;
 use Phalcon\Security;
 
-class UserController extends \Phalcon\Mvc\Controller {
+class UserController extends BaseController {
 
 	public function index()
 	{
@@ -19,7 +19,7 @@ class UserController extends \Phalcon\Mvc\Controller {
 
 		$user = User::findFirst([['email' => $email]]);
 		if($user)
-			return $user->attrs();
+			return '邮箱已存在，可以直接登入';
 
 		$security = new Security();
 
@@ -29,12 +29,11 @@ class UserController extends \Phalcon\Mvc\Controller {
 		if($user->save())
 			return $user->attrs();
 		else
-			return 'error';
+			return '已暂停注册';
 	}
 
 	public function active()
 	{
-		var_dump($this->request->isAjax());
 		print_r($_COOKIE);
 
 		$email = $this->request->get('email');
@@ -56,8 +55,6 @@ class UserController extends \Phalcon\Mvc\Controller {
 
 	public function login()
 	{
-		var_dump($this->request->isPost());
-		var_dump($this->request->isAjax());
 		$email = $this->request->getPost('email');
 		$passwd = $this->request->getPost('passwd');
 		$rem_me = $this->request->getPost('rem_me');
@@ -68,18 +65,33 @@ class UserController extends \Phalcon\Mvc\Controller {
 			$security = new Security();
 			if($security->checkHash($passwd, $user->passwd))
 			{
-				$token = $user->gen_token();
-				setcookie('token', $token, time() + 3600 * 24 * 30, '/');
+				if(2 == $user->status)
+					return '账号未激活，请前往激活';
 
+				$token = $user->gen_token();
+				$expire = $rem_me ? (time() + 3600 * 24 * 30) : 0;
+				setcookie('token', $token, $expire, '/', DOMAIN, false, true);
+				
 				return $user->attrs();
 			}
 			else
 			{
-				return 'error';
+				return '账号或密码错误';
 			}
 		}
 
-		return 'error';
+		return '账号或密码错误';
+	}
+
+	public function logout()
+	{
+		setcookie('token', '', 1, '/', DOMAIN, false, true);
+		header('Location: /');
+	}
+
+	public function status()
+	{
+		return $this->user;
 	}
 }
 

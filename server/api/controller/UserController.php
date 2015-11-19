@@ -86,7 +86,7 @@ class UserController extends BaseController {
 	public function logout()
 	{
 		setcookie('token', '', 1, '/', DOMAIN, false, true);
-		header('Location: /');
+		return [];
 	}
 
 	public function status()

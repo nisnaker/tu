@@ -11,6 +11,7 @@
 				is_loggedin: is_loggedin,
 				reg: reg,
 				login: login,
+				logout: logout,
 				check_login: check_login
 			};
 
@@ -59,6 +60,13 @@
 						$rootScope.$broadcast('login_success', user);
 					}
 				});
+			}
+
+			function logout () {
+				Restangular.oneUrl('/user/logout').get().then(function (user) {
+					$rootScope.$broadcast('logout');
+				});
+				
 			}
 
 			function _set_user(user) {

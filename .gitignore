@@ -13,3 +13,5 @@ client/bower_components/*
 client/tools/nick.txt
 client/tools/baidu_avatar.txt
 client/tools/weibo_avatars.txt
+
+client/tools/ftp.sh

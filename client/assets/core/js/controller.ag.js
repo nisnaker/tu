@@ -8,6 +8,7 @@
 			$scope.loading = false;
 			$scope.is_not_logged_in = false;
 			$scope.is_logged_in = false;
+			$scope.logout_word = '登出';
 
 			$('.login-box a').fancybox();
 
@@ -34,6 +35,10 @@
 
 			$rootScope.$on('check_login_fail', function (e) {
 				$scope.is_not_logged_in = true;
+			});
+
+			$rootScope.$on('logout', function (e) {
+				window.location='/';
 			});
 
 			User.check_login();
@@ -63,6 +68,11 @@
 
 				$scope.loading = true;
 				User.login($scope.user);
+			}
+
+			$scope.logout = function () {
+				$scope.logout_word = '登出中...';
+				User.logout()
 			}
 		}]);
 })();

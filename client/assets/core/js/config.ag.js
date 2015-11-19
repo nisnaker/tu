@@ -3,15 +3,17 @@
 
 	angular
 		.module('app.core')
-		.config(['$routeProvider', '$locationProvider', '$compileProvider', 'RestangularProvider',
-			function ($routeProvider, $locationProvider, $compileProvider, RestangularProvider) {
+		.config(['$routeProvider', '$locationProvider', '$compileProvider', '$httpProvider', 'RestangularProvider',
+			function ($routeProvider, $locationProvider, $compileProvider, $httpProvider, RestangularProvider) {
 				$locationProvider.html5Mode({requireBase: false, enable: true}).hashPrefix('');
 
 				// 让a标签的href支持data格式
 				$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|data):/);
 
+				// 允许跨域访问时带上cookie
+				$httpProvider.defaults.withCredentials = true;
 
-				RestangularProvider.setBaseUrl('/api/');
+				RestangularProvider.setBaseUrl('http://tu.me/api/');
 				RestangularProvider.setRequestSuffix('.json');
 				RestangularProvider.setDefaultHeaders({"X-Requested-With":"XMLHttpRequest"});
 				RestangularProvider.setRestangularFields({

@@ -5,6 +5,8 @@ $_GET['_url'] = parse_url($_SERVER['REQUEST_URI'])['path'];
 include 'config.php';
 include 'funcs.php';
 
+header('Content-Type: application/json;charset=UTF-8');
+
 use Phalcon\Mvc\Micro\Collection as Collection;
 
 class App extends Phalcon\Mvc\Micro {
@@ -52,10 +54,7 @@ class App extends Phalcon\Mvc\Micro {
 
 		$this->NotFound(function ()
 		{
-			$this->response
-				->setStatusCode(404, "Not Found")
-				->setContentType('application/json;charset=UTF-8')
-				->sendHeaders();
+			$this->response->setStatusCode(404, "Not Found")->sendHeaders();
 
 			echo json(['error' => 'param error.']);
 		});
@@ -67,12 +66,10 @@ class App extends Phalcon\Mvc\Micro {
 		$user->get('/user/active', 'active');
 		$user->post('/api/users.json', 'create');
 		$user->post('/api/token.json', 'login');
-		$user->get('/user/logout', 'logout');
+		$user->get('/api/user/logout.json', 'logout');
 		$user->get('/api/user/status.json', 'status');
 
-		$this->mount($user);
-
-		
+		$this->mount($user);		
 	}
 
 	protected function registerEvents()
@@ -87,13 +84,13 @@ class App extends Phalcon\Mvc\Micro {
 			$uri = $_GET['_url'];
 
 			if(!$this->request->isAjax() &&
-				!in_array($uri, ['/', '/user/active', '/user/logout']))
+				!in_array($uri, ['/', '/user/active']))
 			{
 				return false;
 			}
 
 			// checklogin
-			if(!in_array($uri, ['/', '/api/users.json', '/api/token.json', '/user/logout', '/user/active']))
+			if(!in_array($uri, ['/', '/api/users.json', '/api/token.json', '/user/active']))
 			{
 				$userid = \User::check_token();
 				if(!$userid)
@@ -115,9 +112,6 @@ class App extends Phalcon\Mvc\Micro {
 
 			if(is_array($output))
 			{
-				$this->response
-					->setContentType('application/json;charset=UTF-8')
-					->sendHeaders();
 				echo json($output);
 			}
 		});

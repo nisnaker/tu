@@ -1,0 +1,10 @@
+.box(ng-show="is_logged_in")
+	a(href="#new") 发布
+.box 2
+.box 3
+.box(ng-bind="b4") 4
+
+.box(ng-show="is_logged_in")
+	span(ng-bind="user.email")
+	| - 
+	span(ng-bind="user.userid")

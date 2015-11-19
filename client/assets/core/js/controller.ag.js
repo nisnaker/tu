@@ -2,8 +2,8 @@
 	
 	angular
 		.module('app.core')
-		.controller('loginCtrl', ['$scope', '$rootScope', 'User', 'Restangular',
-			function ($scope, $rootScope, User, Restangular) {
+		.controller('loginCtrl', ['$scope', 'User', 'Restangular',
+			function ($scope, User, Restangular) {
 			$scope.user = {email: 'test@a.com', passwd: '1', passwd2: '1', rem_me: false};
 			$scope.loading = false;
 			$scope.is_not_logged_in = false;
@@ -12,32 +12,32 @@
 
 			$('.login-box a').fancybox();
 
-			$rootScope.$on('login_success', function (e, user) {
+			$scope.$on('login_success', function (e, user) {
 				$scope.is_not_logged_in = false;
 				$scope.is_logged_in = true;
 				$scope.user = user;
 				$.fancybox.close();
 			});
 
-			$rootScope.$on('login_fail', function (e, msg) {
+			$scope.$on('login_fail', function (e, msg) {
 				$scope.login_error = msg;
 				$scope.loading = false;
 			});
 
-			$rootScope.$on('reg_succ', function (e) {
+			$scope.$on('reg_succ', function (e) {
 				$scope.reg_succ = true;		
 			});
 
-			$rootScope.$on('reg_fail', function (e, msg) {
+			$scope.$on('reg_fail', function (e, msg) {
 				$scope.reg_error = msg;
 				$scope.loading = false;
 			});
 
-			$rootScope.$on('check_login_fail', function (e) {
+			$scope.$on('check_login_fail', function (e) {
 				$scope.is_not_logged_in = true;
 			});
 
-			$rootScope.$on('logout', function (e) {
+			$scope.$on('logout', function (e) {
 				window.location='/';
 			});
 

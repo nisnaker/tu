@@ -8,6 +8,10 @@
 				templateUrl: '/tpls/movie/tpls/list.html',
 				controller: 'listCtrl'
 			})
+		.when('/new', {
+			templateUrl: '/tpls/movie/tpls/new.html',
+			controller: 'newCtrl'
+		})
 		.otherwise({
 				redirectTo: '/list/1'
 			});
@@ -123,6 +127,20 @@
 				}
 			},
 		];
+	}]);
+
+	mvCtrls.controller('sideCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+		$scope.b4 = 4444;
+		$scope.is_logged_in = false;
+
+		$scope.$on('login_success', function (e, user) {
+			$scope.is_logged_in = true;
+			$scope.user = user;
+		});
+	}]);
+
+	mvCtrls.controller('newCtrl', ['$scope', function ($scope) {
+		
 	}]);
 
 })();

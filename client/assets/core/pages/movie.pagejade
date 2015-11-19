@@ -8,10 +8,6 @@ block static
 block main
 	#left.view(ng-view)
 
-	#right
-		.box 1
-		.box 1
-		.box 1
-		.box 1
+	#right(ng-include="'/tpls/movie/tpls/side.html'", ng-controller="sideCtrl")
 
 	.clear

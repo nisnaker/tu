@@ -1,6 +1,8 @@
 // User
 
 (function () {
+	'use strict';
+	
 	angular
 		.module('app.core')
 		.factory('User', ['Restangular', '$rootScope', function (Restangular, $rootScope) {

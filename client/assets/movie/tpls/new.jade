@@ -1,1 +1,48 @@
-textarea http://fex.baidu.com/webuploader/demo.html
+#path &gt; 发布电影截图
+
+#new
+	.cell 描述：
+		br
+		textarea(rows=3) http://fex.baidu.com/webuploader/demo.html
+	.cell 电影：
+		br
+		select.mvs(ng-model="movie_id", style="width:100%")
+	.cell
+		| uploader
+	.cell
+		a 预览
+		a 发布
+	.cell.preview
+
+script.
+	(function(){if(jQuery&&jQuery.fn&&jQuery.fn.select2&&jQuery.fn.select2.amd)var e=jQuery.fn.select2.amd;return e.define("select2/i18n/zh-CN",[],function(){return{errorLoading:function(){return"无法载入结果。"},inputTooShort:function(e){var t=e.minimum-e.input.length,n="请输入关键字";return n},noResults:function(){return"未找到结果"},searching:function(){return"搜索中…"}}}),{define:e.define,require:e.require}})();
+	
+	$('.mvs').select2({
+		language: 'zh-CN',
+		minimumInputLength: 1,
+		ajax: {
+			cache: true,
+			url: 'http://api.douban.com/v2/movie/search',
+			delay: 250,
+			dataType: 'jsonp',
+			jsonp: 'callback',
+			data: function(params){
+				return {
+					q: params.term
+				};
+			},
+			processResults: function(data, params) {
+				return {
+					results: data.subjects
+				};
+			}
+		},
+		templateResult: function(repo){
+			if(repo.loading) return repo.text;
+
+			return repo.title + '('+ repo.year +')';
+		},
+		templateSelection: function(repo){
+			return repo.title + '('+ repo.year +')';
+		}
+	});

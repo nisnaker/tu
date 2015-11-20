@@ -69,7 +69,14 @@ class App extends Phalcon\Mvc\Micro {
 		$user->get('/api/user/logout.json', 'logout');
 		$user->get('/api/user/status.json', 'status');
 
-		$this->mount($user);		
+		$this->mount($user);
+
+		// search
+		$search = new Collection();
+		$search->setHandler('api\controller\SearchController', true);
+
+		$search->get('/api/search/movie.json', 'movie');
+		$this->mount($search);
 	}
 
 	protected function registerEvents()

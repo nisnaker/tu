@@ -1,8 +1,20 @@
-.box(ng-show="is_logged_in")
-	a(href="#new") 发布
-.box 2
+.box(ng-show="'/new'==path")
+	h3 # 发帖提示
+	ul
+		li 提示1
+		li 提示2
+		li 提示3
+
+
+.box(ng-show="is_logged_in && '/new'!=path")
+	a(href="#new") 发布电影截图
+
+.box(ng-bind="path") 2
+
 .box 3
+
 .box(ng-bind="b4") 4
+
 
 .box(ng-show="is_logged_in")
 	span(ng-bind="user.email")

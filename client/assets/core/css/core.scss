@@ -17,6 +17,8 @@ input[type="checkbox"] {
 	vertical-align:middle;
 }
 
+textarea, input {outline: none;}
+
 ::selection{background:#b3d4fc;text-shadow:none}
 
 .clear {clear: both;}

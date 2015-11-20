@@ -137,10 +137,30 @@
 			$scope.is_logged_in = true;
 			$scope.user = user;
 		});
+
+		$scope.$on('$routeChangeSuccess', function (e, route) {
+			$scope.path = route.$$route.originalPath;
+		});
+
+
+
 	}]);
 
-	mvCtrls.controller('newCtrl', ['$scope', function ($scope) {
-		
+	mvCtrls.controller('newCtrl', ['$scope', '$http', 'Restangular', function ($scope, $http, Restangular) {
+
+		$scope.movie_id = 0;
+		$scope.mvs = [{title: '输入关键字回车搜索', id: 0}];
+		window.movie = function (re) {
+			$scope.mvs = re.subjects;
+			$scope.movie_id = re.subjects[0]['id'];
+		}
+		$scope.search = function () {
+			$http({method: 'JSONP', data: {}, url: 'http://api.douban.com/v2/movie/search?callback=movie&q=' + $scope.search_key}).success(function (data, status) {
+				l(data)
+			}).error(function (data, status) {
+				l(data)
+			});
+		}
 	}]);
 
 })();

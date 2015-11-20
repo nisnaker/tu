@@ -2,6 +2,7 @@
 
 $border_color: #e5e5e5;
 
+/* 列表 */
 
 #left {
 	float: left;
@@ -59,13 +60,34 @@ $border_color: #e5e5e5;
 	}
 }
 
+#new {
+	margin: 20px;
+
+	textarea {
+		width: 100%;
+		border-color: #b6b6b6;
+	}
+
+	.cell {
+		margin-bottom: 10px;
+	}
+}
+
 #right {
 	width: 250px;
 	margin-left: 750px;
-	padding: 10px 0;
 
 	.box {
 		padding: 10px;
 		border-bottom: 1px solid $border_color;
+
+		h3 {
+			margin: 0;
+		}
+
+		li {
+			list-style: disc;
+			margin-left: 20px;
+		}
 	}
 }

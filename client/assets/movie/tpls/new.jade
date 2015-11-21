@@ -8,7 +8,9 @@
 		br
 		select.mvs(ng-model="movie_id", style="width:100%")
 	.cell
-		| uploader
+		#uploader-demo
+			#fileList.uploader-list
+			#filePicker 选择图片
 	.cell
 		a 预览
 		a 发布

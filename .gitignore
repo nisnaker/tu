@@ -2,8 +2,8 @@
 # Mac crap
 .DS_Store
 
+public/*
 !public/index.php
-!public/static/imgs
 client/asset_manifest.json
 client/node_modules/*
 client/bower_components/*

@@ -52,7 +52,6 @@ module.exports = function(){
 		'movie_js': [
 			bower_dir + 'select2/dist/js/select2.min.js',
 			bower_dir + 'fex-webuploader/dist/webuploader.min.js',
-			asset_dir + 'movie/js/upload.js',
 			asset_dir + 'movie/js/movie.ag.js'
 		]
 	}

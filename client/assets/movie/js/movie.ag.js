@@ -148,14 +148,15 @@
 
 	mvCtrls.controller('newCtrl', ['$scope', '$http', 'Restangular', function ($scope, $http, Restangular) {
 
-		movie_select2();
+		init_select2();
+		init_uploader();
 		
 	}]);
 
 	// select2 functions
 	(function(){if(jQuery&&jQuery.fn&&jQuery.fn.select2&&jQuery.fn.select2.amd)var e=jQuery.fn.select2.amd;return e.define("select2/i18n/zh-CN",[],function(){return{errorLoading:function(){return"无法载入结果。"},inputTooShort:function(e){var t=e.minimum-e.input.length,n="请输入关键字";return n},noResults:function(){return"未找到结果"},searching:function(){return"搜索中…"}}}),{define:e.define,require:e.require}})();
 
-	function movie_select2(){
+	function init_select2(){
 		$('.mvs').select2({
 			language: 'zh-CN',
 			minimumInputLength: 1,
@@ -187,6 +188,34 @@
 				return repo.title + '('+ repo.year +')';
 			}
 		});
+	}
 
+	// webuploader
+	var uploader;
+	function init_uploader () {
+		uploader = WebUploader.create({
+			swf: '/static/Uplaoder.swf',
+			server: '/',
+			pick: '#filePicker',
+			accept: {
+				title: 'Images',
+				extensions: 'gif,jpg,jpeg,bmp,png',
+				mimeTypes: 'image/*'
+			}
+		});
+
+		uploader.on('fileQueued', function (file) {
+			var img = $('<img>');
+			$('#fileList').append(img);
+
+			uploader.makeThumb(file, function (error, src) {
+				l(src)
+				if(error) {
+					img.replaceWith('不能预览');
+				} else {
+					img.attr('src', src);
+				}
+			}, 100, 100);
+		});
 	}
 })();

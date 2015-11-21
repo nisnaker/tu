@@ -1,4 +1,10 @@
 module.exports = function (gulp, config, $) {
+
+	// static file
+	gulp.task('static', function () {
+		return gulp.src(config['static'])
+				.pipe(gulp.dest(config.static_dir));
+	});
 	
 	var manifestPath = 'asset_manifest.json';
 

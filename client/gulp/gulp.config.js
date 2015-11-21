@@ -6,6 +6,8 @@ module.exports = function(){
 
 	var config = {};
 
+	config['static'] = [asset_dir + 'static/**/*', bower_dir + 'fex-webuploader/dist/Uploader.swf'];
+
 	config['sassfiles'] = '../assets/sass/**/*.scss';
 	config['buildcss_dir'] = buildcss_dir;
 	config['static_dir'] = static_dir;
@@ -49,6 +51,8 @@ module.exports = function(){
 		],
 		'movie_js': [
 			bower_dir + 'select2/dist/js/select2.min.js',
+			bower_dir + 'fex-webuploader/dist/webuploader.min.js',
+			asset_dir + 'movie/js/upload.js',
 			asset_dir + 'movie/js/movie.ag.js'
 		]
 	}

@@ -51,12 +51,12 @@
 							big: 'http://pic2.52pk.com/files/allimg/080726/13153545.jpg'
 						},
 						{
-							small:'http://img3.imgtn.bdimg.com/it/u=2169951136,2632191663&fm=21&gp=0.jpg',
-							big: 'http://pic2.52pk.com/files/130206/1283568_140109_1237.jpg'
+							small:'http://img0.imgtn.bdimg.com/it/u=2558130604,2583706758&fm=21&gp=0.jpg',
+							big: 'http://pic2.52pk.com/files/140226/1283568_141547_3297.jpg'
 						},
 						{
-							small:'http://img1.imgtn.bdimg.com/it/u=957109687,2478546600&fm=21&gp=0.jpg',
-							big: 'http://pic2.52pk.com/files/111114/391819_102757_1_lit.jpg'
+							small:'http://img4.imgtn.bdimg.com/it/u=1563807580,1393605228&fm=21&gp=0.jpg',
+							big: 'http://pic2.52pk.com/files/080530/78_093630.jpg'
 						}
 					],
 					created_at: '3分钟前'
@@ -83,12 +83,12 @@
 							big: 'http://pic2.52pk.com/files/allimg/080726/13153545.jpg'
 						},
 						{
-							small:'http://img3.imgtn.bdimg.com/it/u=2169951136,2632191663&fm=21&gp=0.jpg',
-							big: 'http://pic2.52pk.com/files/130206/1283568_140109_1237.jpg'
+							small:'http://img0.imgtn.bdimg.com/it/u=2558130604,2583706758&fm=21&gp=0.jpg',
+							big: 'http://pic2.52pk.com/files/140226/1283568_141547_3297.jpg'
 						},
 						{
-							small:'http://img1.imgtn.bdimg.com/it/u=957109687,2478546600&fm=21&gp=0.jpg',
-							big: 'http://pic2.52pk.com/files/111114/391819_102757_1_lit.jpg'
+							small:'http://img4.imgtn.bdimg.com/it/u=1563807580,1393605228&fm=21&gp=0.jpg',
+							big: 'http://pic2.52pk.com/files/080530/78_093630.jpg'
 						}
 					],
 					created_at: '3分钟前'
@@ -115,12 +115,12 @@
 							big: 'http://pic2.52pk.com/files/allimg/080726/13153545.jpg'
 						},
 						{
-							small:'http://img3.imgtn.bdimg.com/it/u=2169951136,2632191663&fm=21&gp=0.jpg',
-							big: 'http://pic2.52pk.com/files/130206/1283568_140109_1237.jpg'
+							small:'http://img0.imgtn.bdimg.com/it/u=2558130604,2583706758&fm=21&gp=0.jpg',
+							big: 'http://pic2.52pk.com/files/140226/1283568_141547_3297.jpg'
 						},
 						{
-							small:'http://img1.imgtn.bdimg.com/it/u=957109687,2478546600&fm=21&gp=0.jpg',
-							big: 'http://pic2.52pk.com/files/111114/391819_102757_1_lit.jpg'
+							small:'http://img4.imgtn.bdimg.com/it/u=1563807580,1393605228&fm=21&gp=0.jpg',
+							big: 'http://pic2.52pk.com/files/080530/78_093630.jpg'
 						}
 					],
 					created_at: '3分钟前'
@@ -148,19 +148,45 @@
 
 	mvCtrls.controller('newCtrl', ['$scope', '$http', 'Restangular', function ($scope, $http, Restangular) {
 
-		$scope.movie_id = 0;
-		$scope.mvs = [{title: '输入关键字回车搜索', id: 0}];
-		window.movie = function (re) {
-			$scope.mvs = re.subjects;
-			$scope.movie_id = re.subjects[0]['id'];
-		}
-		$scope.search = function () {
-			$http({method: 'JSONP', data: {}, url: 'http://api.douban.com/v2/movie/search?callback=movie&q=' + $scope.search_key}).success(function (data, status) {
-				l(data)
-			}).error(function (data, status) {
-				l(data)
-			});
-		}
+		movie_select2();
+		
 	}]);
 
+	// select2 functions
+	(function(){if(jQuery&&jQuery.fn&&jQuery.fn.select2&&jQuery.fn.select2.amd)var e=jQuery.fn.select2.amd;return e.define("select2/i18n/zh-CN",[],function(){return{errorLoading:function(){return"无法载入结果。"},inputTooShort:function(e){var t=e.minimum-e.input.length,n="请输入关键字";return n},noResults:function(){return"未找到结果"},searching:function(){return"搜索中…"}}}),{define:e.define,require:e.require}})();
+
+	function movie_select2(){
+		$('.mvs').select2({
+			language: 'zh-CN',
+			minimumInputLength: 1,
+			ajax: {
+				cache: true,
+				url: 'http://api.douban.com/v2/movie/search',
+				delay: 250,
+				dataType: 'jsonp',
+				jsonp: 'callback',
+				data: function(params){
+					return {
+						q: params.term
+					};
+				},
+				processResults: function(data, params) {
+					$.post('http://tu.me/movie/import', {data:data.subjects});
+					return {
+						results: data.subjects
+					};
+				}
+			},
+			cache: true,
+			templateResult: function(repo){
+				if(repo.loading) return repo.text;
+
+				return repo.title + '('+ repo.year +')';
+			},
+			templateSelection: function(repo){
+				return repo.title + '('+ repo.year +')';
+			}
+		});
+
+	}
 })();

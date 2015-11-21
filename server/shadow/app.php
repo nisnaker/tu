@@ -100,6 +100,7 @@ class App extends Phalcon\Mvc\Micro {
 			if(!$this->request->isAjax() &&
 				!in_array($uri, ['/', '/user/active']))
 			{
+				echo 'params error';
 				return false;
 			}
 

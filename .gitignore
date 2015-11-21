@@ -2,10 +2,8 @@
 # Mac crap
 .DS_Store
 
-public/*.html
-public/static/*
-public/tpls/*
-!public/static/imgs/
+public/*
+!public/index.php
 client/asset_manifest.json
 client/node_modules/*
 client/bower_components/*
@@ -13,5 +11,4 @@ client/bower_components/*
 client/tools/nick.txt
 client/tools/baidu_avatar.txt
 client/tools/weibo_avatars.txt
-
 client/tools/ftp.sh

@@ -71,12 +71,16 @@ class App extends Phalcon\Mvc\Micro {
 
 		$this->mount($user);
 
-		// search
-		$search = new Collection();
-		$search->setHandler('api\controller\SearchController', true);
+		// movie
 
-		$search->get('/api/search/movie.json', 'movie');
-		$this->mount($search);
+		$movie = new Collection();
+		$movie->setHandler('api\controller\MovieController', true);
+
+		$movie->get('/movie/import', 'import');
+		$movie->post('/movie/import', 'import');
+
+		$this->mount($movie);
+
 	}
 
 	protected function registerEvents()
@@ -84,8 +88,11 @@ class App extends Phalcon\Mvc\Micro {
 		$this->before(function ()
 		{
 			// restangular post data
-			$post_data = arr_get($GLOBALS, 'HTTP_RAW_POST_DATA', '[]');
-			$_POST = json_decode($post_data, true);
+			if(!$_POST)
+			{
+				$post_data = arr_get($GLOBALS, 'HTTP_RAW_POST_DATA', '[]');
+				$_POST = json_decode($post_data, true);
+			}
 
 			// page visit access
 			$uri = $_GET['_url'];

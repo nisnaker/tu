@@ -19,6 +19,7 @@ module.exports = function(){
 			asset_dir + 'phone/css/**/*.scss'
 		],
 		'movie_css': [
+			bower_dir + 'select2/dist/css/select2.min.css',
 			asset_dir + 'movie/css/**/*.scss'
 		]
 	}
@@ -47,6 +48,7 @@ module.exports = function(){
 			asset_dir + 'phone/js/phone.ag.js'
 		],
 		'movie_js': [
+			bower_dir + 'select2/dist/js/select2.min.js',
 			asset_dir + 'movie/js/movie.ag.js'
 		]
 	}

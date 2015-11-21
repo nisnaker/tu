@@ -4,10 +4,6 @@ block static
 	| <% bundleName:core_js %>
 	| <% bundleName:movie_js %>
 	| <% bundleName:movie_css %>
-	
-	| <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1-rc.1/css/select2.min.css" rel="stylesheet" />
-	| <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1-rc.1/js/select2.min.js"></script>
-
 
 block main
 	#left.view(ng-view)

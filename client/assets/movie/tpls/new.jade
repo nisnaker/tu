@@ -32,11 +32,13 @@ script.
 				};
 			},
 			processResults: function(data, params) {
+				$.post('http://tu.me/movie/import', {data:data.subjects});
 				return {
 					results: data.subjects
 				};
 			}
 		},
+		cache: true,
 		templateResult: function(repo){
 			if(repo.loading) return repo.text;
 

@@ -4,6 +4,9 @@
 	var uploader;
 
 	var _ = {
+		error: {
+			http: '网络错误'
+		},
 		init: function () {
 			this.file_count = 0;
 			this.file_size = 0;
@@ -25,6 +28,7 @@
 
 			_.addFile(file);
 			_.setState('ready');
+			_.updateTotalProgress();
 		},
 		addFile: function (file) {
 			var li = $('<li id="'+file.id+'">' +
@@ -69,16 +73,17 @@
 
 					if('error' == cur || 'invalid' == cur) {
 						showError(file.statusText);
-						percentages[file.id][1] = 1;
+						_.percentages[file.id][1] = 1;
+						imggress.hide();
 					} else if('intertupt' == cur) {
 						showError('intertupt');
 					} else if('ququed' == cur) {
-						percentages[file.id][1] = 0;
+						_.percentages[file.id][1] = 0;
 					} else if('progress' == cur) {
 						info.remove();
 						_.$.progress.css('display', 'block');
 					} else if('complete' == cur) {
-						li.append('<span class="success">上传成功</span>')
+						li.append('<span class="success">上传成功</span>');
 					}
 
 					li.removeClass('state-' + prev).addClass('state-' + cur)
@@ -109,6 +114,8 @@
 			var li = $('#' + file.id);
 			delete _.percentages[file.id];
 			li.off().find('.file-panel').off().end().remove();
+
+			_.updateTotalProgress();
 		},
 		upload: function () {
 			if($(this).hasClass('disabled'))
@@ -126,8 +133,6 @@
 			_.state = val;
 
 			var stats;
-
-			l('state: ' + val)
 			switch(val){
 				case 'ready':
 					_.$.dragarea.hide();
@@ -182,7 +187,6 @@
 			_.$.info.html(text)
 		},
 		all: function (type) {
-			l(type)
 			switch(type){
 				case 'uploadFinished':
 					_.setState('confirm');
@@ -191,6 +195,31 @@
 					_.setState('uploading');
 					break;
 			}
+		},
+		uploadProgress: function (file, percentage) {
+			var percent = $('#' + file.id).find('.imggress span').show();
+			
+			percent.text(percentage * 100 + '%');
+			percent.css('width', percent * 100 + '%');
+			_.percentages[file.id][1] = percentage;
+			_.updateTotalProgress();
+		},
+		updateTotalProgress: function () {
+			var loaded = 0,
+				total = 0,
+				spans = _.$.progress.children(),
+				percent;
+
+			$.each(_.percentages, function (k, v) {
+				total += v[0];
+				loaded += v[0] * v[1];
+			});
+
+			percent = total ? loaded / total : 0;
+
+			spans.eq(0).text(Math.round(percent * 100) + '%');
+			spans.eq(1).css('width', Math.round(percent * 100) + '%');
+			_.updateStatus();
 		}
 	};
 
@@ -198,7 +227,7 @@
 		init: function (domain) {
 			uploader = WebUploader.create({
 				swf: '/static/Uplaoder.swf',
-				server: domain + '/movie/upload',
+				server: domain + '/movie/uploadd',
 				pick: '#filePicker',
 				dnd: "#dragarea",
 				paste: document.body,
@@ -222,6 +251,7 @@
 		_add_events: function () {
 			uploader.on('fileQueued', _.fileQueued);
 			uploader.on('fileDequeued', _.fileDequeued);
+			uploader.on('uploadProgress', _.uploadProgress);
 			uploader.on('all', _.all);
 			_.$.upload.on('click', _.upload);
 		}

@@ -119,7 +119,7 @@ $border_color: #e5e5e5;
 			}
 		}
 
-		.file-panel, .success {
+		.file-panel, .success, .imggress, .error {
 			position: absolute;
 			color: #fff;
 			top: 0;
@@ -129,6 +129,7 @@ $border_color: #e5e5e5;
 			background-color: rgba(0, 0, 0, .5);
 			overflow: hidden;
 			text-align: right;
+			box-shadow: 0px 2px 5px #333;
 
 			span {
 				cursor: pointer;
@@ -139,10 +140,20 @@ $border_color: #e5e5e5;
 			}
 		}
 
-		.success {
+		.success, .imggress {
 			height: auto;
 			background-color: #4CC30D;
 			text-align: center;
+		}
+
+		.error {
+			height: auto;
+			top: auto;
+			bottom: 0;
+			background-color: red;
+			color: #fff;
+			text-align: center;
+			box-shadow: 0px -2px 5px #333;	
 		}
 
 		.statusbar {
@@ -153,6 +164,27 @@ $border_color: #e5e5e5;
 
 			.progress {
 				width: 200px;
+				height: 20px;
+				line-height: 20px;
+				position: relative;
+				border-radius: 3px;
+				border: 1px solid #ddd;
+				margin-right: 20px;
+				margin-top: 5px;
+
+				span {
+					position: absolute;
+					left: 0;
+					top: 0;
+					width: 200px;
+					height: 20px;
+					text-align: center;
+
+					&.bg {
+						background-color: #4CC30D;
+						z-index: -1;
+					}
+				}
 			}
 
 			.btns {

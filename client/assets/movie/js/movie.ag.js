@@ -25,6 +25,7 @@
 	}]);
 
 	var mvCtrls = angular.module('mvCtrls', []);
+	var back_domain = 'http://tu.me';
 
 	mvCtrls.controller('listCtrl', ['$scope', function ($scope) {
 		$scope.fb = fb;
@@ -149,7 +150,7 @@
 	mvCtrls.controller('newCtrl', ['$scope', '$http', 'Restangular', function ($scope, $http, Restangular) {
 
 		init_select2();
-		init_uploader();
+		var uploader = Uploader(back_domain);
 		
 	}]);
 
@@ -172,7 +173,7 @@
 					};
 				},
 				processResults: function(data, params) {
-					$.post('http://tu.me/movie/import', {data:data.subjects});
+					$.post(back_domain + '/movie/import', {data:data.subjects});
 					return {
 						results: data.subjects
 					};
@@ -187,35 +188,6 @@
 			templateSelection: function(repo){
 				return repo.title + '('+ repo.year +')';
 			}
-		});
-	}
-
-	// webuploader
-	var uploader;
-	function init_uploader () {
-		uploader = WebUploader.create({
-			swf: '/static/Uplaoder.swf',
-			server: '/',
-			pick: '#filePicker',
-			accept: {
-				title: 'Images',
-				extensions: 'gif,jpg,jpeg,bmp,png',
-				mimeTypes: 'image/*'
-			}
-		});
-
-		uploader.on('fileQueued', function (file) {
-			var img = $('<img>');
-			$('#fileList').append(img);
-
-			uploader.makeThumb(file, function (error, src) {
-				l(src)
-				if(error) {
-					img.replaceWith('不能预览');
-				} else {
-					img.attr('src', src);
-				}
-			}, 100, 100);
 		});
 	}
 })();

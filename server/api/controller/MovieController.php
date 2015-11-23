@@ -15,4 +15,9 @@ class MovieController extends BaseController {
 
 		$re = $this->mongo->movie->batchInsert($data, ['continueOnError' => true]);
 	}
+
+	public function upload()
+	{
+		return [];
+	}
 }

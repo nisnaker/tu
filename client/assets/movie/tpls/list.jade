@@ -1,17 +1,16 @@
 #path path1 / path2 / path3
-ul
-	li(ng-repeat='item in list', ng-init="$last && fb()")
-		div
-			img.avatar(ng-src='{{item.avatar}}')
-			p.user 
-				a(href="{{item.user.link}}") {{item.user.name}}
-				| ：
-			.msg
-				.saying {{item.msg.saying}}
-				.pics
-					a(ng-repeat='pic in item.msg.pics', href="{{pic.big}}", class="fancybox", rel='group-{{$parent.$index}}', title="test title")
-						img(ng-src='{{pic.small}}')
-				p
-					span.created_at {{item.msg.created_at}}
+
+.cell(ng-repeat='item in list', ng-init="$last && fb()")
+	img.avatar(ng-src='{{item.avatar}}')
+	p.user 
+		a(href="{{item.user.link}}") {{item.user.name}}
+		| ：
+	.msg
+		.saying {{item.msg.saying}}
+		.pics
+			a(ng-repeat='pic in item.msg.pics', href="{{pic.big}}", class="fancybox", rel='group-{{$parent.$index}}', title="test title")
+				img(ng-src='{{pic.small}}')
+		p
+			span.created_at {{item.msg.created_at}}
 
 .pager pager

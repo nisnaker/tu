@@ -7,11 +7,28 @@
 	.cell 电影：
 		br
 		select.mvs(ng-model="movie_id", style="width:100%")
-	.cell
-		#uploader-demo
-			#fileList.uploader-list
-			#filePicker 选择图片
-	.cell
-		a 预览
-		a 发布
+	.cell 截图：
+		br
+		#uploader
+			#queueList
+				#dragarea
+					br
+					#filePicker 点击选择图片
+					| 或者将截图拖到这里，最多8张
+				ul#fileList
+				div.clear
+			.statusbar.hide
+				.progress
+					span 100%
+					span
+				.info
+				.btns
+					#filePicker2.btn2 继续添加
+					.uploadBtn.btn2.btn 开始上传
+			.clear
+
+	.cell 完成：
+		br
+		span.btn 预览
+		span.btn 发布
 	.cell.preview

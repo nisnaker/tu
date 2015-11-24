@@ -7,77 +7,10 @@ html(ng-app='jietu8')
 		| <% bundleName:core_css %>
 		block static
 
-	body(ng-controller="loginCtrl")
-		div#topbar
-			div#innerbar
-				a(href='/').logo
-					img(src='/static/imgs/logo.png', alt='jietu8')
-				ul
-					li
-						a(href='/movie.html#/list/1', ng-class="{'active':'movie'==page.name}") 电影截图
-					li
-						a(href='/talk.html', ng-class="{'active':'talk'==page.name}") 应用截图
-					li
-						a(href='/about.html', ng-class="{'active':'about'==page.name}") 关于
+	body
+		div#topbar(ng-include="'/tpls/movie/tpls/header.html'" ng-controller="loginCtrl")
 
-				span.login-box(ng-show="is_not_logged_in")
-					a(href="#reg", onclick="return false") 注册
-					a(href="#login", onclick="return false") 登入
-				span.user-box(ng-show="is_logged_in")
-					span(ng-bind="user.email")
-					a(ng-click="logout()", onclick="return false", ng-bind="logout_word")
-			div.clear
 		div#main
 			block main
 
-		div#foot.clear &copy;截图吧 FOREVER
-
-		div#login.hide.alert-box
-			h2 登入
-			p 邮箱： 
-				br
-				input(type="text", ng-model="user.email")
-				br
-				span.error(ng-show="user.email=='' || !check_email()") 请输入邮箱
-			p 密码：
-				br
-				input(type="password", ng-model="user.passwd")
-				br
-				span.error(ng-show="user.passwd==''") 请输入密码
-			p
-				label
-					input(type="checkbox", ng-model="user.rem_me")
-					| 记住我(公共电脑请勿勾选)
-			p
-				a.btn(ng-click="login()", ng-class="{'enable':check_btn('login')}") 登入
-				span.notice(ng-show="loading") 登入中...
-				a.right(href='#') 忘记密码？
-				br
-				span.error(ng-bind="login_error")
-
-
-		div#reg.hide.alert-box
-			h2 注册
-			div(ng-hide="reg_succ")
-				p 邮箱：
-					br
-					input(type="text", ng-model="user.email")
-					br
-					span.error(ng-show="user.email=='' || !check_email()") 请输入邮箱
-					span.error(ng-bind="reg_error")
-				p 密码：
-					br
-					input(type="password", ng-model="user.passwd")
-					br
-					span.error(ng-show="user.passwd==''") 请输入密码
-				p 重复密码：
-					br
-					input(type="password", ng-model="user.passwd2")
-					br
-					span.error(ng-show="user.passwd2==''") 请再次输入密码
-					span.error(ng-show="user.passwd2!='' && user.passwd2!=user.passwd") 两次输入密码不一样
-				p
-					a.btn(ng-click="reg()", ng-class="{'enable':check_btn('reg')}") 注册
-					span.notice(ng-show="loading") 注册中...
-			div(ng-show="reg_succ") 点击邮件链接激活账户
-				
+		div#foot.clear(ng-include="'/tpls/movie/tpls/footer.html'")

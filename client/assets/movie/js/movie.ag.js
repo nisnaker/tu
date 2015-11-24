@@ -148,9 +148,33 @@
 	}]);
 
 	mvCtrls.controller('newCtrl', ['$scope', '$http', 'Restangular', function ($scope, $http, Restangular) {
-
 		init_select2();
-		var uploader = Uploader(back_domain);
+
+		var upimgs;
+		$scope.is_preview = false;
+
+		Uploader(back_domain).finish(function (imgs) {
+			upimgs = imgs;
+			if($scope.is_preview) {
+				$scope.preview();
+				$scope.$digest();
+			}
+		});
+
+		$scope.preview = function () {
+			$scope.p = {
+				name: 'ame',
+				avatar: 'http://img2.imgtn.bdimg.com/it/u=1341923083,1900907467&fm=23&gp=0.jpg',
+				saying: $scope.saying,
+				pics: upimgs,
+				created_at: '几秒后'
+			};
+			$scope.is_preview = true;
+		};
+
+		$scope.submit = function () {
+			
+		}
 		
 	}]);
 

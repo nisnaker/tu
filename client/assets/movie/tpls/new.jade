@@ -3,10 +3,10 @@
 #new
 	.cell 描述：
 		br
-		textarea(rows=3) http://fex.baidu.com/webuploader/demo.html
+		textarea(rows=3,ng-model="saying") http://fex.baidu.com/webuploader/demo.html
 	.cell 电影：
 		br
-		select.mvs(ng-model="movie_id", style="width:100%")
+		select.mvs(ng-model="movie_id", style="width:710px")
 	.cell 截图：
 		br
 		#uploader
@@ -29,6 +29,19 @@
 
 	.cell 完成：
 		br
-		span.btn 预览
-		span.btn 发布
-	.cell.preview
+		span.btn(ng-click="preview()") 预览
+		| &nbsp; &nbsp; 预览前请先上传图片
+		span.btn.submit(ng-click="submit()") 发布
+
+	.cell.preview(ng-show="is_preview")
+		img.avatar(ng-src='{{p.avatar}}')
+		p.user 
+			a(href="javascript:;") {{p.name}}
+			| ：
+		.msg
+			.saying {{p.saying}}
+			.pics
+				a(ng-repeat='pic in p.pics', href="{{pic.big}}", class="fancybox", rel='group-0', title="test title")
+					img(ng-src='{{pic.small}}')
+			p 发布于：
+				span.created_at {{p.created_at}}

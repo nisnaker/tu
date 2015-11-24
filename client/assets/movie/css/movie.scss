@@ -51,6 +51,10 @@ $border_color: #e5e5e5;
 					}
 				}
 			}
+
+			.created_at {
+				color: #999;
+			}
 		}
 	}
 
@@ -73,13 +77,28 @@ $border_color: #e5e5e5;
 		.btn {
 			padding: 3px 15px;
 			border: 1px solid #dfdfdf;
-			margin-right: 20px;
 			border-radius: 3px;
 			cursor: pointer;
 
 			&:hover {
 				background-color: #f0f0f0;
 			}
+
+			&.submit {
+				float: right;
+				background-color: #00b7ee;
+				color: #fff;
+				border: none;
+
+				&:hover {
+					background-color: #00a2d4;
+				}
+			}
+		}
+
+		&.preview {
+			border-top: 1px solid #aaa;
+			padding-top: 20px;
 		}
 	}
 

@@ -21,10 +21,16 @@ cors_options();
 
 function arr_get($arr, $key, $default = null)
 {
-	if(isset($arr[$key]))
-		return $arr[$key];
-	else
-		return $default;
+	$keys = explode('|', $key);
+	foreach ($keys as $k)
+	{
+		if(array_key_exists($k, $arr))
+			$arr = $arr[$k];
+		else
+			return $default;
+	}
+
+	return $arr;
 }
 
 

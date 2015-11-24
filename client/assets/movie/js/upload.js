@@ -56,11 +56,12 @@
 							return;
 						}
 
+						_.percentages[file.id]['small'] = src;
 						var img = $('<img src="'+src+'">');
 						wrap.empty().append(img);
 					}, 120, 100);
 	
-					_.percentages[file.id] = [file.size, 0];
+					_.percentages[file.id] = {size:file.size, per: 0};
 				}
 
 				file.on('statuschange', function (cur, prev) {
@@ -73,12 +74,12 @@
 
 					if('error' == cur || 'invalid' == cur) {
 						showError(file.statusText);
-						_.percentages[file.id][1] = 1;
+						_.percentages[file.id]['per'] = 1;
 						imggress.hide();
 					} else if('intertupt' == cur) {
 						showError('intertupt');
 					} else if('ququed' == cur) {
-						_.percentages[file.id][1] = 0;
+						_.percentages[file.id]['per'] = 0;
 					} else if('progress' == cur) {
 						info.remove();
 						_.$.progress.css('display', 'block');
@@ -157,7 +158,8 @@
 					_.$.upload.removeClass('disabled');
 					stats = uploader.getStats();
 					if(stats.successNum) {
-						l('上传成功')
+						_Uploader._finish();
+						// l('上传成功')
 					}
 					break;
 				default:
@@ -201,8 +203,11 @@
 			
 			percent.text(percentage * 100 + '%');
 			percent.css('width', percent * 100 + '%');
-			_.percentages[file.id][1] = percentage;
+			_.percentages[file.id]['per'] = percentage;
 			_.updateTotalProgress();
+		},
+		uploadSuccess: function (file, resp) {
+			_.percentages[file.id]['big'] = resp.result;
 		},
 		updateTotalProgress: function () {
 			var loaded = 0,
@@ -211,13 +216,17 @@
 				percent;
 
 			$.each(_.percentages, function (k, v) {
-				total += v[0];
-				loaded += v[0] * v[1];
+				total += v.size;
+				loaded += v.size * v.per;
 			});
 
 			percent = total ? loaded / total : 0;
 
-			spans.eq(0).text(Math.round(percent * 100) + '%');
+			if(1 == percent)
+				spans.eq(0).text('上传完毕，正在加载，请稍后……').css('color', '#fff');
+			else
+				spans.eq(0).text(Math.round(percent * 100) + '%').css('color', '#333');
+
 			spans.eq(1).css('width', Math.round(percent * 100) + '%');
 			_.updateStatus();
 		}
@@ -226,8 +235,8 @@
 	var _Uploader = {
 		init: function (domain) {
 			uploader = WebUploader.create({
-				swf: '/static/Uplaoder.swf',
-				server: domain + '/movie/uploadd',
+				swf: '/static/Uploader.swf',
+				server: domain + '/movie/upload',
 				pick: '#filePicker',
 				dnd: "#dragarea",
 				paste: document.body,
@@ -241,19 +250,34 @@
 				}
 			});
 
+			uploader.basedomain = domain;
 			uploader.addButton('#filePicker2');
 
 			_.init();
 			this._add_events();
 
-			return uploader;
+			return this;
 		},
 		_add_events: function () {
 			uploader.on('fileQueued', _.fileQueued);
 			uploader.on('fileDequeued', _.fileDequeued);
 			uploader.on('uploadProgress', _.uploadProgress);
+			uploader.on('uploadSuccess', _.uploadSuccess);
 			uploader.on('all', _.all);
 			_.$.upload.on('click', _.upload);
+		},
+		finish: function (func) {
+			uploader.finish_func = func;
+		},
+		_finish: function () {
+			var imgs = {};
+			$.each(_.percentages, function (k, v) {
+				if(v.big) {
+					v.big = uploader.basedomain + v.big;
+					imgs[k] = v;
+				}
+			})
+			uploader.finish_func(imgs);
 		}
 	};
 

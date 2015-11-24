@@ -10,7 +10,7 @@
 		.pics
 			a(ng-repeat='pic in item.msg.pics', href="{{pic.big}}", class="fancybox", rel='group-{{$parent.$index}}', title="test title")
 				img(ng-src='{{pic.small}}')
-		p
+		p 发布于：
 			span.created_at {{item.msg.created_at}}
 
 .pager pager

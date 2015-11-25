@@ -198,16 +198,16 @@
 					break;
 			}
 		},
+		uploadSuccess: function (file, resp) {
+			_.percentages[file.id]['big'] = resp.result;
+		},
 		uploadProgress: function (file, percentage) {
 			var percent = $('#' + file.id).find('.imggress span').show();
 			
-			percent.text(percentage * 100 + '%');
+			percent.text(Math.ceil(percentage * 100) + '%');
 			percent.css('width', percent * 100 + '%');
 			_.percentages[file.id]['per'] = percentage;
 			_.updateTotalProgress();
-		},
-		uploadSuccess: function (file, resp) {
-			_.percentages[file.id]['big'] = resp.result;
 		},
 		updateTotalProgress: function () {
 			var loaded = 0,
@@ -225,7 +225,7 @@
 			if(1 == percent)
 				spans.eq(0).text('上传完毕，正在加载，请稍后……').css('color', '#fff');
 			else
-				spans.eq(0).text(Math.round(percent * 100) + '%').css('color', '#333');
+				spans.eq(0).text(Math.ceil(percent * 100) + '%').css('color', '#333');
 
 			spans.eq(1).css('width', Math.round(percent * 100) + '%');
 			_.updateStatus();
@@ -236,21 +236,24 @@
 		init: function (domain) {
 			uploader = WebUploader.create({
 				swf: '/static/Uploader.swf',
-				server: domain + '/movie/upload',
+				server: domain + '/photo/upload',
 				pick: '#filePicker',
 				dnd: "#dragarea",
+				disableGlobalDnd: true,
 				paste: document.body,
 				fileNumLimit: 8,
-				fileSizeLimit: 8 * 1024 * 1024,
-				fileSingleSizeLimie: 1024 * 1024,
 				accept: {
 					title: 'Images',
 					extensions: 'gif,jpg,jpeg,bmp,png',
 					mimeTypes: 'image/*'
+				},
+				compress: {
+					width: 1600,
+					height: 900,
+					quality: 80,
+					preserveHeaders: false
 				}
 			});
-
-			uploader.basedomain = domain;
 			uploader.addButton('#filePicker2');
 
 			_.init();
@@ -270,14 +273,15 @@
 			uploader.finish_func = func;
 		},
 		_finish: function () {
-			var imgs = {};
-			$.each(_.percentages, function (k, v) {
-				if(v.big) {
-					v.big = uploader.basedomain + v.big;
-					imgs[k] = v;
+			var imgs = {}, n = 0, i;
+			for(i in _.percentages) {
+				if(_.percentages[i]['big']) {
+					imgs[i] = _.percentages[i];
+					n++;
 				}
-			})
-			uploader.finish_func(imgs);
+			}
+
+			uploader.finish_func(imgs, n);
 		}
 	};
 

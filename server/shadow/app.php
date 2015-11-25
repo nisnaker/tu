@@ -71,15 +71,18 @@ class App extends Phalcon\Mvc\Micro {
 
 		$this->mount($user);
 
-		// movie
+		// photo
 
-		$movie = new Collection();
-		$movie->setHandler('api\controller\MovieController', true);
+		$photo = new Collection();
+		$photo->setHandler('api\controller\PhotoController', true);
 
-		$movie->get('/movie/import', 'import');
-		$movie->post('/movie/import', 'import');
+		$photo->post('/photo/import', 'import');
+		$photo->get('/photo/import', 'import');
+		$photo->post('/photo/upload', 'upload');
+		$photo->post('/api/photos.json', 'create');
+		$photo->get('/api/photos.json', 'get');
 
-		$this->mount($movie);
+		$this->mount($photo);
 
 	}
 
@@ -97,12 +100,12 @@ class App extends Phalcon\Mvc\Micro {
 			// page visit access
 			$uri = $_GET['_url'];
 
-			if(!$this->request->isAjax() &&
-				!in_array($uri, ['/', '/user/active']))
-			{
-				echo 'params error';
-				return false;
-			}
+			// if(!$this->request->isAjax() &&
+			// 	!in_array($uri, ['/', '/user/active', '/movie/upload']))
+			// {
+			// 	echo 'params error';
+			// 	return false;
+			// }
 
 			// checklogin
 			if(!in_array($uri, ['/', '/api/users.json', '/api/token.json', '/user/active']))

@@ -3,11 +3,13 @@
 #new
 	.cell 描述：
 		br
-		textarea(rows=3,ng-model="saying") http://fex.baidu.com/webuploader/demo.html
+		textarea(rows=3, ng-model="saying") http://fex.baidu.com/webuploader/demo.html
 	.cell 电影：
+		span.error(ng-show="0 == movie_id") 请选择电影名称
 		br
 		select.mvs(ng-model="movie_id", style="width:710px")
-	.cell 截图：
+	.cell 截图(最多8张，最少一张)：
+		span.error(ng-show="0 == img_len") 请上传截图 
 		br
 		#uploader
 			#queueList
@@ -39,9 +41,9 @@
 			a(href="javascript:;") {{p.name}}
 			| ：
 		.msg
-			.saying {{p.saying}}
+			.saying {{saying}}
 			.pics
-				a(ng-repeat='pic in p.pics', href="{{pic.big}}", class="fancybox", rel='group-0', title="test title")
+				a(ng-repeat='pic in upimgs', href="{{pic.big}}", class="fancybox", rel='group-0', title="test title")
 					img(ng-src='{{pic.small}}')
 			p 发布于：
-				span.created_at {{p.created_at}}
+				span.created_at 几秒后

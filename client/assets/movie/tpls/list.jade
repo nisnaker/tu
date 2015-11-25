@@ -6,11 +6,11 @@
 		a(href="{{item.user.link}}") {{item.user.name}}
 		| ：
 	.msg
-		.saying {{item.msg.saying}}
+		.saying {{item.saying}}
 		.pics
-			a(ng-repeat='pic in item.msg.pics', href="{{pic.big}}", class="fancybox", rel='group-{{$parent.$index}}', title="test title")
+			a(ng-repeat='pic in item.imgs', href="{{pic.big}}", class="fancybox", rel='group-{{$parent.$index}}', title="test title")
 				img(ng-src='{{pic.small}}')
 		p 发布于：
-			span.created_at {{item.msg.created_at}}
+			span.created_at {{item.created_at}}
 
 .pager pager

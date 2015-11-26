@@ -1,11 +1,9 @@
 // User
 
 (function () {
-	'use strict';
-	
 	angular
 		.module('app.core')
-		.factory('User', ['Restangular', '$rootScope', function (Restangular, $rootScope) {
+		.factory('User', ['Restangular', 'Rest', '$rootScope', function (Restangular, Rest, $rootScope) {
 			var is_loggedin = false;
 			var user_info = null;
 
@@ -23,7 +21,9 @@
 			function check_login () {
 				if(is_loggedin)
 					return true;
-
+Rest.api('/photos.json').get().then(function (d) {
+	l(d)
+})
 				Restangular.oneUrl('/user/status').get().then(function (user) {
 					if(user.email) {
 						is_loggedin = true;
@@ -86,4 +86,45 @@
 				user_info = null;
 			}
 		}]);
+})();
+
+// HTTP
+(function () {
+	angular
+		.module('app.core')
+		.provider('Rest', function () {
+			
+			var Resource = function (uri, $http) {
+				var headers = {};
+
+				var baseurl = 'http://tu.me/api',
+					uri = ('/' + uri).replace('//', '/'),
+					url = baseurl + uri;
+
+				var methods = ['get', 'post', 'head', 'put', 'delete'];
+				for(var i in methods) {
+					var mt = methods[i];
+					this[mt] = httpmaker(mt.toUpperCase());
+				}
+				function httpmaker (method) {
+					return function (params) {
+						var req = {
+							method: method,
+							url: url,
+							headers: headers,
+							data: params || {}
+						};
+
+						return $http(req);
+					}
+				}
+			}
+
+
+			this.$get = ['$http', '$q', function ($http) {
+				return {api: function (uri) {
+					return new Resource(uri, $http);
+				}};
+			}]
+		});
 })();

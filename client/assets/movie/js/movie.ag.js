@@ -31,7 +31,7 @@
 	var mvCtrls = angular.module('mvCtrls', []);
 	var back_domain = 'http://tu.me';
 
-	mvCtrls.controller('listCtrl', ['$scope', 'Restangular', function ($scope, Restangular) {
+	mvCtrls.controller('listCtrl', ['$scope', 'Restangular', 'Rest', function ($scope, Restangular, Rest) {
 		$scope.fb = fb;
 
 		Restangular.all('photos').getList().then(function (resp) {

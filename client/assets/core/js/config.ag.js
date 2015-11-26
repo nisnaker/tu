@@ -1,6 +1,4 @@
 (function () {
-	'use strict';
-
 	angular
 		.module('app.core')
 		.config(['$routeProvider', '$locationProvider', '$compileProvider', '$httpProvider', 'RestangularProvider', '$filterProvider',

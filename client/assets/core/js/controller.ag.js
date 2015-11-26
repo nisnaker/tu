@@ -1,5 +1,4 @@
 (function () {
-	
 	angular
 		.module('app.core')
 		.controller('loginCtrl', ['$scope', 'User', 'Restangular',

@@ -1,6 +1,4 @@
 (function () {
-	'use strict';
-
 	// 选择文件
 	angular
 		.module('app.core')

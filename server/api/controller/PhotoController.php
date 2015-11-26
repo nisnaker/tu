@@ -96,19 +96,8 @@ class PhotoController extends BaseController {
 
 	public function get()
 	{
-		$data = Photo::find();
-		$ret = [];
-
-		foreach ($data as $d)
-		{
-			unset($d->_id);
-			unset($d->status);
-			$d->avatar = 'http://img2.imgtn.bdimg.com/it/u=1341923083,1900907467&fm=23&gp=0.jpg';
-			$d->user = $this->user;
-			// print_r($d->saying);
-			$ret[] = $d;
-		}
-
-		return $ret;
+		$data = Photo::find([[], 'sort' => ['created_at' => -1]]);
+		$data = Photo::format($data);
+		return $data;
 	}
 }

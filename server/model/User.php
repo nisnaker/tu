@@ -4,7 +4,7 @@ use Phalcon\Mvc\Model\Validator\Email as EmailValidator;
 
 class User extends Base {
 	
-	protected $_attrs = ['userid', 'email', 'status'];
+	protected $_attrs = ['userid', 'name', 'avatar', 'email', 'status'];
 
 	public function getSource() { return 'user'; }
 	
@@ -12,6 +12,15 @@ class User extends Base {
 		parent::beforeCreate();
 		$this->status = 2; // 未激活
 		$this->userid = $this->_uniqid();
+		$this->name = $this->userid;
+
+		$hash = md5(strtolower(trim($this->email)));
+		$this->avatar = 'http://cdn.v2ex.com/gravatar/' . $hash . '?d=retro';
+	}
+
+	public function afterCreate()
+	{
+		// send comfirm mail
 	}
 	
 	public function validation()

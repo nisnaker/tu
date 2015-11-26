@@ -10,6 +10,7 @@
 			var user_info = null;
 
 			var service = {
+				info: info,
 				is_loggedin: is_loggedin,
 				reg: reg,
 				login: login,
@@ -69,6 +70,10 @@
 					$rootScope.$broadcast('logout');
 				});
 				
+			}
+
+			function info() {
+				return user_info;
 			}
 
 			function _set_user(user) {

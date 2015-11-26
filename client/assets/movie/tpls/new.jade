@@ -3,17 +3,18 @@
 #new
 	.cell 描述：
 		br
-		textarea(rows=3, ng-model="saying") http://fex.baidu.com/webuploader/demo.html
+		textarea(rows=3, ng-model="saying", ng-focus="clear_desc()") http://fex.baidu.com/webuploader/demo.html
 	.cell 电影：
 		span.error(ng-show="0 == movie_id") 请选择电影名称
 		br
 		select.mvs(ng-model="movie_id", style="width:710px")
-	.cell 截图(最多8张，最少一张)：
+	.cell 截图(最多10张，最少1张)：
 		span.error(ng-show="0 == img_len") 请上传截图 
 		br
 		#uploader
 			#queueList
 				#dragarea
+					br
 					br
 					#filePicker 点击选择图片
 					| 或者将截图拖到这里，最多8张

@@ -241,7 +241,7 @@
 				dnd: "#dragarea",
 				disableGlobalDnd: true,
 				paste: document.body,
-				fileNumLimit: 8,
+				fileNumLimit: 10,
 				accept: {
 					title: 'Images',
 					extensions: 'gif,jpg,jpeg,bmp,png',

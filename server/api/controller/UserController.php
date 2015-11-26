@@ -91,7 +91,10 @@ class UserController extends BaseController {
 
 	public function status()
 	{
-		return $this->user;
+		if(property_exists($this, 'user'))
+			return $this->user;
+		else
+			return [];
 	}
 }
 

@@ -28,6 +28,7 @@ module.exports = function(){
 
 	config['jses'] = {
 		'core_js': [
+			asset_dir + 'core/js/use_strict.js',
 			bower_dir + 'jquery/dist/jquery.min.js',
 			bower_dir + 'fancybox/source/jquery.fancybox.pack.js',
 

@@ -33,7 +33,7 @@ function fb () {
 		},
 		afterLoad: function () {
 			var curr = this.index + 1, total = this.group.length;
-			this.title = '图片['+curr+'/'+total+'] - ' + this.title
+			this.title = curr+'/'+total
 		}
 	});
 }

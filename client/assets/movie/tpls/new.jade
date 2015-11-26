@@ -33,7 +33,7 @@
 	.cell 完成：
 		br
 		span.btn(ng-click="preview()") 预览
-		| &nbsp; &nbsp; 预览前请先上传图片
+		| &nbsp; &nbsp; 
 		span.btn.submit(ng-click="submit()") 发布
 
 	.cell.preview(ng-show="is_preview")
@@ -46,5 +46,5 @@
 			.pics
 				a(ng-repeat='pic in upimgs', href="{{pic.big}}", class="fancybox", rel='group-0', title="test title")
 					img(ng-src='{{pic.small}}')
-			p 发布于：
-				span.created_at 几秒后
+			p
+				span.created_at  发布于：几秒后

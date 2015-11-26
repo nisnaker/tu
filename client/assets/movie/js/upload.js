@@ -135,6 +135,11 @@
 
 			var stats;
 			switch(val){
+				case 'pending':
+					_.$.dragarea.show();
+					_.$.statusbar.hide();
+					uploader.refresh();
+					break;
 				case 'ready':
 					_.$.dragarea.hide();
 					_.$.statusbar.show();

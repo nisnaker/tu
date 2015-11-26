@@ -13,7 +13,7 @@ div#innerbar
 		a(href="#reg", onclick="return false") 注册
 		a(href="#login", onclick="return false") 登入
 	span.user-box(ng-show="is_logged_in")
-		span(ng-bind="user.email")
+		span(ng-bind="user.name")
 		a(ng-click="logout()", onclick="return false", ng-bind="logout_word")
 div.clear
 

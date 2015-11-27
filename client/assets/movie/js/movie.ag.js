@@ -31,11 +31,11 @@
 	var mvCtrls = angular.module('mvCtrls', []);
 	var back_domain = 'http://tu.me';
 
-	mvCtrls.controller('listCtrl', ['$scope', 'Restangular', 'Rest', function ($scope, Restangular, Rest) {
+	mvCtrls.controller('listCtrl', ['$scope', 'Rest', function ($scope, Rest) {
 		$scope.fb = fb;
 
-		Restangular.all('photos').getList().then(function (resp) {
-			$scope.list = resp;
+		Rest.api('/photos').get().then(function (photos) {
+			$scope.photos = photos;
 		});
 	}]);
 
@@ -49,11 +49,12 @@
 		});
 
 		$scope.$on('$routeChangeSuccess', function (e, route) {
-			$scope.path = route.$$route.originalPath;
+			if(route.$$route)
+				$scope.path = route.$$route.originalPath;
 		});
 	}]);
 
-	mvCtrls.controller('newCtrl', ['$scope', '$http', 'Restangular', 'User', function ($scope, $http, Restangular, User) {
+	mvCtrls.controller('newCtrl', ['$scope', '$http', 'Rest', 'User', function ($scope, $http, Rest, User) {
 		init_select2();
 
 		var Gump = "Life was like a box of chocolates, you never know what you're gonna get.";
@@ -84,25 +85,25 @@
 		};
 
 		$scope.submit = function () {
-			var post = {
+			var photo = {
 				saying: $scope.saying,
 				movie_id: $scope.movie_id,
 			};
 			var imgurls = {}, i;
 
-			if(!post.movie_id || !$scope.img_len) {
+			if(!photo.movie_id || !$scope.img_len) {
 				return;
 			}
 
-			if(Gump == post.saying)
-				post.saying = '';
+			if(Gump == photo.saying)
+				photo.saying = '';
 
 			for(i in $scope.upimgs) {
 				imgurls[i] = $scope.upimgs[i]['big'];
 			}
-			post['imgurls'] = imgurls;
+			photo['imgurls'] = imgurls;
 
-			Restangular.all('photos').post(post).then(function (resp) {
+			Rest.api('/photos').post(photo).then(function (resp) {
 				window.location = '/movie.html';
 			});
 		}
@@ -132,7 +133,7 @@
 					};
 				},
 				processResults: function(data, params) {
-					$.post(back_domain + '/photo/import', {data:data.subjects});
+					$.post(back_domain + '/api/photos/import', {data:data.subjects});
 					return {
 						results: data.subjects
 					};

@@ -46,6 +46,8 @@ class App extends Phalcon\Mvc\Micro {
 
 	protected function registerRouters()
 	{
+		$should_login = [];
+
 		// basic
 		$this->get('/', function ()
 		{
@@ -55,19 +57,19 @@ class App extends Phalcon\Mvc\Micro {
 		$this->NotFound(function ()
 		{
 			$this->response->setStatusCode(404, "Not Found")->sendHeaders();
-
 			echo json(['error' => 'param error.']);
 		});
 
 		// user
 		$user = new Collection();
-		$user->setHandler('api\controller\UserController', true);
+		$re = $user->setHandler('api\controller\UserController', true);
+		$user->setPrefix('/api/users');
 
-		$user->get('/user/active', 'active');
-		$user->post('/api/users.json', 'create');
-		$user->post('/api/token.json', 'login');
-		$user->get('/api/user/logout.json', 'logout');
-		$user->get('/api/user/status.json', 'status');
+		$user->get('/status', 'status')
+			->post('/token', 'login')
+			->get('/logout', 'logout')
+			->get('/active', 'active')
+			->post('', 'create');
 
 		$this->mount($user);
 
@@ -75,15 +77,16 @@ class App extends Phalcon\Mvc\Micro {
 
 		$photo = new Collection();
 		$photo->setHandler('api\controller\PhotoController', true);
+		$photo->setPrefix('/api/photos');
 
-		$photo->post('/photo/import', 'import');
-		$photo->get('/photo/import', 'import');
-		$photo->post('/photo/upload', 'upload');
-		$photo->post('/api/photos.json', 'create');
-		$photo->get('/api/photos.json', 'get');
+		$photo->get('', 'get')
+			->post('', 'create')
+			->post('/upload', 'upload')
+			->post('/import', 'import');
 
 		$this->mount($photo);
 
+		$this->should_login = $should_login;
 	}
 
 	protected function registerEvents()
@@ -91,10 +94,12 @@ class App extends Phalcon\Mvc\Micro {
 		$this->before(function ()
 		{
 			// restangular post data
+
 			if(!$_POST)
 			{
-				$post_data = arr_get($GLOBALS, 'HTTP_RAW_POST_DATA', '[]');
-				$_POST = json_decode($post_data, true);
+				if(stripos($_SERVER["CONTENT_TYPE"], "application/json") === 0) {
+					$_POST = json_decode(file_get_contents("php://input"), true);
+				}
 			}
 
 			// page visit access
@@ -108,7 +113,7 @@ class App extends Phalcon\Mvc\Micro {
 			// }
 
 			// checklogin
-			if(!in_array($uri, ['/', '/api/users.json', '/api/token.json', '/user/active']))
+			if(in_array($uri, $this->should_login))
 			{
 				$userid = \User::check_token();
 				if(!$userid)

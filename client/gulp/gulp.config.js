@@ -34,8 +34,6 @@ module.exports = function(){
 
 			bower_dir + 'angular/angular.min.js',
 			bower_dir + 'angular-route/angular-route.min.js',
-			bower_dir + 'lodash/lodash.min.js',
-			bower_dir + 'restangular/dist/restangular.min.js',
 			
 			asset_dir + 'core/js/tools.js',
 			asset_dir + 'core/js/core.ag.js',

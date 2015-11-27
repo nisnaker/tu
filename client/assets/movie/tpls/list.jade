@@ -1,17 +1,17 @@
 #path path1 / path2 / path3
 
-.cell(ng-repeat='item in list', ng-init="$last && fb()")
-	img.avatar(ng-src='{{item.author.avatar}}')
+.cell(ng-repeat='photo in photos', ng-init="$last && fb()")
+	img.avatar(ng-src='{{photo.author.avatar}}')
 	p
-		a.user(href="/movie.html#/user/{{item.author.userid}}") {{item.author.name}}
+		a.user(href="/movie.html#/user/{{photo.author.userid}}") {{photo.author.name}}
 		| ：
-		a.douban(href="{{item.subject.alt}}", target="_blank", title="{{item.subject.original_title}}") {{item.subject.title}}({{item.subject.year}})
+		a.douban(href="{{photo.subject.alt}}", target="_blank", title="{{photo.subject.original_title}}") {{photo.subject.title}}({{photo.subject.year}})
 	.msg
-		.saying {{item.saying}}
+		.saying {{photo.saying}}
 		.pics
-			a(ng-repeat='pic in item.imgs', href="{{pic.big}}", class="fancybox", rel='group-{{$parent.$index}}', title="test title")
+			a(ng-repeat='pic in photo.imgs', href="{{pic.big}}", class="fancybox", rel='group-{{$parent.$index}}', title="test title")
 				img(ng-src='{{pic.small}}')
 		p
-			span.created_at 发布于：{{item.created_at|ago}}
+			span.created_at 发布于：{{photo.created_at|ago}}
 
 .pager pager

@@ -25,7 +25,6 @@
     "angular-route": "~1.4.7",
     "fancybox": "~2.1.5",
     "jquery": "~2.1.4",
-    "restangular": "~1.5.1",
     "select2": "~4.0.0",
     "fex-webuploader": "~0.1.5"
   }

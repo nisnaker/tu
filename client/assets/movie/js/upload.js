@@ -241,7 +241,7 @@
 		init: function (domain) {
 			uploader = WebUploader.create({
 				swf: '/static/Uploader.swf',
-				server: domain + '/photo/upload',
+				server: domain + '/api/photos/upload',
 				pick: '#filePicker',
 				dnd: "#dragarea",
 				disableGlobalDnd: true,

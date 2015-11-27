@@ -1,8 +1,7 @@
 (function () {
 	angular
 		.module('app.core')
-		.controller('loginCtrl', ['$scope', 'User', 'Restangular',
-			function ($scope, User, Restangular) {
+		.controller('loginCtrl', ['$scope', 'User', function ($scope, User) {
 			$scope.user = {email: 'test@a.com', passwd: '1', passwd2: '1', rem_me: false};
 			$scope.loading = false;
 			$scope.is_not_logged_in = false;

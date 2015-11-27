@@ -1,8 +1,8 @@
 (function () {
 	angular
 		.module('app.core')
-		.config(['$routeProvider', '$locationProvider', '$compileProvider', '$httpProvider', 'RestangularProvider', '$filterProvider',
-			function ($routeProvider, $locationProvider, $compileProvider, $httpProvider, RestangularProvider, $filterProvider) {
+		.config(['$routeProvider', '$locationProvider', '$compileProvider', '$httpProvider', '$filterProvider',
+			function ($routeProvider, $locationProvider, $compileProvider, $httpProvider, $filterProvider) {
 				$locationProvider.html5Mode({requireBase: false, enable: true}).hashPrefix('');
 
 				// 让a标签的href支持data格式
@@ -10,15 +10,6 @@
 
 				// 允许跨域访问时带上cookie
 				$httpProvider.defaults.withCredentials = true;
-
-				RestangularProvider.setBaseUrl('http://tu.me/api/');
-				RestangularProvider.setRequestSuffix('.json');
-				RestangularProvider.setDefaultHeaders({"X-Requested-With":"XMLHttpRequest"});
-				RestangularProvider.setRestangularFields({
-					id: '_id',
-					route: 'restangularRoute',
-					selflink: 'self.href'
-				});
 
 				$filterProvider.register('ago', function () {
 					return function (time) {

@@ -3,7 +3,7 @@
 (function () {
 	angular
 		.module('app.core')
-		.factory('User', ['Restangular', 'Rest', '$rootScope', function (Restangular, Rest, $rootScope) {
+		.factory('User', ['Rest', '$rootScope', function (Rest, $rootScope) {
 			var is_loggedin = false;
 			var user_info = null;
 
@@ -21,10 +21,8 @@
 			function check_login () {
 				if(is_loggedin)
 					return true;
-Rest.api('/photos.json').get().then(function (d) {
-	l(d)
-})
-				Restangular.oneUrl('/user/status').get().then(function (user) {
+
+				Rest.api('/users/status').get().then(function (user) {
 					if(user.email) {
 						is_loggedin = true;
 						_set_user(user);
@@ -33,6 +31,7 @@ Rest.api('/photos.json').get().then(function (d) {
 						$rootScope.$broadcast('check_login_fail', '');
 						_clear_user();
 					}
+
 				});
 			}
 
@@ -41,7 +40,7 @@ Rest.api('/photos.json').get().then(function (d) {
 					email: user.email,
 					passwd: user.passwd
 				};
-				Restangular.all('users').post(new_user).then(function (user) {
+				Rest.api('/users').post(new_user).then(function (user) {
 					if(user.error) {
 						$rootScope.$broadcast('reg_fail', user.error);
 					} else {
@@ -51,12 +50,12 @@ Rest.api('/photos.json').get().then(function (d) {
 			}
 
 			function login (user) {
-				var new_token = {
+				var req = {
 					email: user.email,
 					passwd: user.passwd,
 					rem_me: user.rem_me
 				};
-				Restangular.all('token').post(new_token).then(function (user) {
+				Rest.api('/users/token').post(req).then(function (user) {
 					if(user.error) {
 						$rootScope.$broadcast('login_fail', user.error);
 					} else {
@@ -66,10 +65,9 @@ Rest.api('/photos.json').get().then(function (d) {
 			}
 
 			function logout () {
-				Restangular.oneUrl('/user/logout').get().then(function (user) {
+				Rest.api('/users/logout').get().then(function (user) {
 					$rootScope.$broadcast('logout');
 				});
-				
 			}
 
 			function info() {
@@ -94,8 +92,8 @@ Rest.api('/photos.json').get().then(function (d) {
 		.module('app.core')
 		.provider('Rest', function () {
 			
-			var Resource = function (uri, $http) {
-				var headers = {};
+			var Resource = function (uri, $http, $q) {
+				var headers = {"X-Requested-With": "XMLHttpRequest"};
 
 				var baseurl = 'http://tu.me/api',
 					uri = ('/' + uri).replace('//', '/'),
@@ -115,15 +113,25 @@ Rest.api('/photos.json').get().then(function (d) {
 							data: params || {}
 						};
 
-						return $http(req);
+						var def = $q.defer();
+
+						$http(req)
+							.success(function (data, status, headers, config) {
+								def.resolve(data);
+							})
+							.error(function (data, status, headers, config) {
+								def.reject('refer rejected.')
+							});
+
+						return def.promise;
 					}
 				}
 			}
 
 
-			this.$get = ['$http', '$q', function ($http) {
+			this.$get = ['$http', '$q', function ($http, $q) {
 				return {api: function (uri) {
-					return new Resource(uri, $http);
+					return new Resource(uri, $http, $q);
 				}};
 			}]
 		});
